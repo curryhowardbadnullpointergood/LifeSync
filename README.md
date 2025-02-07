@@ -12,3 +12,7 @@ Backend:
 get dates working, so sort of like, make an year class, then month, then day, represented as a numerical value. 
 
 year -> months -> days 
+
+
+This project has been neglected for a while, will do the to do functionality. 
+
