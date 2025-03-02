@@ -5,9 +5,11 @@
 </script>
 
 <p>My App is working!</p> 
-<button> Submit Task 1</button>
+<button> Submit Task:</button>
 <form> 
-    <button> Hello</button>
+    <label for="taskDetails">Task Details:</label><br>
+    <input type="text" id="taskDetails" name="taskDetails"><br>
+    <input type="submit" value="Submit">
 </form>
 <style>
     /* It can be empty :) */
