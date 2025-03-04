@@ -4,7 +4,9 @@ import (
 	"embed"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
+	"strings"
 )
 
 //go:embed views/*
@@ -19,6 +21,21 @@ func main() {
 		if err := t.ExecuteTemplate(w, "index.html", nil); err != nil {
 			http.Error(w, "Something went wrong, as usual", http.StatusInternalServerError)
 		}
+	})
+
+	// Handle add task form submission
+	router.HandleFunc("POST /addtask", func(w http.ResponseWriter, r *http.Request) {
+
+		log.Println("Hello")
+		if err := r.ParseForm(); err != nil {
+			http.Error(w, "Unable to parse task form: ", http.StatusInternalServerError)
+			return
+		}
+
+		task := strings.ToLower(r.FormValue("taskInfo"))
+
+		log.Printf("Task to add: %s", task)
+
 	})
 
 	server := http.Server{

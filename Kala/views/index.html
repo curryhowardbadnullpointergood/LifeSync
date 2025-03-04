@@ -1,12 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" data-theme="dark">
     <head> 
-        <script src="../htmx.min.js"></script>
+        <script src="https://unpkg.com/htmx.org@1.9.6"></script>
         <title> Kala: </title>
     </head>
     <body>
         <h1> To Do Tasks: </h1>
+
+        <form hx-post="/addtask" hx-trigger="submit" hx-target="#task-list" hx-swap="beforeend">
+            <a>Enter Task: </a>
+            <input type="text" name= "taskInfo" required> 
+            <button type="submit">Add Task</button>  
+
+        </form>
+
+        <ul id="task-list"></ul>
+
          
     </body>
 </html>
+:W
 
