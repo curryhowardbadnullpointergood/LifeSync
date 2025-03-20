@@ -45,3 +45,23 @@ Another extension would be to separate the tasks into various categories, or add
 Add recurring tasks, so tasks you have to do every week, or every day etc. Ie your morning routine, or bedtime routine etc. 
 
 
+Integrate points, so you get points for completion of tasks, sort of silly but I think is a nice addition.Once the points go above a certain amount you can go and do something fun or outside the routine. Draconic I know. 
+
+
+Want to view completed tasks, and want to add a search engine based on the title of the task, this way you can save time instead of having to rewrite a previously completed task, I also want to add an "improvements," strategy, where you can add notes to this "task type" based on the title, on how you can save time in the future or whatever you want to note about this sort of task, perhaps ways to perform better at this activity etc, sort of a Journal for every specific activity where you can reflect and then look it up whenever you want, re-evaluate and improve upon. 
+
+
+-----------------
+Add contacts page,
+
+Similar to add tasks, but for people. So you can add new people you meet on here, their social media information, contact information, and a note about them, their birthdays, important days etc, Say they tell you they are leaving the country at X time etc, you can remember to say goodbye or smth, or buy a gift etc. This is again sort of like a task, but related to people instead. There's also a note section where you can take note about what they like sort of their favourite foods/colour etc. Will make you seem socially adept lmao. 
+
+
+Also it can remind you to contact people every now and then so you stay in touch. Perhaps automatic messages like Happy Birthday or Happy Christmas etc. This saves time, and helps you keep track of things. You can then manually respond back to them if they say anything back. 
+
+So this requires some API stuff I assume to make it automatically run in the background. 
+
+Also reminds you to buy gifts for them, so this is based on whether you want to give them a gift or not, and if so it reminds you 2 weeks before, this should be a variable option, obviously more important people you should think about what to give etc. 
+
+
+----------------
