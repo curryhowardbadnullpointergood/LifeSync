@@ -64,4 +64,12 @@ So this requires some API stuff I assume to make it automatically run in the bac
 Also reminds you to buy gifts for them, so this is based on whether you want to give them a gift or not, and if so it reminds you 2 weeks before, this should be a variable option, obviously more important people you should think about what to give etc. 
 
 
+Should have a central pie chart showing how much time was spend on this "person" admin stuff. Should obviously try and automate as much of this as possible. 
+
+Also add time spend on doing these tasks for these people. And then have a pie chart showing this much time spent this month on this person etc etc. Should also be able to change the time frame as to when you want to analyse this data etc. 
+
+Also maybe compare this with the amount of time you think or estimate they spent on you and it'll be interesting to see the contrast heh. Haha. 
+
 ----------------
+
+Add a 
