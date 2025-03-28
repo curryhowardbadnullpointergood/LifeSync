@@ -7,17 +7,19 @@
     <body>
         <h1> To Do Tasks: </h1>
 
-        <form hx-post="/addtask" hx-trigger="submit" hx-target="#task-list" hx-swap="beforeend">
+        <form hx-post="/addtask" hx-trigger="submit"  hx-swap="beforeend">
             <a>Enter Task: </a>
             <input type="text" name= "taskInfo" required> 
-            <button type="submit">Add Task</button>  
+            <button type="submit">Add Task</button>  
 
         </form>
 
-        <ul id="task-list"></ul>
+        
+        <div id="taskList" hx-get="/gettask" hx-trigger="load" hx-swap="innerHTML" hx-swap-oob="true"></div>
+
 
          
     </body>
 </html>
-:W
+
 

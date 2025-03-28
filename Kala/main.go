@@ -4,15 +4,19 @@ import (
 	"database/sql"
 	"embed"
 	"fmt"
-	_ "github.com/mattn/go-sqlite3"
 	"html/template"
 	"log"
 	"net/http"
 	"strings"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 //go:embed views/*
 var views embed.FS
+
+// template to more like index html
+var indexh *template.Template
 
 var t = template.Must(template.ParseFS(views, "views/*"))
 
@@ -56,31 +60,47 @@ func main() {
 		if err := t.ExecuteTemplate(w, "index.html", nil); err != nil {
 			http.Error(w, "Something went wrong, as usual", http.StatusInternalServerError)
 		}
+
 	})
 
 	// Handle add task form submission
-	router.HandleFunc("POST /addtask", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("POST /addtask", addTask)
 
-		// log.Println("Hello")
-		if err := r.ParseForm(); err != nil {
-			http.Error(w, "Unable to parse task form: ", http.StatusInternalServerError)
-			return
-		}
+	// this handles getting the task, really should break this down and make it cleaner
+	router.HandleFunc("GET /gettask", func(w http.ResponseWriter, r *http.Request) {
 
-		task := strings.ToLower(r.FormValue("taskInfo"))
-
-		log.Printf("Task to add: %s", task)
-
-		// insert task into the database
-		_, err := DB.Exec("INSERT INTO todos VALUES(NULL,?)", task)
+		log.Println("Trying to get tasks from database: ")
+		query := "SELECT * FROM todos"
+		rows, err := DB.Query(query)
 
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError) // Return an HTTP 500 error if insertion fails
-			return
+			log.Fatal(err)
+		}
+		defer rows.Close()
+
+		var tasks []Tasks
+		var responseHTML string
+
+		for rows.Next() {
+			var todo Tasks
+			rowErr := rows.Scan(&todo.ID, &todo.Task)
+			if rowErr != nil {
+				log.Fatal(err)
+			}
+			tasks = append(tasks, todo)
+			responseHTML += fmt.Sprintf("<p>%d: %s</p>", todo.ID, todo.Task)
+		}
+		if err = rows.Err(); err != nil {
+			log.Fatal(err)
+		}
+		log.Println(tasks)
+
+		for _, t := range tasks {
+			fmt.Println(t.ID, t.Task)
 		}
 
-		// redirect to the main page after a sucessful creation of the task?
-		// http.Redirect(w, r, "/", http.StatusSeeOther)
+		w.Header().Set("Content-Type", "text/html")
+		w.Write([]byte(responseHTML))
 
 	})
 
@@ -91,4 +111,30 @@ func main() {
 
 	fmt.Println("Listening on Port 3000: ")
 	server.ListenAndServe()
+}
+
+func addTask(w http.ResponseWriter, r *http.Request) {
+
+	//fmt.Println("hello")
+
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "Unable to parse task form: ", http.StatusInternalServerError)
+		return
+	}
+
+	task := strings.ToLower(r.FormValue("taskInfo"))
+
+	log.Printf("Task to add: %s", task)
+
+	// insert task into the database
+	_, err := DB.Exec("INSERT INTO todos VALUES(NULL,?)", task)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError) // Return an HTTP 500 error if insertion fails
+		return
+	}
+
+	w.Header().Set("HX-Refresh", "true")
+	w.WriteHeader(http.StatusOK)
+
 }
