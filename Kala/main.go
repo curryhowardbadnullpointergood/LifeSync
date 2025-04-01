@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -22,8 +23,9 @@ var t = template.Must(template.ParseFS(views, "views/*"))
 
 // struct to represent the tasks
 type Tasks struct {
-	ID   int
-	Task string
+	ID     int
+	Task   string
+	Points int
 }
 
 // Db is a global var for the sqlite database connection
@@ -40,7 +42,8 @@ func initDB() {
 	sqlStmt := `
      CREATE TABLE IF NOT EXISTS todos (
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      task TEXT
+      task TEXT,
+	  points INTEGER
      );`
 
 	_, err = DB.Exec(sqlStmt)
@@ -88,12 +91,12 @@ func main() {
 
 		for rows.Next() {
 			var todo Tasks
-			rowErr := rows.Scan(&todo.ID, &todo.Task)
+			rowErr := rows.Scan(&todo.ID, &todo.Task, &todo.Points)
 			if rowErr != nil {
 				log.Fatal(err)
 			}
 			tasks = append(tasks, todo)
-			responseHTML += fmt.Sprintf("<p>%d: %s</p>", todo.ID, todo.Task)
+			responseHTML += fmt.Sprintf("<p>%d: %s: %d</p>", todo.ID, todo.Task, todo.Points)
 		}
 		if err = rows.Err(); err != nil {
 			log.Fatal(err)
@@ -101,17 +104,8 @@ func main() {
 		log.Println(tasks)
 
 		for _, t := range tasks {
-			fmt.Println(t.ID, t.Task)
-		} // insert task into the database
-		// _, err := DB.Exec("INSERT INTO todos VALUES(NULL,?)", task)
-
-		// if err != nil {
-		// 	http.Error(w, err.Error(), http.StatusInternalServerError) // Return an HTTP 500 error if insertion fails
-		// 	return
-		// }
-
-		// w.Header().Set("HX-Refresh", "true")
-		// w.WriteHeader(http.StatusOK)
+			fmt.Println(t.ID, t.Task, t.Points)
+		}
 
 		w.Header().Set("Content-Type", "text/html")
 		w.Write([]byte(responseHTML))
@@ -137,11 +131,17 @@ func addTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	task := strings.ToLower(r.FormValue("taskInfo"))
+	pointsStr := r.FormValue("points")     // This gets the value as a string
+	points, err := strconv.Atoi(pointsStr) // Convert to integer
+	if err != nil {
+		http.Error(w, "Invalid points value", http.StatusBadRequest)
+		return
+	}
 
-	log.Printf("Task to add: %s", task)
+	log.Printf("Task to add: %s : And points: %d", task, points)
 
 	// insert task into the database
-	_, err := DB.Exec("INSERT INTO todos VALUES(NULL,?)", task)
+	_, err = DB.Exec("INSERT INTO todos VALUES(NULL,?,?)", task, points)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError) // Return an HTTP 500 error if insertion fails
