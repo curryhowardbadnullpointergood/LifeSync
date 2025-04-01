@@ -66,6 +66,11 @@ func main() {
 	// Handle add task form submission
 	router.HandleFunc("POST /addtask", addTask)
 
+	// Handle deleting a task
+	// this also needs to initiate a done tasks table, which take the done task and adds it to this table
+	// needs to be a button in the future ugh hopefully???
+	router.HandleFunc("POST /deletetask", deleteTask)
+
 	// this handles getting the task, really should break this down and make it cleaner
 	router.HandleFunc("GET /gettask", func(w http.ResponseWriter, r *http.Request) {
 
@@ -97,7 +102,16 @@ func main() {
 
 		for _, t := range tasks {
 			fmt.Println(t.ID, t.Task)
-		}
+		} // insert task into the database
+		// _, err := DB.Exec("INSERT INTO todos VALUES(NULL,?)", task)
+
+		// if err != nil {
+		// 	http.Error(w, err.Error(), http.StatusInternalServerError) // Return an HTTP 500 error if insertion fails
+		// 	return
+		// }
+
+		// w.Header().Set("HX-Refresh", "true")
+		// w.WriteHeader(http.StatusOK)
 
 		w.Header().Set("Content-Type", "text/html")
 		w.Write([]byte(responseHTML))
@@ -131,6 +145,31 @@ func addTask(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError) // Return an HTTP 500 error if insertion fails
+		return
+	}
+
+	w.Header().Set("HX-Refresh", "true")
+	w.WriteHeader(http.StatusOK)
+
+}
+
+func deleteTask(w http.ResponseWriter, r *http.Request) {
+
+	//fmt.Println("hello")
+
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "Unable to parse task form: ", http.StatusInternalServerError)
+		return
+	}
+
+	task := strings.ToLower(r.FormValue("taskID"))
+
+	log.Printf("Task to delete: %s", task)
+
+	// delete task from the database
+	_, err := DB.Exec("DELETE FROM todos WHERE id = ?", task)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 

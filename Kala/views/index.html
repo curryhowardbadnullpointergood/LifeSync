@@ -15,8 +15,14 @@
         </form>
 
         
-        <div id="taskList" hx-get="/gettask" hx-trigger="load" hx-swap="innerHTML" hx-swap-oob="true"></div>
+        <div id="taskList" hx-get="/gettask" hx-trigger="load" hx-swap="innerHTML" hx-swap-oob="true" ></div>
 
+        <form hx-post="/deletetask" hx-trigger="submit"  hx-swap="beforeend" hx-on::after-request="this.reset()">
+            <a>Delete Task: </a>
+            <input type="text" name= "taskID" required> 
+            <button type="submit">Delete Task</button>  
+
+        </form>
 
          
     </body>
