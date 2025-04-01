@@ -7,7 +7,7 @@
     <body>
         <h1> To Do Tasks: </h1>
 
-        <form hx-post="/addtask" hx-trigger="submit"  hx-swap="beforeend">
+        <form hx-post="/addtask" hx-trigger="submit"  hx-swap="beforeend" hx-on::after-request="this.reset()">
             <a>Enter Task: </a>
             <input type="text" name= "taskInfo" required> 
             <a>Enter Points: </a>

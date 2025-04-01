@@ -162,12 +162,34 @@ func deleteTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	task := strings.ToLower(r.FormValue("taskID"))
+	idStr := (r.FormValue("taskID"))
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid points value", http.StatusBadRequest)
+		return
+	}
 
-	log.Printf("Task to delete: %s", task)
+	// so this gets the task and poin values
+	var taskD string
+	var pointsD int
+
+	err = DB.QueryRow("SELECT task, points FROM todos WHERE id = ?", id).Scan(&taskD, &pointsD)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			fmt.Println("No task found with the given ID")
+		} else {
+			log.Fatal(err)
+		}
+		return
+	}
+
+	// Print the retrieved values
+	fmt.Printf("Task: %s, Points: %d\n", taskD, pointsD)
+
+	log.Printf("ID to delete: %d", id)
 
 	// delete task from the database
-	_, err := DB.Exec("DELETE FROM todos WHERE id = ?", task)
+	_, err = DB.Exec("DELETE FROM todos WHERE id = ?", id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -186,6 +208,13 @@ func deleteTask(w http.ResponseWriter, r *http.Request) {
 	_, err = DB.Exec(sqlStmt)
 	if err != nil {
 		log.Fatalf("Error creating table: %q: %s\n", err, sqlStmt) // Log an error if table creation fails
+	}
+
+	_, err = DB.Exec("INSERT INTO done VALUES(NULL,?,?)", taskD, pointsD)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError) // Return an HTTP 500 error if insertion fails
+		return
 	}
 
 	// now add the deleted task to  this table, so to do this I need to query for the task and point value using the id before deleteing it and storing that information in 2 variables then adding that to this table.
