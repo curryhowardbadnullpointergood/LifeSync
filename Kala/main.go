@@ -173,6 +173,23 @@ func deleteTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// making a table for done tasks
+
+	// SQL statement to create the todos table if it doesn't exist
+	sqlStmt := `
+     CREATE TABLE IF NOT EXISTS done (
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      task TEXT,
+	  points INTEGER
+     );`
+
+	_, err = DB.Exec(sqlStmt)
+	if err != nil {
+		log.Fatalf("Error creating table: %q: %s\n", err, sqlStmt) // Log an error if table creation fails
+	}
+
+	// now add the deleted task to  this table, so to do this I need to query for the task and point value using the id before deleteing it and storing that information in 2 variables then adding that to this table.
+
 	w.Header().Set("HX-Refresh", "true")
 	w.WriteHeader(http.StatusOK)
 
