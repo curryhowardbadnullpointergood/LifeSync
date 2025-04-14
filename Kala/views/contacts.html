@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+    <head> 
+        <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+        <title>Contact: </title>
+    </head>
+    <body>
+        <h1> Contacts: </h1>
+
+        <form hx-post="/addcontact" hx-trigger="submit"  hx-swap="beforeend" hx-on::after-request="this.reset()">
+            <a>Enter Short Discription: </a>
+            <input type="text" name="contactDescription" required>  
+            <a> Enter Name: </a>
+            <input type="text" name="contactName" required> 
+
+            <button type="submit">Add Contact</button>  
+        </form>
+
+        
+        
+ 
+    </body>
+</html>
+
+
+

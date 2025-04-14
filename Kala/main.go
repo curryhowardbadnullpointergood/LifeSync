@@ -28,6 +28,12 @@ type Tasks struct {
 	Points int
 }
 
+// struct to represent the contacts
+type Contacts struct {
+	Name        string
+	Description string
+}
+
 // Db is a global var for the sqlite database connection
 var DB *sql.DB
 
@@ -47,6 +53,16 @@ func initDB() {
      );`
 
 	_, err = DB.Exec(sqlStmt)
+
+	sqlStmt2 := `
+     CREATE TABLE IF NOT EXISTS contacts (
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      name TEXT,
+	  description TEXT
+     );`
+
+	_, err = DB.Exec(sqlStmt2)
+
 	if err != nil {
 		log.Fatalf("Error creating table: %q: %s\n", err, sqlStmt) // Log an error if table creation fails
 	}
@@ -66,8 +82,18 @@ func main() {
 
 	})
 
+	router.HandleFunc("GET /contacts", func(w http.ResponseWriter, r *http.Request) {
+		if err := t.ExecuteTemplate(w, "contacts.html", nil); err != nil {
+			http.Error(w, "Something went wrong, as usual", http.StatusInternalServerError)
+		}
+
+	})
+
 	// Handle add task form submission
 	router.HandleFunc("POST /addtask", addTask)
+
+	//add contacts
+	router.HandleFunc("POST /addcontact", addContact)
 
 	// Handle deleting a task
 	// this also needs to initiate a done tasks table, which take the done task and adds it to this table
@@ -142,6 +168,36 @@ func addTask(w http.ResponseWriter, r *http.Request) {
 
 	// insert task into the database
 	_, err = DB.Exec("INSERT INTO todos VALUES(NULL,?,?)", task, points)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError) // Return an HTTP 500 error if insertion fails
+		return
+	}
+
+	w.Header().Set("HX-Refresh", "true")
+	w.WriteHeader(http.StatusOK)
+
+}
+
+func addContact(w http.ResponseWriter, r *http.Request) {
+
+	//fmt.Println("hello")
+
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "Unable to parse task form: ", http.StatusInternalServerError)
+		return
+	}
+
+	// this might get really confusing in the future, contact info is a description of the person
+	// ah should change it now tbh
+
+	description := strings.ToLower(r.FormValue("contactDescription"))
+	name := strings.ToLower(r.FormValue("contactName"))
+
+	log.Printf("Contact to add: %s : And description: %s", name, description)
+
+	// insert task into the database
+	_, err := DB.Exec("INSERT INTO contacts VALUES(NULL,?,?)", name, description)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError) // Return an HTTP 500 error if insertion fails
