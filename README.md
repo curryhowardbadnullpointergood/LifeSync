@@ -71,7 +71,7 @@ Should have a central pie chart showing how much time was spend on this "person"
 
 Also add time spend on doing these tasks for these people. And then have a pie chart showing this much time spent this month on this person etc etc. Should also be able to change the time frame as to when you want to analyse this data etc. 
 
-Also maybe compare this with the amount of time you think or estimate they spent on you and it'll be interesting to see the contrast heh. Haha. 
+Also maybe compare this with the amount of time you think or estimate they spent on you and it'll be interesting to see the contrast heh.
 
 ----------------
 
