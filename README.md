@@ -57,7 +57,7 @@ Add contacts page,
 initial contact page -- done 
 basic description per contact -- done 
 
-Similar to add tasks, but for people. So you can add new people you meet on here, their social media information, contact information, and a note about them, their birthdays, important days etc, Say they tell you they are leaving the country at X time etc, you can remember to say goodbye or smth, or buy a gift etc. This is again sort of like a task, but related to people instead. There's also a note section where you can take note about what they like sort of their favourite foods/colour etc. Will make you seem socially adept lmao. 
+Similar to add tasks, but for people. So you can add new people you meet on here, their social media information, contact information, and a note about them, their birthdays, important days etc, Say they tell you they are leaving the country at X time etc, you can remember to say goodbye or smth, or buy a gift etc. This is again sort of like a task, but related to people instead. There's also a note section where you can take note about what they like sort of their favourite foods/colour etc. 
 
 
 Also it can remind you to contact people every now and then so you stay in touch. Perhaps automatic messages like Happy Birthday or Happy Christmas etc. This saves time, and helps you keep track of things. You can then manually respond back to them if they say anything back. 
