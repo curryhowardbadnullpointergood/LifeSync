@@ -30,6 +30,7 @@ type Tasks struct {
 
 // struct to represent the contacts
 type Contacts struct {
+	ID          int
 	Name        string
 	Description string
 }
@@ -95,6 +96,8 @@ func main() {
 	//add contacts
 	router.HandleFunc("POST /addcontact", addContact)
 
+	router.HandleFunc("GET /getcontact", getContact)
+
 	// Handle deleting a task
 	// this also needs to initiate a done tasks table, which take the done task and adds it to this table
 	// needs to be a button in the future ugh hopefully???
@@ -145,6 +148,43 @@ func main() {
 
 	fmt.Println("Listening on Port 3000: ")
 	server.ListenAndServe()
+}
+
+func getContact(w http.ResponseWriter, r *http.Request) {
+
+	log.Println("Trying to get contacts from database: ")
+	query := "SELECT * FROM contacts"
+	rows, err := DB.Query(query)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	var contacts []Contacts
+	var responseHTML string
+
+	for rows.Next() {
+		var contact Contacts
+		rowErr := rows.Scan(&contact.ID, &contact.Name, &contact.Description)
+		if rowErr != nil {
+			log.Fatal(err)
+		}
+		contacts = append(contacts, contact)
+		responseHTML += fmt.Sprintf("<p>%d: %s: %s</p>", contact.ID, contact.Name, contact.Description)
+	}
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+	log.Println(contacts)
+
+	for _, t := range contacts {
+		fmt.Println(t.ID, t.Name, t.Description)
+	}
+
+	w.Header().Set("Content-Type", "text/html")
+	w.Write([]byte(responseHTML))
+
 }
 
 func addTask(w http.ResponseWriter, r *http.Request) {
