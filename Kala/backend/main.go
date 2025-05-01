@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"embed"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"log"
@@ -23,9 +24,9 @@ var t = template.Must(template.ParseFS(views, "views/*"))
 
 // struct to represent the tasks
 type Tasks struct {
-	ID     int
-	Task   string
-	Points int
+	ID     int    `json:"id"`
+	Task   string `json:"task"`
+	Points int    `json:"points"`
 }
 
 // struct to represent the contacts
@@ -136,9 +137,8 @@ func main() {
 			fmt.Println(t.ID, t.Task, t.Points)
 		}
 
-		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte(responseHTML))
-
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(tasks)
 	})
 
 	server := http.Server{
@@ -147,8 +147,6 @@ func main() {
 	}
 
 	fmt.Println("Listening on Port 3000: ")
-	//	router.PathPrefix("/Styles/").Handler(http.StripPrefix("/Styles/", http.FileServer(http.Dir("Styles"))))
-	http.Handle("/Styles/", http.StripPrefix("/Styles/", http.FileServer(http.Dir("Styles"))))
 	server.ListenAndServe()
 }
 

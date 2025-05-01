@@ -1,2 +1,4 @@
-./app.db
+./backend/app.db
+./kala/node_modules/* 
+
 
