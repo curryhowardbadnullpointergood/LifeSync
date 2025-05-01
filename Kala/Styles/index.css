@@ -1,0 +1,9 @@
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  background-color: #302530;
+  color: red; 
+}
+
+/*# sourceMappingURL=index.css.map */

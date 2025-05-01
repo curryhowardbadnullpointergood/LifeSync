@@ -147,6 +147,8 @@ func main() {
 	}
 
 	fmt.Println("Listening on Port 3000: ")
+	//	router.PathPrefix("/Styles/").Handler(http.StripPrefix("/Styles/", http.FileServer(http.Dir("Styles"))))
+	http.Handle("/Styles/", http.StripPrefix("/Styles/", http.FileServer(http.Dir("Styles"))))
 	server.ListenAndServe()
 }
 
