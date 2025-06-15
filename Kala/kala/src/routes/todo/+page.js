@@ -11,3 +11,30 @@ export async function load({ fetch }) {
   return { tasks };
 }
 
+//export async function addTask(task, points) {
+//  try {
+//    const res = await fetch('/api/addtask', {
+//      method: 'POST',
+//      headers: {
+//        'Content-Type': 'application/json',
+//      },
+//      body: JSON.stringify({
+//        task: task,
+//        points: points
+//      }),
+//    });
+//
+//    if (!res.ok) {
+//      const errText = await res.text();
+//      throw new Error(`Server error ${res.status}: ${errText}`);
+//    }
+//
+//    const data = await res.json();
+//    console.log('Response from server:', data);
+//    return data;
+//  } catch (err) {
+//    console.error('Failed to add task:', err.message);
+//    throw err;
+//  }
+//}
+//
