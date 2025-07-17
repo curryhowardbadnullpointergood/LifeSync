@@ -21,11 +21,12 @@ async function handleAdd() {
 
 <div class="tasks">
   
-  <h1>Tasks List: </h1> 
+  <!-- <h1>Tasks List: </h1> --> 
 
   <div class="tools">
     <button type="button" >Add!</button>
     <input bind:value={taskInput} placeholder="Enter task" />
+    <p> Points: </p>
     <input type="number" bind:value={pointInput} />
     <!--
     <button on:click={handleAdd}>Add Task</button>
@@ -36,7 +37,7 @@ async function handleAdd() {
  
 
  
-  <div class="taskContainer">
+  <!-- <div class="taskContainer">
     {#each data.tasks as task (task.id)}
       <div class="taskCard">
         <h3>Task {task.id}</h3>
@@ -44,6 +45,47 @@ async function handleAdd() {
         <p>Points: {task.points}</p>
       </div>
     {/each}
+  </div> -->
+
+
+  <div class="taskContainer">
+      <div class="taskCard">
+        
+        <!-- DUMMY TADKS  -->
+        <h3>Task 1</h3>
+        <p> “Nobody has ever measured, not even poets, how much the heart can hold.”
+― Zelda Fitzgerald </p>
+        <p>Points: Infinity</p>
+      </div>
+
+      <div class="taskCard">
+        <!-- DUMMY TADKS  -->
+        <h3>Task 2</h3>
+        <p> “Nobody has ever measured, not even poets, how much the heart can hold.”
+― Zelda Fitzgerald </p>
+        <p>Points: Infinity</p>
+      </div>
+
+
+      <div class="taskCard">
+        <!-- DUMMY TADKS  -->
+        <h3>Task 3</h3>
+        <p> “Nobody has ever measured, not even poets, how much the heart can hold.”
+― Zelda Fitzgerald </p>
+        <p>Points: Infinity</p>
+      </div>
+
+      <div class="taskCard"> 
+        <!-- DUMMY TADKS  -->
+        <h3>Task 4</h3>
+        <p> “Nobody has ever measured, not even poets, how much the heart can hold.”
+― Zelda Fitzgerald </p>
+        <p>Points: Infinity</p>
+      </div>
+
+
+
+
   </div>
 
 
