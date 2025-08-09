@@ -1,22 +1,22 @@
 <script>
 import './todo.scss'
-// import {addTask } from './+page.js'
-export let data;
 
 let taskInput = '';
-let pointInput = 1;
+let pointInput = '';
 
 async function handleAdd() {
   try {
     await addTask(taskInput, pointInput);
     taskInput = '';
-    pointInput = 1;
+    pointInput = '';
   } catch (e) {
     alert('Error adding task.');
   }
 }
-</script>
 
+
+
+</script>
 
 
 <div class="tasks">
@@ -25,9 +25,10 @@ async function handleAdd() {
 
   <div class="tools">
     <button type="button" >Add!</button>
-    <input bind:value={taskInput} placeholder="Enter task" />
-    <p> Points: </p>
-    <input type="number" bind:value={pointInput} />
+    <input bind:value={taskInput} placeholder="Enter task: " />
+    
+    <!-- Maybe handle this as a  -->
+    <input bind:value={pointInput} placeholder="Enter Points:" />
     <!--
     <button on:click={handleAdd}>Add Task</button>
     <form> 
@@ -48,39 +49,53 @@ async function handleAdd() {
   </div> -->
 
 
+
   <div class="taskContainer">
       <div class="taskCard">
         
         <!-- DUMMY TADKS  -->
-        <h3>Task 1</h3>
-        <p> “Nobody has ever measured, not even poets, how much the heart can hold.”
-― Zelda Fitzgerald </p>
-        <p>Points: Infinity</p>
+        <div class="taskOverview">
+          <h3>Task 1</h3>
+          <button >  TASK</button>
+          <p> “Nobody has ever measured, not even poets, how much the heart can hold.” ― Zelda Fitzgerald </p>
+          <p>Points: Infinity</p>
+        </div> 
+
+        <div id="taskDetails1" class="taskDetails">
+          Poetry is pretty, especially when you have organised time for it!
+        </div>
+  
       </div>
 
       <div class="taskCard">
+        <div class="taskOverview">
         <!-- DUMMY TADKS  -->
         <h3>Task 2</h3>
         <p> “Nobody has ever measured, not even poets, how much the heart can hold.”
 ― Zelda Fitzgerald </p>
         <p>Points: Infinity</p>
+        </div>
       </div>
 
 
       <div class="taskCard">
+        <div class="taskOverview">
         <!-- DUMMY TADKS  -->
         <h3>Task 3</h3>
         <p> “Nobody has ever measured, not even poets, how much the heart can hold.”
 ― Zelda Fitzgerald </p>
         <p>Points: Infinity</p>
+        </div>
       </div>
 
       <div class="taskCard"> 
+        <div class="taskOverview">
         <!-- DUMMY TADKS  -->
         <h3>Task 4</h3>
         <p> “Nobody has ever measured, not even poets, how much the heart can hold.”
 ― Zelda Fitzgerald </p>
         <p>Points: Infinity</p>
+        </div> 
       </div>
 
 

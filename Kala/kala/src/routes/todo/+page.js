@@ -11,6 +11,11 @@ export async function load({ fetch }) {
   return { tasks };
 }
 
+function toggleDetails(card) {
+    card.classList.toggle('expanded');
+  }
+
+
 //export async function addTask(task, points) {
 //  try {
 //    const res = await fetch('/api/addtask', {

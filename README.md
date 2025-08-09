@@ -76,3 +76,159 @@ Also maybe compare this with the amount of time you think or estimate they spent
 ----------------
 
 Add a 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------
+ So just focuing on the Task lists UI at the moment. 
+
+I'm thinking of having some sort of scrollable, element, with active tasks at the start, and completed tasks at the end, or beind the active tasks, sorting can be figured out later, no 
+
+so sorted by time, hours taken, points, etc. can pick how to sort, 
+
+but the distinction between active and done tasks always exists, so active tasks first, inactive after, 
+
+need a search function, or algorithm that can do this, so maybe custom write one????? meh 
+
+Should be able to click on a task, to "expand" it, which provides more information about the task in question, do error handling here, in case it is empty, and the database structure needs to be 
+changed yet again. 
+
+Add a neat plus button at the very top of the scroll section, or maybe to the right hand side top of the screen to add a new task. 
+
+Search bar can also be near the add button I suppose. 
+
+usual we have been taught to adapt frontend to the backend, but really should be the opposite. 
+
+
+
+
+
+
+
+
+__________________________________________________________________________________________________________________________
+
+
+
+03/08/2025 
+
+So tasks page:
+
+needs to show add task button green  
+needs to add a tasks description green 
+need to add a point enter button green 
+need to enter a point field, which is a number should be checked if it is a number or not (backend)
+task should show time of completion/ est time to complete, or time left to finish est. green 
+est time show in task green
+priority show the priority of the task in the task section, as a colour? colour coded stich to high medium low for now green  
+
+
+
+needs to be able to display the tasks
+which you click on the task it needs to be expanded a bit,  green 
+if you click on the expanded section's a button or somthing, like "read more" or "expand" it shuold then go to a new page link, 
+expanded part should also have an option to edit the task, this is important need to add *
+* 
+
+
+
+
+
+So I finished the add button
+finished the add tasks and add points (number)
+div task list has a list of tasks and is meant to deal with the list of tasks and show it. 
+also did some styling for the front page, need to do the hidden task overview thing next soon, asap
+
+
+
+5/08/2025 
+
+So next steps would be styling add button 
+style inputs points and task description 
+
+fix styling on the site, so choose a colour scheme and stick with it, dark mode / colour scheme
+maybe black and purple colour scheme, add navy or blue as well to this, green for highlights 
+
+06/08/2025
+
+Chose the colour scheme. green 
+So tidied up the webpage a bit, and tidied up the colour scheme. 
+
+07/08/2025
+
+Going to change to light theme ahh, probably easier to make it look nicer. Well it should be reativelty easier to make it look nicer. 
+If it was just me I'd keep it dark and white ore green / blue. 
+
+
+
+08/08/2025
+
+Okay, so I'm going for a very simple colour dark scheme, inspired by google calendar. 
+
+
+
+
+DARK COLOUR SCHEME:
+
+Background: #1b1b1b
+background container: #131314
+Text colour: #E3E3E3
+
+
+interesting menu svg.
+
+09/08/2025
+
+doing some more colour scheme/css
+
+So done the profile button today. 
+Finished the menu solour and the logo div.
+
+
+Next steps: 
+
+Get div then put profile in it. 
+and put tasks logo. 
+and calendar logo in the div. 
+
+add styling to it so hover effect. 
+
+
+make the tasks the same size, 
+add tasks add button. 
+make a basic logo, kiss. 
+find a logo for all tasks done/no tasks scheduled. 
+
+make a dummy task 
+style the dummy task 
+scroll bar dummy task test
+
+completed task button 
+completed task button styling 
+completed task dro down 
+
+add a search bar to completed. etc
+
+
+
+
+
+

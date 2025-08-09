@@ -1,0 +1,154 @@
+.tasks{
+  display: flex; 
+  flex-direction: column; 
+  background-color: #1b1b1b; 
+  min-height:100vh;
+  min-width:100vh;
+  align-items: center; 
+
+  .navBar{
+    
+    display: flex; 
+    flex-direction: horizontal;
+
+    min-height: 4rem;
+
+    color: #E3E3E3;
+    //background-color: #1bb;
+    min-width: 100%;
+    align-items: center;
+    
+
+    
+    .menuLogo{
+
+      display: flex;
+      flex-direction: horizontal;
+      justify-content: space-between;
+
+      min-height: 3rem;
+      min-width: 15rem;
+      margin-left: 1rem;
+
+    
+      button{
+        background: none;
+        cursor: pointer; 
+  
+        
+  
+        min-width: 3rem; 
+        min-height: 3rem;
+  
+        border-radius: 50%;
+        border: 2px solid transparent;
+  
+        padding: 0px 10px;
+      }
+  
+      button:hover{
+        background-color: #363737;
+  
+      }
+
+      .logo{
+        background: red;
+        min-height: 3rem;
+        min-width: 11rem;
+      }
+  
+  }
+
+    .profileButton{
+
+      border: none; 
+      background: #1212ff;
+
+      border-radius: 50%;
+
+      min-width: 2.5rem; 
+      min-height: 2.5rem; 
+
+    }
+
+    .profileButton:hover{
+      background: none;
+
+    }
+
+
+    
+  }
+  .taskList{
+    display: flex; 
+    flex-direction: column; 
+
+    padding: 50px;
+    gap: 1.2rem;
+    //align-items: start;
+    background-color: #131314;
+    min-width: 80%;
+    max-width: 80%;
+    border-radius: 25px;
+
+
+    .individualTask{
+      display: flex; 
+      flex-direction: column; 
+      //gap: 0.4rem;
+      //align-items: start;
+
+
+      .taskOverview{
+        display: flex; 
+        flex-direction: horizontal; 
+        gap: 1rem; 
+        font-size: 1.5rem;
+        color: #E3E3E3;
+        justify-content: space-between;
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 5px;
+        border-bottom: 1px solid #3700B3;
+
+        p{
+          color: #000000;
+        }
+
+      }
+
+      .taskDescriptionShort{
+        display: flex; 
+        flex-direction: horizontal;
+        align-items: center;
+        //background-color: #BB86FC; 
+        color: #6200EE;
+        font-size: 1.5rem;
+        padding: 5px;
+        font-family: Arial, Helvetica, sans-serif;
+        
+
+      }
+
+      .taskContent{
+        display: flex;
+        font-size: 1.5rem; 
+        background-color: #3700B3;  
+        color: #ffffff; 
+        padding: 5px 5px;
+        
+      }
+
+      
+    }
+
+  }
+
+}
+
+
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
