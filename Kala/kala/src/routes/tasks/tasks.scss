@@ -3,23 +3,21 @@
   flex-direction: column; 
   background-color: #1b1b1b; 
   min-height:100vh;
-  min-width:100vh;
+  min-width:100%;
   align-items: center; 
+
+  flex: 1;
 
   .navBar{
     
     display: flex; 
-    flex-direction: horizontal;
+    flex-direction: row;
 
-    min-height: 4rem;
+    max-height: 4rem;
 
-    color: #E3E3E3;
-    //background-color: #1bb;
     min-width: 100%;
     align-items: center;
-    
-
-    
+     
     .menuLogo{
 
       display: flex;
@@ -56,29 +54,52 @@
         min-height: 3rem;
         min-width: 11rem;
       }
+    }
   
-  }
+  
 
-    .profileButton{
+    .rightSide{
 
-      border: none; 
-      background: #1212ff;
+      display: flex;
+      flex-direction: row;
 
-      border-radius: 50%;
+      
 
-      min-width: 2.5rem; 
-      min-height: 2.5rem; 
 
-    }
+      .todo{
+        
 
-    .profileButton:hover{
-      background: none;
 
-    }
+        button{
 
+          background: none;
+          
+        }
+
+      }
+
+      .profile{
+        
+
+
+        button{
+
+          img{
+            max-width: 2rem; 
+            max-height: 2rem;
+        
+          }
+
+        }
+        
+      }
+      
 
     
+    }
+
   }
+
   .taskList{
     display: flex; 
     flex-direction: column; 

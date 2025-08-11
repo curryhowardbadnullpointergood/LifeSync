@@ -1,7 +1,7 @@
 <script>
 
-import './tasks.scss'
-
+import './tasks.scss';
+import Navbar from '../../lib/components/Navbar.svelte';
 
 // this is for the tasks make this dynamic in the future 
 let open1 = false; 
@@ -16,35 +16,13 @@ let open4 = false;
 
 <div class="tasks"> 
 
-  <div class="navBar"> 
-
-    <div class="menuLogo"> 
-
-      <button aria-label="Menu"> 
-  
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#E3E3E3"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
-  
-      </button>
-
-      <div class="logo">
-        LOGO
-      </div>
-  
-
-    </div> 
-
-    
-
-          
-    <button class="profileButton" aria-label="Open user menu">
-    </button>
+  <Navbar />
 
 
 
+</div>
 
-  </div> 
-
-  <div class="taskList">
+  <!-- <div class="taskList">
 
     <div class="individualTask">
 
@@ -142,6 +120,6 @@ let open4 = false;
         
       </div>
     
+  -->
 
-</div>
 
