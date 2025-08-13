@@ -205,7 +205,7 @@ Finished the menu solour and the logo div.
 
 Next steps: 
 
-Get div then put profile in it. 
+Get div then put profile in it.  green
 and put tasks logo. 
 and calendar logo in the div. 
 
@@ -227,8 +227,50 @@ completed task dro down
 
 add a search bar to completed. etc
 
+10/08/2025
+
+added the profile image, and button green 
+Profile button styled done green
+
+
+11/08/2025
+
+so the navbar inside the page is a broken stratergy, so made it as a component which I should've done from the beginning anyway.
+
+i've made the component and have started to style it, but it is annoying to do this ahh. 
 
 
 
+12/08/2025
+
+So things have started speeding up now that i have approached this using everything as a div. which is ugh well it is what it is. 
+
+
+completed the add task section, completed the completed section at the bottom of the my tasks container. 
+
+Done the sidebar green 
+
+
+
+so probably need to do side bar component, green 
+so it will move to the right of the screen, green 
+and transition should be smooth 
+
+then add divs and sections to it green 
+section 1 green 
+
+section 2 all tasks green 
+section 3 starred green
+section 4 Lists green 
+section 5 create new list green  
+
+
+
+
+highlight for picked mode: #004a77
+light blue: #a8c7fa
+
+
+did some of the task container, and the styling. working on the title for it atm. 
 
 

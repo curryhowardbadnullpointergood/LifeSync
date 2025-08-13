@@ -1,171 +1,156 @@
 .tasks{
+  
   display: flex; 
   flex-direction: column; 
-  background-color: #1b1b1b; 
-  min-height:100vh;
-  min-width:100%;
-  align-items: center; 
+  align-items: center;
 
-  flex: 1;
+  background: #1b1b1b;
+  min-height: 100vh;
+  
+  .mytasks{
+    display: flex;
+    flex-direction: column;
 
-  .navBar{
-    
-    display: flex; 
-    flex-direction: row;
+    min-height: 30rem;
+    min-width: 43rem;
 
-    max-height: 4rem;
+    background: #131314;
+    border-radius: 16px;
+    flex-shrink: 1;
 
-    min-width: 100%;
-    align-items: center;
-     
-    .menuLogo{
+    overflow: hidden;
 
-      display: flex;
-      flex-direction: horizontal;
-      justify-content: space-between;
+    .heading{
+
+      display: flex; 
+      flex-direction: row; 
+
+      align-items: center;
 
       min-height: 3rem;
-      min-width: 15rem;
-      margin-left: 1rem;
+      overflow: hidden;
+      // background: red;
 
-    
-      button{
-        background: none;
-        cursor: pointer; 
-  
+      .title{
+
+        display: flex; 
+        flex-direction: row; 
+        align-items: center;
+
+
+        //background: green;
+        min-height: 2.5rem;
+        overflow: hidden;
+
+        margin-left: 1rem;
+
+        font-weight: 400; 
+        font-size: 1.125rem;
+
+        color: #e3e3e3;
+        font-family: "Lucida Console", "Courier New", monospace;
+
+      }
         
-  
-        min-width: 3rem; 
-        min-height: 3rem;
-  
-        border-radius: 50%;
-        border: 2px solid transparent;
-  
-        padding: 0px 10px;
-      }
-  
-      button:hover{
-        background-color: #363737;
-  
-      }
+      
 
-      .logo{
-        background: red;
-        min-height: 3rem;
-        min-width: 11rem;
-      }
     }
-  
-  
 
-    .rightSide{
-
-      display: flex;
+    .addtasks{
+      
+      display: flex; 
+      min-height: 2.5rem;
       flex-direction: row;
 
+      align-items: center;
       
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      background: #131314;
 
+      border-radius: 2rem;
 
-      .todo{
-        
+      gap: 1rem;
 
+      button{
 
-        button{
-
-          background: none;
-          
-        }
+        background: #1b1b1b;
 
       }
 
-      .profile{
-        
 
-
-        button{
-
-          img{
-            max-width: 2rem; 
-            max-height: 2rem;
-        
-          }
-
-        }
-        
+      p{
+        color: #a8c7fa;
+        font-family: "Lucida Console", "Courier New", monospace;
+        font-weight: 400;
       }
+    }
+
+    .addtasks:hover{
+      background: rgb(168, 199, 250,0.1);
+
+      button{
+        background: rgb(168, 199, 250,0.1);
+
+      }
+
+    }
+
+
+    .pendingtasks{
+      background: #131314;
+      min-height: 22rem;
+      //min-width: 100%
+
+    }
+
+    .completedtasks{
+      display: flex; 
+      flex-direction: row; 
+
+      align-items: center;
+      min-height: 3rem;
+      overflow: hidden;
+      background: #131314;
+
+      margin-left: 1rem;
+      padding-bottom: 0.5rem;
+
+      gap: 0.5rem;
+
+      button{
+        background: #131314;
+
+        border: 0.2rem solid transparent;
+        border-radius: 50%;
+      }
+      button:hover{
+        background: #1b1b1b;
+      }
+
+      p{
+        color: #e3e3e3;
+        font-family: "Lucida Console", "Courier New", monospace;
+        font-weight: 400;
+        font-size: 0.875rem;
+
+      }
+
+
       
+    }
 
     
-    }
-
+    
   }
 
-  .taskList{
-    display: flex; 
-    flex-direction: column; 
-
-    padding: 50px;
-    gap: 1.2rem;
-    //align-items: start;
-    background-color: #131314;
-    min-width: 80%;
-    max-width: 80%;
-    border-radius: 25px;
-
-
-    .individualTask{
-      display: flex; 
-      flex-direction: column; 
-      //gap: 0.4rem;
-      //align-items: start;
-
-
-      .taskOverview{
-        display: flex; 
-        flex-direction: horizontal; 
-        gap: 1rem; 
-        font-size: 1.5rem;
-        color: #E3E3E3;
-        justify-content: space-between;
-        font-family: Arial, Helvetica, sans-serif;
-        padding: 5px;
-        border-bottom: 1px solid #3700B3;
-
-        p{
-          color: #000000;
-        }
-
-      }
-
-      .taskDescriptionShort{
-        display: flex; 
-        flex-direction: horizontal;
-        align-items: center;
-        //background-color: #BB86FC; 
-        color: #6200EE;
-        font-size: 1.5rem;
-        padding: 5px;
-        font-family: Arial, Helvetica, sans-serif;
-        
-
-      }
-
-      .taskContent{
-        display: flex;
-        font-size: 1.5rem; 
-        background-color: #3700B3;  
-        color: #ffffff; 
-        padding: 5px 5px;
-        
-      }
-
-      
-    }
-
+  .mytasks:hover{
+    -webkit-box-shadow: 0px -1px 0px 2px rgba(0,0,0,0.71); 
+    box-shadow: 0px -1px 0px 2px rgba(0,0,0,0.3);
   }
-
 }
-
 
 * {
   border: 0;
