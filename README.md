@@ -264,11 +264,22 @@ section 3 starred green
 section 4 Lists green 
 section 5 create new list green  
 
+13/08/2025 
+
+okay so i should really use js and pass alone flags to make the background blue or grey, but I really can't be bothered to do that 
+so well actually no duplicating this sort of sidebar 3 or 4 or 5 time is seriously dumb, i should set up the flags now else it's just 
+really really dumb to let this problem fester bu dupliacting the code. 
+
+
+task button navbar when hover, colour change to the rgba 174,203,250,0.5 
+make sure the background of the svg of the my tasks all taks near it is solid colour change properly
 
 
 
-highlight for picked mode: #004a77
+
+highlight for picked mode:  background: rgba(0,74,119,0.8);
 light blue: #a8c7fa
+background: #004a77; -- background change for highlight picked mode
 
 
 did some of the task container, and the styling. working on the title for it atm. 

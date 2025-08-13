@@ -1,4 +1,8 @@
 <script>
+
+  import { page } from '$app/stores';
+  $: isTasksPage = $page.url.pathname === '/tasks';
+
 	export let open = false
 </script>
 
@@ -17,7 +21,7 @@
       </div>
     </div>
 
-    <div class="alltask"> 
+    <div class="alltask" class:active={isTasksPage}> 
 
       <p>All tasks</p>
 
@@ -127,7 +131,14 @@
       }
 
       .alltask:hover{
+        background: #363737;
+      }
+      .alltask.active:hover{
         background: #004a77;
+      }
+      .alltask.active{
+        background: rgba(0,74,119,0.8);
+
       }
       
       .starred{
@@ -146,7 +157,7 @@
         }
       }
       .starred:hover{
-        background: #004a77;
+        background: #363737;
       }
       .lists{
         padding-left: 1rem;
@@ -164,7 +175,7 @@
         }
       }
       .lists:hover{
-        background: #004a77;
+        background: #363737;
       }
       .newlist{
         padding-left: 1rem;
@@ -182,7 +193,7 @@
         }
       }
       .newlist:hover{
-        background: #004a77;
+        background: #363737;
       }
 
     }
