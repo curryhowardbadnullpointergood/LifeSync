@@ -2,6 +2,7 @@
 
   import { page } from '$app/stores';
   $: isTasksPage = $page.url.pathname === '/tasks';
+  $: isSatrredPage = $page.url.pathname === '/starred';
 
 	export let open = false
 </script>
@@ -23,12 +24,12 @@
 
     <div class="alltask" class:active={isTasksPage}> 
 
-      <p>All tasks</p>
+      <a href="/tasks">All tasks</a>
 
     </div> 
 
-    <div class="starred"> 
-      <p>Starred</p>
+    <div class="starred" class:active={isSatrredPage}> 
+      <a href="/starred"> Starred</a>
 
     </div> 
 
@@ -122,7 +123,8 @@
         background: #1b1b1b;
         border-radius: 1.5rem;
 
-        p{
+        a{
+          text-decoration: none;
           color: #e3e3e3;
           font-family: "Lucida Console", "Courier New", monospace;
           font-weight: 400;
@@ -149,7 +151,8 @@
         min-height: 2rem;
         border-radius: 1.5rem;
         background: #1b1b1b;
-        p{
+        a{
+          text-decoration: none;
           color: #e3e3e3;
           font-family: "Lucida Console", "Courier New", monospace;
           font-weight: 400;
@@ -159,6 +162,15 @@
       .starred:hover{
         background: #363737;
       }
+
+      .starred.active:hover{
+        background: #004a77;
+      }
+      .starred.active{
+        background: rgba(0,74,119,0.8);
+
+      }
+
       .lists{
         padding-left: 1rem;
         display: flex;
