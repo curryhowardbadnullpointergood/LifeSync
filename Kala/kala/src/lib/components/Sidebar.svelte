@@ -34,11 +34,17 @@
     </div> 
 
     <div class="lists"> 
+
+
       <p>Lists</p>
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-360 280-560h400L480-360Z"/></svg>
 
     </div> 
 
     <div class="newlist"> 
+
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+      
       <p>Create new list</p>
 
     </div> 
@@ -90,7 +96,8 @@
 
           min-height: 3.5rem;
           width: 7.25rem;
-          background: #37393b;
+          //background: #37393b;
+          background: rgba(54, 55, 55, 0.8);
 
           border-radius: 1rem;
           overflow: hidden;
@@ -98,10 +105,12 @@
           button{
             display: flex;
             flex-direction: row;
-            background: #37393b;
+            background: transparent;
             padding: 0.5rem;
             
           }
+          
+
   
           p{
             padding-top: 4px;
@@ -111,7 +120,15 @@
             
           }
         }
+
+        .add:hover{
+          background: #37393b;
+
+
+        }
+        
       }
+
 
       .alltask{
         margin-top: 1rem;
@@ -179,15 +196,22 @@
         min-height: 2rem;
         border-radius: 1.5rem;
         background: #1b1b1b;
+
+        gap: 6rem;
         p{
           color: #e3e3e3;
           font-family: "Lucida Console", "Courier New", monospace;
           font-weight: 400;
           font-size: 0.875rem;
         }
-      }
-      .lists:hover{
-        background: #363737;
+        
+        svg{
+          border-radius: 50%;
+          border: solid 0.5rem transparent;
+        }
+        svg:hover{
+          background: #363737;
+        }
       }
       .newlist{
         padding-left: 1rem;
@@ -197,6 +221,8 @@
         min-height: 2rem;
         border-radius: 1.5rem;
         background: #1b1b1b;
+
+        gap: 0.5rem; 
         p{
           color: #e3e3e3;
           font-family: "Lucida Console", "Courier New", monospace;
