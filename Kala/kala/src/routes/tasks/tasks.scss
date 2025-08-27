@@ -30,6 +30,9 @@
       min-height: 3rem;
       overflow: hidden;
       // background: red;
+      justify-content: space-between;
+
+      padding-right: 0.3rem;
 
       .title{
 
@@ -50,6 +53,15 @@
         color: #e3e3e3;
         font-family: "Lucida Console", "Courier New", monospace;
 
+      }
+
+      svg{
+        border: 0.3rem solid transparent;
+        border-radius: 50%;
+      }
+
+      svg:hover{
+        background: #1b1b1b;
       }
         
       

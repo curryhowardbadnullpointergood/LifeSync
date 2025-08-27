@@ -5,6 +5,9 @@
   $: isSatrredPage = $page.url.pathname === '/starred';
 
 	export let open = false
+
+  let showModal = false;
+
 </script>
 
 <aside class="sidebar" class:open>
@@ -29,6 +32,8 @@
     </div> 
 
     <div class="starred" class:active={isSatrredPage}> 
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/></svg>
+      
       <a href="/starred"> Starred</a>
 
     </div> 
@@ -42,15 +47,36 @@
     </div> 
 
     <div class="newlist"> 
-
-      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
       
+      <button on:click={() => showModal = true}> 
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+      
+
+
       <p>Create new list</p>
 
-    </div> 
+      </button>
+
+
 
 	</nav>
 </aside>
+
+{#if showModal}
+  <div class="modal-overlay">
+    <div class="modal">
+      <span class="close" on:click={() => showModal = false}>&times;</span>
+      <p>Create new list</p>
+
+      <div class="bottom">
+        <button> Cancel </button>
+        <button> Done </button>
+      </div>
+    </div>
+  </div>
+{/if}
+
+
 
 <style lang="scss">
 
@@ -141,6 +167,7 @@
         border-radius: 1.5rem;
 
         a{
+          padding-top: 0.5rem;
           text-decoration: none;
           color: #e3e3e3;
           font-family: "Lucida Console", "Courier New", monospace;
@@ -168,7 +195,9 @@
         min-height: 2rem;
         border-radius: 1.5rem;
         background: #1b1b1b;
+        gap: 0.5rem;
         a{
+          padding-top: 0.4rem;
           text-decoration: none;
           color: #e3e3e3;
           font-family: "Lucida Console", "Courier New", monospace;
@@ -222,13 +251,25 @@
         border-radius: 1.5rem;
         background: #1b1b1b;
 
-        gap: 0.5rem; 
-        p{
-          color: #e3e3e3;
-          font-family: "Lucida Console", "Courier New", monospace;
-          font-weight: 400;
-          font-size: 0.875rem;
+        
+
+        button{
+          background: none;
+          display: flex;
+          flex-direction: row;
+          gap: 0.5rem;
+         p{
+           padding-top: 0.3rem;
+           color: #e3e3e3;
+           font-family: "Lucida Console", "Courier New", monospace;
+           font-weight: 400;
+           font-size: 0.875rem;
+         }
         }
+
+
+
+
       }
       .newlist:hover{
         background: #363737;
@@ -244,4 +285,64 @@
     // transform: translateX(0);
   }
 	
+  .modal-overlay {
+    display: flex; 
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* High z-index to ensure it overlays everything */
+
+    .modal {
+      display: flex; 
+      flex-direction: column;
+      background: #1e1e1e;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      color: white;
+      
+      max-height: 12rem;
+      min-height: 11.99rem;
+      min-width: 18rem;
+      max-width: 18.001rem;
+      
+      max-height: 12.001rem;
+
+      .close {
+        top: 0.5rem;
+        right: 1rem;
+        font-size: 2rem;
+        cursor: pointer;
+      }
+
+      p{
+        padding-top: 4px;
+        color: #e3e3e3;
+        font-family: "Lucida Console", "Courier New", monospace;
+        font-weight: 400;
+          
+      }
+
+      .bottom{
+        background: #1e1e1e;
+        
+        
+        button{
+          background: #1e1e1e; 
+          color: #e3e3e3;
+          padding-top: 4px;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+
+        }
+      }
+
+    }
+  }
 </style>
