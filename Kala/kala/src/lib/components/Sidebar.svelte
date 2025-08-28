@@ -65,12 +65,23 @@
 {#if showModal}
   <div class="modal-overlay">
     <div class="modal">
-      <span class="close" on:click={() => showModal = false}>&times;</span>
-      <p>Create new list</p>
 
+      <div class="top">
+
+        <p>Create new list</p>
+
+      </div>
+
+      <div class="middle">
+        <input type="text" class="textbox" placeholder="Enter name" required>
+      </div>
+
+      <div class="holder">
+
+      </div>
       <div class="bottom">
-        <button> Cancel </button>
-        <button> Done </button>
+        <button class="cancel" on:click={() => showModal = false}> Cancel </button>
+        <button class="done"> Done </button>
       </div>
     </div>
   </div>
@@ -167,7 +178,7 @@
         border-radius: 1.5rem;
 
         a{
-          padding-top: 0.5rem;
+          //padding-top: 0.5rem;
           text-decoration: none;
           color: #e3e3e3;
           font-family: "Lucida Console", "Courier New", monospace;
@@ -307,41 +318,106 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       color: white;
       
-      max-height: 12rem;
-      min-height: 11.99rem;
-      min-width: 18rem;
-      max-width: 18.001rem;
-      
-      max-height: 12.001rem;
+      max-height: 9rem;
+      min-height: 8.99rem;
+      min-width: 17rem;
+      max-width: 17.001rem;
 
-      .close {
-        top: 0.5rem;
-        right: 1rem;
-        font-size: 2rem;
-        cursor: pointer;
-      }
+      padding: 1rem;
 
-      p{
-        padding-top: 4px;
-        color: #e3e3e3;
-        font-family: "Lucida Console", "Courier New", monospace;
-        font-weight: 400;
-          
-      }
+      align-items: center;
 
-      .bottom{
-        background: #1e1e1e;
-        
-        
-        button{
-          background: #1e1e1e; 
-          color: #e3e3e3;
+      .top{
+        display: flex;
+        flex-direction: row;
+        align-items: left;
+        //background: red;
+        width: 100%;
+
+        p{
           padding-top: 4px;
+          color: #e3e3e3;
           font-family: "Lucida Console", "Courier New", monospace;
           font-weight: 400;
 
         }
       }
+
+
+      .bottom{
+        background: #1e1e1e;
+        
+        padding: 1rem;
+        
+        .cancel{
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+          font-size: 16px;
+      
+          background: #1e1e1e;
+          border: 1px solid transparent;
+          border-radius: 10px;
+          color: #a8c7fa;
+          cursor: pointer;
+          padding: 5px 10px;
+          
+        }
+      
+        .cancel:hover{
+          background: rgba(174,203,250,0.3);
+        }
+
+        
+        
+        
+        .done{
+          background: #1e1e1e; 
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+          font-size: 16px;
+      
+          //background: red;
+          border: 1px solid transparent;
+          border-radius: 10px;
+          color: #a8c7fa;
+          cursor: pointer;
+          padding: 5px 10px;
+          
+
+        }
+
+        
+      
+      }
+
+      .middle{
+        //background: red;
+        padding: 1rem;
+        width: 100%;
+        .textbox{
+          border: none; 
+          background: none; 
+          width: 100%;
+          border-bottom: 2px solid #a8c7fa;
+          padding-top: 1.5rem;
+          border-radius: 3px;
+          color: #e3e3e3;
+          outline: none;
+        }
+
+        .textbox::placeholder {
+          color: #e3e3e3;
+        }
+      }
+      
+      .holder{
+        //min-height: 1rem;
+        min-width: 20px;
+        //background: red;
+      }
+
 
     }
   }

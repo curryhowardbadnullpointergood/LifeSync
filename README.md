@@ -274,6 +274,10 @@ really really dumb to let this problem fester bu dupliacting the code.
 task button navbar when hover, colour change to the rgba 174,203,250,0.5 
 make sure the background of the svg of the my tasks all taks near it is solid colour change properly
 
+28/08/2025 
+Make the modal stylish for create new list pop up  -- green 
+modal done button grey out, 
+modal done blue when name entered 
 
 
 
