@@ -288,7 +288,9 @@ css polished for the dropdown
 highlight for picked mode:  background: rgba(0,74,119,0.8);
 light blue: #a8c7fa
 background: #004a77; -- background change for highlight picked mode
-
+MENU DROPDOWN 
+grey: #36373a 
+text color: #c2c5c3
 
 did some of the task container, and the styling. working on the title for it atm. 
 

@@ -50,7 +50,15 @@ let isDropdownOpen = false;
 
       {#if isDropdownOpen}
         <div class="dropdown">
-          MENU
+          <div class="sortBy"> 
+            <div class="heading"> </div>
+            <div class="order"> </div>
+            <div > </div>
+            <div> </div>
+            <div> </div>
+          </div>
+          <div class="listOp"> </div>
+          <div class="archiveTasks"> </div>
         </div>
       {/if}
 
