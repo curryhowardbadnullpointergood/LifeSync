@@ -279,7 +279,11 @@ Make the modal stylish for create new list pop up  -- green
 modal done button grey out, 
 modal done blue when name entered 
 
+30/08/2025 
 
+going to do the dropdown for the tasks html  -- green 
+basic css for the dropdown -- green 
+css polished for the dropdown 
 
 highlight for picked mode:  background: rgba(0,74,119,0.8);
 light blue: #a8c7fa

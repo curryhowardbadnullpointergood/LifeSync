@@ -33,6 +33,8 @@
       justify-content: space-between;
 
       padding-right: 0.3rem;
+      overflow: visible;
+      z-index: 1;
 
       .title{
 
@@ -54,15 +56,46 @@
         font-family: "Lucida Console", "Courier New", monospace;
 
       }
+      
 
-      svg{
-        border: 0.3rem solid transparent;
-        border-radius: 50%;
+      .dropdown-wrapper{ 
+        position: relative; /* This is the key */
+        display: inline-block;
+      
+       .dropDownBtn{ 
+         background: none;
+
+         svg{
+           border: 0.3rem solid transparent;
+           border-radius: 50%;
+         }
+  
+         svg:hover{
+           background: #1b1b1b;
+         }
+
+         
+  
+       }
+
+       .dropdown {
+         position: absolute;
+         top: 100%;     /* Below the button */
+         right: 0;      /* Right-aligned with button */
+         z-index: 999;  /* Float above everything */
+         background: red;
+         border: 1px solid #ccc;
+         padding: 8px;
+         border-radius: 4px;
+         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+         min-width: 180px; /* optional */
+         min-height: 60px;
+        }
+
       }
 
-      svg:hover{
-        background: #1b1b1b;
-      }
+
+
         
       
 
