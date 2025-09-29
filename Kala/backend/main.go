@@ -14,19 +14,12 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-//go:embed views/*
-var views embed.FS
-
-// template to more like index html
-var indexh *template.Template
-
-var t = template.Must(template.ParseFS(views, "views/*"))
-
-// struct to represent the tasks
+//// struct to represent the tasks
 type Tasks struct {
-	ID     int    `json:"id"`
-	Task   string `json:"task"`
-	Points int    `json:"points"`
+	ID       int    `json:"id"`
+	Task     string `json:"task"`
+	Points   int    `json:"points"`
+	Priority int    `json:"priority"`
 }
 
 // struct to represent the contacts
@@ -105,41 +98,8 @@ func main() {
 	router.HandleFunc("POST /deletetask", deleteTask)
 
 	// this handles getting the task, really should break this down and make it cleaner
-	router.HandleFunc("GET /gettask", func(w http.ResponseWriter, r *http.Request) {
-
-		log.Println("Trying to get tasks from database: ")
-		query := "SELECT * FROM todos"
-		rows, err := DB.Query(query)
-
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer rows.Close()
-
-		var tasks []Tasks
-		var responseHTML string
-
-		for rows.Next() {
-			var todo Tasks
-			rowErr := rows.Scan(&todo.ID, &todo.Task, &todo.Points)
-			if rowErr != nil {
-				log.Fatal(err)
-			}
-			tasks = append(tasks, todo)
-			responseHTML += fmt.Sprintf("<p>%d: %s: %d</p>", todo.ID, todo.Task, todo.Points)
-		}
-		if err = rows.Err(); err != nil {
-			log.Fatal(err)
-		}
-		log.Println(tasks)
-
-		for _, t := range tasks {
-			fmt.Println(t.ID, t.Task, t.Points)
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(tasks)
-	})
+    router.HandleFunc("GET /gettask", getTask)
+	
 
 	server := http.Server{
 		Addr:    ":3000",
@@ -149,6 +109,39 @@ func main() {
 	fmt.Println("Listening on Port 3000: ")
 	server.ListenAndServe()
 }
+
+
+func getTask(w http.ResponseWriter, r *http,Request) {
+		
+    log.Println("Trying to get tasks from database: ")
+	query := "SELECT * FROM todos"
+	rows, err := DB.Query(query)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+	var tasks []Tasks
+	var responseHTML string
+
+	for rows.Next() {
+		var todo Tasks
+		rowErr := rows.Scan(&todo.ID, &todo.Task, &todo.Points)
+		if rowErr != nil {
+			log.Fatal(err)
+		}
+		tasks = append(tasks, todo)
+		responseHTML += fmt.Sprintf("<p>%d: %s: %d</p>", todo.ID, todo.Task, todo.Points)
+	}
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+	log.Println(tasks)
+	for _, t := range tasks {
+		fmt.Println(t.ID, t.Task, t.Points)
+	}
+
+}
+
 
 func getContact(w http.ResponseWriter, r *http.Request) {
 
@@ -307,16 +300,16 @@ func deleteTask(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Error creating table: %q: %s\n", err, sqlStmt) // Log an error if table creation fails
 	}
 
-	_, err = DB.Exec("INSERT INTO done VALUES(NULL,?,?)", taskD, pointsD)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError) // Return an HTTP 500 error if insertion fails
-		return
-	}
-
-	// now add the deleted task to  this table, so to do this I need to query for the task and point value using the id before deleteing it and storing that information in 2 variables then adding that to this table.
-
-	w.Header().Set("HX-Refresh", "true")
-	w.WriteHeader(http.StatusOK)
-
-}
+//	_, err = DB.Exec("INSERT INTO done VALUES(NULL,?,?)", taskD, pointsD)
+//
+//	if err != nil {
+//		http.Error(w, err.Error(), http.StatusInternalServerError) // Return an HTTP 500 error if insertion fails
+//		return
+////	}
+//
+//	// now add the deleted task to  this table, so to do this I need to query for the task and point value using the id before deleteing it and storing that information in 2 variables then adding that to this table.
+//
+//	w.Header().Set("HX-Refresh", "true")
+////	w.WriteHeader(http.StatusOK)
+//
+//}

@@ -1,7 +1,6 @@
 # LifeSync
 A calendar that optimises your time. 
 
-Will be written in golang, using fyne. 
 
 Goals:
 
@@ -294,4 +293,17 @@ text color: #c2c5c3
 
 did some of the task container, and the styling. working on the title for it atm. 
 
+29/09/2025
 
+Going to work on the backend now that the front end seems pretty enought. 
+
+
+1. add task function 
+2. task description 
+3. task time 
+4. task priority 
+5. task colour code 
+6. completed task button / table 
+7. task starred function 
+8. create new task list function 
+9. 
