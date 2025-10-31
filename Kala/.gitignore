@@ -1,4 +1,7 @@
 ./backend/app.db
-./kala/node_modules/* 
-./kala/images/*
+./kala_old/node_modules/* 
+./kala_old/images/*
+
+./kala/build/*
+./kala/frontend/node_modules/*
 
