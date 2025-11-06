@@ -1,15 +1,13 @@
 <script>
-  import logo from './assets/images/logo-universal.png'
-  import {Greet} from '../wailsjs/go/main/App.js'
+  import Router from 'svelte-spa-router'
+  import Home from './pages/home/Home.svelte'
+  import Tasks from './pages/tasks/Tasks.svelte'
 
-  let resultText = "Please enter your name below 👇"
-  let name
-
-  function greet() {
-    Greet(name).then(result => resultText = result)
+  const routes = {
+    '/': Home,
+    '/tasks': Tasks
   }
 </script>
 
-<div> 
- This is supposed to be the calendar page yet to be made so go here for tasks.
-</div>
+<Router {routes} />
+
