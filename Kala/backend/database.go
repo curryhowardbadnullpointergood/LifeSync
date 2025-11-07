@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"log"
-	"os"
+	
 
 	_ "modernc.org/sqlite"
 )
@@ -36,23 +36,23 @@ func dropTable(db *sql.DB) {
 }
 
 
-func main() {
-	log.Println("Creating kala.db...")
-	file, err := os.Create("./kala.db")
-	if err != nil {
-		log.Fatal("Failed to create DB file:", err)
-	}
-	file.Close()
-	log.Println("kala.db created")
-
-	db, err := sql.Open("sqlite", "./kala.db")
-	if err != nil {
-		log.Fatal("Failed to open DB:", err)
-	}
-	defer db.Close()
-
-	createTable(db)
-
-	log.Println("Database initialized successfully!")
-}
-
+//func main() {
+//	log.Println("Creating kala.db...")
+//	file, err := os.Create("./kala.db")
+//	if err != nil {
+//		log.Fatal("Failed to create DB file:", err)
+//	}
+//	file.Close()
+//	log.Println("kala.db created")
+//
+//	db, err := sql.Open("sqlite", "./kala.db")
+//	if err != nil {
+//		log.Fatal("Failed to open DB:", err)
+//	}
+//	defer db.Close()
+//
+//	createTable(db)
+//
+//	log.Println("Database initialized successfully!")
+//}
+//
