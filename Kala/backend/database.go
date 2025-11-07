@@ -11,11 +11,18 @@ import (
 
 
 // creates all of the tables for the calendar application 
-func createTable(db *sql.DB) {
+// repeat is a text field and do day, week, year or null  
+// this is if the event repeats or not
+func CreateTable(db *sql.DB) {
 	create := `
 	CREATE TABLE IF NOT EXISTS tasks (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		name TEXT NOT NULL
+		title TEXT NOT NULL,
+		details TEXT NOT NULL,
+		date TEXT NOT NULL,
+		repeat TEXT
+
+
 	);`
 
 	_, err := db.Exec(create)
@@ -36,23 +43,3 @@ func dropTable(db *sql.DB) {
 }
 
 
-//func main() {
-//	log.Println("Creating kala.db...")
-//	file, err := os.Create("./kala.db")
-//	if err != nil {
-//		log.Fatal("Failed to create DB file:", err)
-//	}
-//	file.Close()
-//	log.Println("kala.db created")
-//
-//	db, err := sql.Open("sqlite", "./kala.db")
-//	if err != nil {
-//		log.Fatal("Failed to open DB:", err)
-//	}
-//	defer db.Close()
-//
-//	createTable(db)
-//
-//	log.Println("Database initialized successfully!")
-//}
-//

@@ -31,7 +31,7 @@ func TestCreateTable(t *testing.T) {
 	db := setupTestDB(t)
 	defer teardownTestDB(db)
 
-	createTable(db)
+	CreateTable(db)
 
 	row := db.QueryRow(`
 		SELECT name FROM sqlite_master WHERE type='table' AND name='tasks';
@@ -53,7 +53,7 @@ func TestDropTable(t *testing.T) {
 	db := setupTestDB(t)
 	defer teardownTestDB(db)
 
-	createTable(db)
+	CreateTable(db)
 	dropTable(db)
 
 	row := db.QueryRow(`
