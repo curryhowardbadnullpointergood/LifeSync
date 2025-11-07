@@ -67,3 +67,34 @@ func TestDropTable(t *testing.T) {
 		t.Fatalf("expected tasks table to be dropped but it still exists")
 	}
 }
+
+func TestAddTask(t *testing.T) {
+	testDBFile := "./test.db"
+	_ = os.Remove(testDBFile) 
+
+	db, err := sql.Open("sqlite", testDBFile)
+	if err != nil {
+		t.Fatal("Failed to open test DB:", err)
+	}
+	defer db.Close()
+	defer os.Remove(testDBFile)
+
+	CreateTable(db)
+
+	// Add a test task
+	err = AddTask(db, "Test Task", "Testing insert", "2025-11-07", "none")
+	if err != nil {
+		t.Fatal("Failed to add task:", err)
+	}
+
+	var count int
+	row := db.QueryRow(`SELECT COUNT(*) FROM tasks;`)
+	if err := row.Scan(&count); err != nil {
+		t.Fatal("Failed to query row count:", err)
+	}
+
+	if count != 1 {
+		t.Fatalf("Expected 1 task inserted, got %d", count)
+	}
+}
+

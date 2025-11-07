@@ -43,3 +43,15 @@ func dropTable(db *sql.DB) {
 }
 
 
+// AddTask inserts a new task into the DB
+func AddTask(db *sql.DB, title, details, date, repeat string) error {
+	query := `
+	INSERT INTO tasks (title, details, date, repeat)
+	VALUES (?, ?, ?, ?);`
+
+	_, err := db.Exec(query, title, details, date, repeat)
+	return err
+}
+
+
+

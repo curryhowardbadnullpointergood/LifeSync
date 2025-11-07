@@ -11,6 +11,14 @@ func hello(w http.ResponseWriter, req *http.Request) {
 }
 
 
+// api function that handles the add tasks button in the 
+// tasks page when you click the plus
+func AddTaskButton(w http.ResponseWriter, req *http.Request) {
+
+    fmt.Fprintf(w, "hello\n")
+}
+
+
 
 func headers(w http.ResponseWriter, req *http.Request) {
 
@@ -25,6 +33,7 @@ func main() {
 
     http.HandleFunc("/hello", hello)
     http.HandleFunc("/headers", headers)
+	http.HandleFunc("/addtask", AddTaskButton)
 
     http.ListenAndServe(":8090", nil)
 }
