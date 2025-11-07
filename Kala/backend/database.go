@@ -11,14 +11,14 @@ import (
 
 
 // creates all of the tables for the calendar application 
-// repeat is a text field and do day, week, year or null  
+// repeat is a text field and do day, week, year or none (in text) 
 // this is if the event repeats or not
 func CreateTable(db *sql.DB) {
 	create := `
 	CREATE TABLE IF NOT EXISTS tasks (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		title TEXT NOT NULL,
-		details TEXT NOT NULL,
+	 	details TEXT NOT NULL,
 		date TEXT NOT NULL,
 		repeat TEXT
 
@@ -44,12 +44,21 @@ func dropTable(db *sql.DB) {
 
 
 // AddTask inserts a new task into the DB
-func AddTask(db *sql.DB, title, details, date, repeat string) error {
+func AddTask(title, details, date, repeat string) error {
+
+	db, err := sql.Open("sqlite", "./kala.db")
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	CreateTable(db)
+
 	query := `
 	INSERT INTO tasks (title, details, date, repeat)
 	VALUES (?, ?, ?, ?);`
 
-	_, err := db.Exec(query, title, details, date, repeat)
+	_, err = db.Exec(query, title, details, date, repeat)
 	return err
 }
 
