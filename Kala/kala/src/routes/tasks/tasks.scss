@@ -153,6 +153,32 @@
       min-height: 22rem;
       //min-width: 100%
 
+      .taskDisplayed{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        min-height: 2rem;
+        max-height: 2.01rem;
+
+        button{
+          margin-left: 1rem;
+          background: #131314;
+          color: #e3e3e3;
+        }
+        p{
+         color: #e3e3e3;
+         font-family: "Lucida Console", "Courier New", monospace;
+         margin-left: 1rem;
+         font-weight: 400; 
+         font-size: 1rem;
+        }
+      }
+
+      .taskDisplayed:hover{
+        background: #1e1f20;
+      }
+
     }
 
     .completedtasks{
