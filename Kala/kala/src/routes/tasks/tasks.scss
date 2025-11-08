@@ -156,8 +156,57 @@
       overflow-y: auto;
 
       .tempaddclass{
+        display: flex;
+        flex-direction: column;
+        //align-items: center;
 
-        color: white;
+
+        background: #1e1f20;
+        gap: 1rem;
+
+
+        p{
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          margin-left: 1rem;
+          font-weight: 400; 
+          font-size: 1rem;
+         }
+
+
+        .top{
+          display: flex;
+          flex-direction: row;
+          gap: 1rem;
+          
+            p{
+               color: #e3e3e3;
+               font-family: "Lucida Console", "Courier New", monospace;
+               margin-left: 1rem;
+               font-weight: 400; 
+               font-size: 1rem;
+            }
+
+            button{
+              margin-left: 1rem;
+              background: #1e1f20;
+              color: #e3e3e3;
+            }
+
+            input{
+              background-color: #1e1f20;
+              color: #e3e3e3;
+              border: none;
+              outline: none;
+
+              font-family: "Lucida Console", "Courier New", monospace;
+              //margin-left: 1rem;
+              font-weight: 400; 
+              font-size: 1rem;
+
+            }
+        }
+
       }
       
       
