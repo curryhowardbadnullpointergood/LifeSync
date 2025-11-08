@@ -98,7 +98,14 @@ let titleInput;
 
             </div>
 
-             <p> Temp Add task test! </p>
+            <div class="middle">
+              <input type="text" placeholder="Details">
+            </div>
+
+            <div class="bottom"> 
+                <button>Date</button>
+            </div> 
+
          </div> 
         {/if}
 
