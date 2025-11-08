@@ -151,7 +151,11 @@
     .pendingtasks{
       background: #131314;
       min-height: 22rem;
+      max-height: 48rem;
       //min-width: 100%
+      overflow-y: auto;
+      
+      
 
       .taskDisplayed{
         display: flex;
@@ -160,6 +164,8 @@
 
         min-height: 2rem;
         max-height: 2.01rem;
+
+        padding-top: 0.5rem;
 
         button{
           margin-left: 1rem;
@@ -173,10 +179,19 @@
          font-weight: 400; 
          font-size: 1rem;
         }
-      }
 
-      .taskDisplayed:hover{
-        background: #1e1f20;
+        &:hover {
+            background: #1e1f20;
+            button {
+              background-color: #1e1f20;
+        
+              svg {
+                // fill: #00bcd4; // change SVG color
+              }
+            }
+        
+        }
+
       }
 
     }
