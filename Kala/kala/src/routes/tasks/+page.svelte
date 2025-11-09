@@ -21,8 +21,10 @@ let isDropdownOpen = false;
 // handles the add task temp div 
 let showTempTask = false;
 // handles the title input for the add new tasks temp div 
-let titleInput;
-
+let titleInput = '';
+// handles the details input for the add new tasks temp div 
+let detailsInput = '';
+let tempAddDiv;
   const handleDropdownClick = () => {
     isDropdownOpen = !isDropdownOpen // togle state on click
   }
@@ -31,6 +33,11 @@ let titleInput;
     if (relatedTarget instanceof HTMLElement && currentTarget.contains(relatedTarget)) return  
     isDropdownOpen = false
   }
+
+    async function handleAdd() {
+        showTempTask = true;
+    }
+    
 
 
 </script>
@@ -73,7 +80,7 @@ let titleInput;
 
     </div>
 
-    <div class="addtasks" on:click={() => showTempTask = !showTempTask}> 
+    <div class="addtasks" on:click={handleAdd()}> 
 
       <button aria-label="addtask"> 
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#a8c7fa"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q65 0 123 19t107 53l-58 59q-38-24-81-37.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160q32 0 62-6t58-17l60 61q-41 20-86 31t-94 11Zm280-80v-120H640v-80h120v-120h80v120h120v80H840v120h-80ZM424-296 254-466l56-56 114 114 400-401 56 56-456 457Z"/></svg>
@@ -94,12 +101,12 @@ let titleInput;
               </button>
 
                   
-              <input type="text" placeholder="Title">
+              <input type="text" placeholder="Title" bind:value={titleInput}>
 
             </div>
 
             <div class="middle">
-              <input type="text" placeholder="Details">
+              <input type="text" placeholder="Details" bind:value={detailsInput}>
             </div>
 
             <div class="bottom"> 
