@@ -41,16 +41,24 @@ let ignoreNextClick = false;
         ignoreNextClick = true;
     }
 
-    function saveTask() {
-        console.log('Saved Task:', {
-          title: titleInput,
-          details: detailsInput
-        });
+    async function submitTask() {
+        // Send POST request to backend
+        const res = await fetch('http://localhost:8090/addtask?title=' 
+          + encodeURIComponent(titleInput)
+          + '&details=' + encodeURIComponent(detailsInput)
+          + '&date=2025-11-08&repeat=none', 
+          { method: 'POST' });
     
-        showTempTask = false;
-        titleInput = '';
-        detailsInput = '';
-    }
+        if (res.ok) {
+          console.log('Task added!');
+          showTempTask = false;
+          titleInput = '';
+          detailsInput = '';
+        } else {
+          console.error('Failed to add task:', await res.text());
+        }
+      }
+    
 
     function handleClickOutside(event) {
       if (ignoreNextClick) {
@@ -58,7 +66,7 @@ let ignoreNextClick = false;
         return;
       }
       if (showTempTask && tempAddDiv && !tempAddDiv.contains(event.target)) {
-        saveTask();
+        submitTask();
       }
     }
   onMount(() => {
