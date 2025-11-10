@@ -27,6 +27,10 @@ let detailsInput = '';
 let tempAddDiv;
 let ignoreNextClick = false;
 
+
+// flag for the date modal 
+let showDateModal = false;
+
   const handleDropdownClick = () => {
     isDropdownOpen = !isDropdownOpen // togle state on click
   }
@@ -151,7 +155,7 @@ let ignoreNextClick = false;
             </div>
 
             <div class="bottom"> 
-                <button>Date</button>
+                <button on:click={() => showDateModal = true}>Date</button>
             </div> 
 
          </div> 
@@ -195,6 +199,35 @@ let ignoreNextClick = false;
 
 
 </div>
+
+{#if showDateModal}
+  <div class="modal-overlay">
+    <div class="modal">
+
+      <div class="top">
+
+        <p>Create new list</p>
+
+      </div>
+
+      <div class="middle">
+        <input type="text" class="textbox" placeholder="Enter name" required>
+      </div>
+
+      <div class="holder">
+
+      </div>
+      <div class="bottom">
+        <button class="cancel" on:click={() => showDateModal = false}> Cancel </button>
+        <!-- This probably needs to be more nuanced in the future this on clikc for done should save values and set to false-->
+        <button class="done" on:click={() => showDateModal = false}> Done </button>
+      </div>
+    </div>
+  </div>
+{/if}
+
+
+
 
   <!-- <div class="taskList">
 

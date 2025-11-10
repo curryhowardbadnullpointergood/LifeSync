@@ -336,3 +336,129 @@
   padding: 0;
 }
 
+  .modal-overlay {
+    display: flex; 
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* High z-index to ensure it overlays everything */
+
+    .modal {
+      display: flex; 
+      flex-direction: column;
+      background: #1e1e1e;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      color: white;
+      
+      max-height: 9rem;
+      min-height: 8.99rem;
+      min-width: 17rem;
+      max-width: 17.001rem;
+
+      padding: 1rem;
+
+      align-items: center;
+
+      .top{
+        display: flex;
+        flex-direction: row;
+        align-items: left;
+        //background: red;
+        width: 100%;
+
+        p{
+          padding-top: 4px;
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+
+        }
+      }
+
+
+      .bottom{
+        background: #1e1e1e;
+        
+        padding: 1rem;
+        
+        .cancel{
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+          font-size: 16px;
+      
+          background: #1e1e1e;
+          border: 1px solid transparent;
+          border-radius: 10px;
+          color: #a8c7fa;
+          cursor: pointer;
+          padding: 5px 10px;
+          
+        }
+      
+        .cancel:hover{
+          background: rgba(174,203,250,0.3);
+        }
+
+        
+        
+        
+        .done{
+          background: #1e1e1e; 
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+          font-size: 16px;
+      
+          //background: red;
+          border: 1px solid transparent;
+          border-radius: 10px;
+          color: #a8c7fa;
+          cursor: pointer;
+          padding: 5px 10px;
+          
+
+        }
+
+        
+      
+      }
+
+      .middle{
+        //background: red;
+        padding: 1rem;
+        width: 100%;
+        .textbox{
+          border: none; 
+          background: none; 
+          width: 100%;
+          border-bottom: 2px solid #a8c7fa;
+          padding-top: 1.5rem;
+          border-radius: 3px;
+          color: #e3e3e3;
+          outline: none;
+        }
+
+        .textbox::placeholder {
+          color: #e3e3e3;
+        }
+      }
+      
+      .holder{
+        //min-height: 1rem;
+        min-width: 20px;
+        //background: red;
+      }
+
+
+    }
+  }
+
