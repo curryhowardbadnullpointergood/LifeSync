@@ -6,7 +6,6 @@ import Sidebar from '../../lib/components/Sidebar.svelte';
 import { onMount, onDestroy, tick } from 'svelte';
 
 
-
 let isSidebarOpen = false
 
 // this is for the tasks make this dynamic in the future 
@@ -200,133 +199,40 @@ let showDateModal = false;
 
 </div>
 
+
+
 {#if showDateModal}
-  <div class="modal-overlay">
     <div class="modal">
+        <div class="modalcontent">
+            <p>Date</p>
+            <input type="date" class="textbox" placeholder="Date" required>
+            <p>Set Time:</p>
+            <input type="time" class="time-input">
+            <div class="range">
+                <button> 
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
 
-      <div class="top">
-
-        <p>Create new list</p>
-
-      </div>
-
-      <div class="middle">
-        <input type="text" class="textbox" placeholder="Enter name" required>
-      </div>
-
-      <div class="holder">
-
-      </div>
-      <div class="bottom">
-        <button class="cancel" on:click={() => showDateModal = false}> Cancel </button>
-        <!-- This probably needs to be more nuanced in the future this on clikc for done should save values and set to false-->
-        <button class="done" on:click={() => showDateModal = false}> Done </button>
-      </div>
-    </div>
-  </div>
-{/if}
-
-
-
-
-  <!-- <div class="taskList">
-
-    <div class="individualTask">
-
-      
-      <div class="taskOverview" on:click={() => open1 = !open1}>
-        <h4> Task 1: </h4>
-        <p> Points: X </p>
-        <i> EST Time: 10 hours </i> 
-        <b> Pirority: High</b>
-      </div>
-
-
-      <div class="taskDescriptionShort">
-        <b> Task overview, high level overview, for more details have to click! </b>
-      </div> 
-    
-      {#if open1}
-        <div class="taskContent">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
-      {/if}
-
-    </div>
-
-    <div class="individualTask">
-    
-          
-          <div class="taskOverview" on:click={() => open2 = !open2}>
-            <h4> Task 2: </h4>
-            <p> Points: X </p>
-            <i> EST Time: 10 hours </i> 
-            <b> Pirority: High</b>
-          </div>
-    
-    
-          <div class="taskDescriptionShort">
-            <b> Task overview, high level overview, for more details have to click! </b>
-          </div>
-
-       {#if open2}
-        <div class="taskContent">
-          <p>This is the detailed content of Description 2.</p>
-        </div>
-      {/if}
-    
-      </div>
-
-
-     <div class="individualTask">
-    
-          
-          <div class="taskOverview" on:click={() => open3 = !open3}>
-            <h4> Task 3: </h4>
-            <p> Points: X </p>
-            <i> EST Time: 10 hours </i> 
-            <b> Pirority: High</b>
-          </div>
-    
-    
-          <div class="taskDescriptionShort">
-            <b> Task overview, high level overview, for more details have to click! </b>
-      </div> 
-
-          {#if open3}
-              <div class="taskContent">
-                <p>This is the detailed content of Description 2.</p>
-              </div>
-          {/if} 
-      </div>
-
-
-     <div class="individualTask">
-    
-          
-          <div class="taskOverview" on:click={() => open4 = !open4}>
-            <h4> Task 4: </h4>
-            <p> Points: X </p>
-            <i> EST Time: 10 hours </i> 
-            <b> Pirority: High</b>
-          </div>
-    
-    
-          <div class="taskDescriptionShort">
-            <b> Task overview, high level overview, for more details have to click! </b>
-          </div> 
-          
-           {#if open4}
-            <div class="taskContent">
-              <p>This is the detailed content of Description 2.</p>
+                </button>
+                <p>Range</p>
             </div>
-          {/if}
-        
+            
+            <div class="repeat">
+                <button> 
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
+
+                </button>
+                <p>Repeat</p>
+            </div>
+
+            <div class="bottom"> 
+                <button class="cancel" on:click={() => showDateModal = false}> Cancel </button>
+                <!-- This probably needs to be more nuanced in the future this on clikc for done should save values and set to false-->
+                <button class="done" on:click={() => showDateModal = false}> Done </button>
+            </div>
+                  
+                  
         </div>
-     
-        
-      </div>
-    
-  -->
+    </div>
+{/if}
 
 

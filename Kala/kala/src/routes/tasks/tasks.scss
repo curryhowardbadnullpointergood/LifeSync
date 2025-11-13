@@ -336,6 +336,137 @@
   padding: 0;
 }
 
+
+.modal{
+  display: flex; 
+  position: fixed;
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0,0,0, 0.5); 
+  justify-content: center;
+  align-items: center;
+
+  .modalcontent{
+    display: flex; 
+    flex-direction: column;
+    
+    max-width: 17.1rem;
+    min-width: 17rem;
+
+    max-height: 20.1rem;
+    min-height: 20rem;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background-color: #1e1e1e;
+    margin: 15% auto; 
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%; 
+
+    color: #e3e3e3;
+    gap: 1rem;
+
+    p{
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+          font-size: 16px;
+    }
+
+    input{
+          border: none; 
+          background: none; 
+          width: 100%;
+          border-bottom: 2px solid #a8c7fa;
+          border-radius: 3px;
+          color: #e3e3e3;
+          outline: none;
+
+    }
+
+    .range{
+      display: flex; 
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+      button{
+          display: flex;
+          justify-content: flex-start;
+          //margin-left: 1rem;
+          background: #1e1f20;
+          color: #e3e3e3;
+          cursor: pointer;
+          border: none;
+        }
+ 
+      p{
+          padding-top: 5px;
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+          font-size: 16px;
+      }
+    }
+
+    .repeat{
+      display: flex; 
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+      button{
+          display: flex;
+          justify-content: flex-start;
+          //margin-left: 1rem;
+          background: #1e1f20;
+          color: #e3e3e3;
+          cursor: pointer;
+          border: none;
+        }
+ 
+      p{
+          padding-top: 5px;
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+          font-size: 16px;
+      }
+    }
+
+    .bottom{
+      background: #1e1e1e;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+      
+      margin-left: 3rem;
+      padding-top: 4rem;
+      
+      button{
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+          font-size: 16px;
+      
+          background: #1e1e1e;
+          border: 1px solid transparent;
+          border-radius: 10px;
+          color: #a8c7fa;
+          cursor: pointer;
+          padding: 5px 10px;
+          
+        
+      }
+    }
+  }
+}
+
+
+
   .modal-overlay {
     display: flex; 
     flex-direction: column;
@@ -358,8 +489,8 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       color: white;
       
-      max-height: 9rem;
-      min-height: 8.99rem;
+      max-height: 29rem;
+      min-height: 28.99rem;
       min-width: 17rem;
       max-width: 17.001rem;
 
@@ -385,6 +516,7 @@
 
 
       .bottom{
+        
         background: #1e1e1e;
         
         padding: 1rem;
@@ -451,11 +583,105 @@
           color: #e3e3e3;
         }
       }
+
+      .settime{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        
+        gap: 0.5rem;
+        padding: 0.5rem;
+        p{
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+          font-size: 16px;
+        }
+
+        input{
+            border: none; 
+            background: none; 
+            width: 100%;
+            border-bottom: 2px solid #a8c7fa;
+            //padding-bottom: 1.5rem;
+            border-radius: 3px;
+            color: #e3e3e3;
+            outline: none;
+
+        }
+
+
+      }
       
-      .holder{
-        //min-height: 1rem;
-        min-width: 20px;
-        //background: red;
+      
+      .range{
+        display: flex; 
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+
+        padding: 0.5rem;
+            
+        button{
+              display: flex;
+              justify-content: flex-start;
+              //margin-left: 1rem;
+              background: #1e1f20;
+              color: #e3e3e3;
+              cursor: pointer;
+              border: none;
+        }
+
+        p{
+          display: flex; 
+          justify-content: center;
+          padding-top: 4px;
+          margin-left: 0.5rem;
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+          font-size: 16px;
+
+        }
+
+
+
+      }
+
+
+
+      .repeat{
+        display: flex; 
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+            
+        padding: 0.5rem;
+
+        button{
+              display: flex;
+              justify-content: flex-start;
+              //margin-left: 1rem;
+              background: #1e1f20;
+              color: #e3e3e3;
+              cursor: pointer;
+              border: none;
+        }
+
+        p{
+          display: flex; 
+          justify-content: center;
+          padding-top: 4px;
+          margin-left: 0.5rem;
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+          font-size: 16px;
+
+        }
+
+
+
       }
 
 

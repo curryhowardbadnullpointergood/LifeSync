@@ -16,6 +16,10 @@ func hello(w http.ResponseWriter, req *http.Request) {
 // tasks page when you click the plus
 func AddTaskButton(w http.ResponseWriter, req *http.Request) {
 
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
 	if req.Method != http.MethodPost {
 		http.Error(w, "Only POST allowed", http.StatusMethodNotAllowed)
 		return
@@ -25,6 +29,9 @@ func AddTaskButton(w http.ResponseWriter, req *http.Request) {
 	details := req.URL.Query().Get("details")
 	date := req.URL.Query().Get("date")
 	repeat := req.URL.Query().Get("repeat")
+	
+	fmt.Println("Adding this task!" )
+	fmt.Println(title, details, date, repeat)
 
 	if title == "" || details == "" || date == "" {
 		http.Error(w, "Missing required fields", http.StatusBadRequest)
