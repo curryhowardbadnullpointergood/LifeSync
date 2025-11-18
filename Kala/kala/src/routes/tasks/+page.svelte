@@ -23,6 +23,9 @@ let showTempTask = false;
 let titleInput = '';
 // handles the details input for the add new tasks temp div 
 let detailsInput = '';
+let taskDate = '';
+let taskTime = '';
+
 let tempAddDiv;
 let ignoreNextClick = false;
 
@@ -45,30 +48,42 @@ let showDateModal = false;
     }
 
     async function submitTask() {
-        // Send POST request to backend
-        const res = await fetch('http://localhost:8090/addtask?title=' 
-          + encodeURIComponent(titleInput)
-          + '&details=' + encodeURIComponent(detailsInput)
-          + '&date=2025-11-08&repeat=none', 
-          { method: 'POST' });
-    
-        if (res.ok) {
-          console.log('Task added!');
-          showTempTask = false;
-          titleInput = '';
-          detailsInput = '';
-        } else {
-          console.error('Failed to add task:', await res.text());
+          const url =
+            'http://localhost:8090/addtask?title='
+            + encodeURIComponent(titleInput)
+            + '&details=' + encodeURIComponent(detailsInput)
+            + '&date=' + encodeURIComponent(taskDate)
+            + '&time=' + encodeURIComponent(taskTime)
+            + '&repeat=none';
+        
+          console.log("REQUEST URL:", url);
+        
+          const res = await fetch(url, { method: 'POST' });
+        
+          console.log("Title:", titleInput);
+          console.log("Details:", detailsInput);
+          console.log("Date:", taskDate);
+          console.log("Time:", taskTime);
+          
+          if (res.ok) {
+            console.log('Task added!');
+            showTempTask = false;
+            titleInput = '';
+            detailsInput = '';
+            taskDate = '';
+            taskTime = '';
+          } else {
+            console.error('Failed to add task:', await res.text());
+          }
         }
-      }
-    
+        
 
     function handleClickOutside(event) {
       if (ignoreNextClick) {
         ignoreNextClick = false;
         return;
       }
-      if (showTempTask && tempAddDiv && !tempAddDiv.contains(event.target)) {
+      if (!showDateModal && showTempTask && tempAddDiv && !tempAddDiv.contains(event.target)) {
         submitTask();
       }
     }
@@ -205,9 +220,9 @@ let showDateModal = false;
     <div class="modal">
         <div class="modalcontent">
             <p>Date</p>
-            <input type="date" class="textbox" placeholder="Date" required>
+            <input type="date" class="textbox" placeholder="Date" required bind:value={taskDate}>
             <p>Set Time:</p>
-            <input type="time" class="time-input">
+            <input type="time" class="time-input" bind:value={taskTime}>
             <div class="range">
                 <button> 
 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
