@@ -34,4 +34,6 @@
 
 This project is actively being built as a long-term productivity tool and personal time optimizer. 
 
-
+grey:           #1e1f20
+light grey:     #36373a
+color text:     #e3e3e3

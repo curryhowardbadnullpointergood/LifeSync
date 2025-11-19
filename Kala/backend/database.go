@@ -20,7 +20,8 @@ func CreateTable(db *sql.DB) {
 		title TEXT NOT NULL,
 	 	details TEXT NOT NULL,
 		date TEXT NOT NULL,
-		repeat TEXT
+		repeat TEXT,
+		time TEXT
 
 
 	);`
@@ -44,7 +45,7 @@ func dropTable(db *sql.DB) {
 
 
 // AddTask inserts a new task into the DB
-func AddTask(title, details, date, repeat string) error {
+func AddTask(title, details, date, repeat, time string) error {
 
 	db, err := sql.Open("sqlite", "./kala.db")
 	if err != nil {
@@ -55,10 +56,10 @@ func AddTask(title, details, date, repeat string) error {
 	CreateTable(db)
 
 	query := `
-	INSERT INTO tasks (title, details, date, repeat)
-	VALUES (?, ?, ?, ?);`
+	INSERT INTO tasks (title, details, date, repeat, time)
+	VALUES (?, ?, ?, ?, ?);`
 
-	_, err = db.Exec(query, title, details, date, repeat)
+	_, err = db.Exec(query, title, details, date, repeat, time)
 	return err
 }
 

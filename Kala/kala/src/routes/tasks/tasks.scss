@@ -370,6 +370,8 @@
     color: #e3e3e3;
     gap: 1rem;
 
+    overflow-y: auto;
+
     p{
           color: #e3e3e3;
           font-family: "Lucida Console", "Courier New", monospace;
@@ -422,9 +424,17 @@
           justify-content: flex-start;
           //margin-left: 1rem;
           background: #1e1f20;
+          //background: red;
           color: #e3e3e3;
           cursor: pointer;
           border: none;
+
+          &.active {
+              svg{
+                fill: #a8c7fa;
+              }
+
+          }
         }
  
       p{
@@ -434,6 +444,71 @@
           font-weight: 400;
           font-size: 16px;
       }
+    }
+
+    .repeatDropdown{
+      display: flex; 
+      flex-direction: column; 
+      gap: 1rem;
+
+      .top{
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+
+         input{
+               border: none; 
+               background: none; 
+               width: 100%;
+               border-bottom: 2px solid #a8c7fa;
+               border-radius: 3px;
+               color: #e3e3e3;
+               outline: none;
+
+         }
+
+         select{
+              background: #36373a;
+              padding: 0.5rem;
+              color: #e3e3e3;
+
+         }
+      }
+
+      .ends{
+        display: flex; 
+        flex-direction: column; 
+        gap: 1rem;
+        button{
+          display: flex;
+          justify-content: flex-start;
+          //margin-left: 1rem;
+          background: #1e1f20;
+          color: #e3e3e3;
+          cursor: pointer;
+          border: none;
+        }
+
+        p{
+          padding-top: 5px;
+          color: #e3e3e3;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 400;
+          font-size: 16px;
+         }
+
+
+        .never{
+          display: flex; 
+          flex-direction: row;
+          align-items: center;
+          gap: 1rem;
+        }
+ 
+
+      }
+
+
     }
 
     .bottom{

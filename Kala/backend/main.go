@@ -29,16 +29,17 @@ func AddTaskButton(w http.ResponseWriter, req *http.Request) {
 	details := req.URL.Query().Get("details")
 	date := req.URL.Query().Get("date")
 	repeat := req.URL.Query().Get("repeat")
+	time := req.URL.Query().Get("time")
 	
 	fmt.Println("Adding this task!" )
-	fmt.Println(title, details, date, repeat)
+	fmt.Println(title, details, date, repeat, time)
 
 	if title == "" || details == "" || date == "" {
 		http.Error(w, "Missing required fields", http.StatusBadRequest)
 		return
 	}
 
-	err := AddTask(title, details, date, repeat)
+	err := AddTask(title, details, date, repeat, time)
 	if err != nil {
 		fmt.Println("AddTask error:", err)
 		http.Error(w, "Insert Error", http.StatusInternalServerError)
