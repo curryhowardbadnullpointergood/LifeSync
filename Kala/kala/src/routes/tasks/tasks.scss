@@ -504,6 +504,27 @@
           align-items: center;
           gap: 1rem;
         }
+
+        .on{
+          display: flex; 
+          flex-direction: row;
+          align-items: center;
+          gap: 1rem;
+        }
+ 
+        .after{
+          display: flex; 
+          flex-direction: row;
+          align-items: center;
+          gap: 1rem;
+
+          .occurrences{
+            display: flex; 
+            flex-direction: row;
+            gap: 0.5rem;
+          }
+        }
+ 
  
 
       }
