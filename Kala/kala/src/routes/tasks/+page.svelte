@@ -28,6 +28,7 @@ let taskTime = '';
 let showRepeatDropdown = false;
 let repeatNumVal;
 let showRangeDropdown = false;
+let taskEndDate = '';
 
 let tempAddDiv;
 let ignoreNextClick = false;
@@ -87,6 +88,8 @@ let showDateModal = false;
         return;
       }
       if (!showDateModal && showTempTask && tempAddDiv && !tempAddDiv.contains(event.target)) {
+
+        showTempTask = false;
         submitTask();
       }
     }
@@ -241,7 +244,7 @@ let showDateModal = false;
                     <div class="rangeDropdown">
                         <div class="setrange">
                             <p>End Date</p>
-                            <input type="date" class="textbox">
+                            <input type="date" class="textbox" bind:value={taskEndDate}>
                         </div>
                     </div>
                 {/if}
