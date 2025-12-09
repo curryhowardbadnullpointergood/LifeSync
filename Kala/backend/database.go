@@ -11,8 +11,16 @@ import (
 
 
 // creates all of the tables for the calendar application 
-// repeat is a text field and do day, week, year or none (in text) 
+// TASKS: ---------------------------------------------------------------
+// in tasks repeat is a text field and do day, week, year or none (in text) 
 // this is if the event repeats or not
+// tasks, time is the time on the date ie, lunch at 2pm etc 
+// end date -- field that is for the end of the task (if range) 
+// num_repeat -- num value of time gap between repeats 
+// repeat_timeframe -- timeframe between repeats is 1 day, 1 month, etc
+// should timeframe have an infinity option? probably not that will break things ugh 
+// maybe not, this is a pain, no 1 year max I think.  review what you spend your time 
+// on every new year 
 func CreateTable(db *sql.DB) {
 	create := `
 	CREATE TABLE IF NOT EXISTS tasks (
@@ -21,8 +29,11 @@ func CreateTable(db *sql.DB) {
 	 	details TEXT NOT NULL,
 		date TEXT NOT NULL,
 		repeat TEXT,
-		time TEXT
-
+		time TEXT,
+		enddate TEXT, 
+		numrepeat INTEGER,
+		repeattimeframe TEXT,
+		repeatoccureences INTEGRER
 
 	);`
 
