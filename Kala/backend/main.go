@@ -3,6 +3,7 @@ package main
 import (
     "fmt"
     "net/http"
+	"database/sql"
 
 )
 
@@ -30,16 +31,32 @@ func AddTaskButton(w http.ResponseWriter, req *http.Request) {
 	date := req.URL.Query().Get("date")
 	repeat := req.URL.Query().Get("repeat")
 	time := req.URL.Query().Get("time")
-	
+    enddate := req.URL.Query().Get("enddate")
+    numrepeat := req.URL.Query().Get("numrepeat")
+    repeatoccurrences := req.URL.Query().Get("repeatoccurrences")
+
 	fmt.Println("Adding this task!" )
-	fmt.Println(title, details, date, repeat, time)
+	fmt.Println(title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences)
 
 	if title == "" || details == "" || date == "" {
 		http.Error(w, "Missing required fields", http.StatusBadRequest)
 		return
 	}
 
-	err := AddTask(title, details, date, repeat, time)
+
+
+	dbFile := "kala.db"
+
+	db, err := sql.Open("sqlite", dbFile)
+	if err != nil {
+        	fmt.Println("failed to open db:", err)
+	        http.Error(w, "Database error", http.StatusInternalServerError)
+	        return
+	}
+	defer db.Close()
+
+
+	err = AddTask( db ,title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences)
 	if err != nil {
 		fmt.Println("AddTask error:", err)
 		http.Error(w, "Insert Error", http.StatusInternalServerError)

@@ -510,7 +510,17 @@
           color: #e3e3e3;
           cursor: pointer;
           border: none;
+        
+
+        &.active {
+          svg{
+              fill: #a8c7fa;
+              //background: red;
+          }
         }
+
+        }
+
 
         p{
           padding-top: 5px;

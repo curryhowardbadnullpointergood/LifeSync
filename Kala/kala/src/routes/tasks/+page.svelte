@@ -26,12 +26,17 @@ let detailsInput = '';
 let taskDate = '';
 let taskTime = '';
 let showRepeatDropdown = false;
-let repeatNumVal;
+let repeatNumVal = 1;
 let showRangeDropdown = false;
 let taskEndDate = '';
 
 let tempAddDiv;
 let ignoreNextClick = false;
+let repeatVal= '';
+let repeatOccur=1;
+// this is like never, after or on for repeat ends 
+let endMode = 'never';
+
 
 
 // flag for the date modal 
@@ -58,7 +63,10 @@ let showDateModal = false;
             + '&details=' + encodeURIComponent(detailsInput)
             + '&date=' + encodeURIComponent(taskDate)
             + '&time=' + encodeURIComponent(taskTime)
-            + '&repeat=none';
+            + '&repeat=' +encodeURIComponent(repeatVal)
+            + '&enddate=' + encodeURIComponent(taskEndDate)
+            + '&numrepeat=' + encodeURIComponent(repeatNumVal)
+            + '&repeatoccurrences=' + encodeURIComponent();
         
           console.log("REQUEST URL:", url);
         
@@ -68,6 +76,10 @@ let showDateModal = false;
           console.log("Details:", detailsInput);
           console.log("Date:", taskDate);
           console.log("Time:", taskTime);
+          console.log("Repeat: ", repeatVal);
+          console.log("End Date:", taskEndDate)
+          console.log("Num Repeat: ", repeatNumVal)
+          console.log("Repeat Occurrences: ", repeatoccurrences)
           
           if (res.ok) {
             console.log('Task added!');
@@ -76,6 +88,10 @@ let showDateModal = false;
             detailsInput = '';
             taskDate = '';
             taskTime = '';
+            repeatVal = '';
+            taskEndDate = '';
+            repeatNumVal ='';
+
           } else {
             console.error('Failed to add task:', await res.text());
           }
@@ -264,8 +280,8 @@ let showDateModal = false;
             {#if showRepeatDropdown}
                 <div class="repeatDropdown">
                     <div class="top"> 
-                        <input type="number" value="1" bind:this={repeatNumVal}>
-                          <select name="timeframe" id="timeframe">
+                        <input type="number" min="1" bind:value={repeatNumVal}>
+                          <select name="timeframe" id="timeframe" bind:value={repeatVal}>
                             <option value="day">day</option>
                             <option value="week">week</option>
                             <option value="month">month</option>
@@ -278,7 +294,7 @@ let showDateModal = false;
 
                         <div class="never">
                 
-                            <button> 
+                            <button on:click={() => endMode = 'never'} class:active={endMode === 'never'} > 
 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
 
                             </button>
@@ -289,7 +305,7 @@ let showDateModal = false;
                         </div>
                         <div class="on">
                 
-                            <button> 
+                            <button on:click={() => endMode ='on'} class:active={endMode === 'on'}> 
 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
 
                             </button>
@@ -302,7 +318,7 @@ let showDateModal = false;
                         </div>
                         <div class="after">
                 
-                            <button> 
+                            <button on:click={() => endMode ='after'} class:active={endMode === 'after'}> 
 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
 
                             </button>
@@ -310,7 +326,7 @@ let showDateModal = false;
                             <p>After</p>
 
                             <div class="occurrences">
-                                <input type="number" value="1">
+                                <input type="number" min="1" bind:value={repeatOccur}>
                                 <p>Occurrences</p>
                             </div>
     
