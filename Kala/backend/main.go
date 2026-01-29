@@ -34,9 +34,12 @@ func AddTaskButton(w http.ResponseWriter, req *http.Request) {
     enddate := req.URL.Query().Get("enddate")
     numrepeat := req.URL.Query().Get("numrepeat")
     repeatoccurrences := req.URL.Query().Get("repeatoccurrences")
+    repeatnever := req.URL.Query().Get("repeatnever")
+    repeatenddate := req.URL.Query().Get("repeatenddate")
+    
 
 	fmt.Println("Adding this task!" )
-	fmt.Println(title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences)
+	fmt.Println(title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences, repeatnever, repeatenddate)
 
 	if title == "" || details == "" || date == "" {
 		http.Error(w, "Missing required fields", http.StatusBadRequest)
@@ -56,7 +59,7 @@ func AddTaskButton(w http.ResponseWriter, req *http.Request) {
 	defer db.Close()
 
 
-	err = AddTask( db ,title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences)
+	err = AddTask( db ,title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences, repeatnever, repeatenddate)
 	if err != nil {
 		fmt.Println("AddTask error:", err)
 		http.Error(w, "Insert Error", http.StatusInternalServerError)

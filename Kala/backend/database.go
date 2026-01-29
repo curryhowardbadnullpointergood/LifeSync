@@ -32,7 +32,9 @@ func CreateTable(db *sql.DB) {
 		time TEXT,
 		enddate TEXT, 
 		numrepeat INTEGER,
-		repeatoccurrences INTEGRER
+		repeatoccurrences INTEGRER,
+        repeatNever TEXT, 
+        repeatEndDate TEXT 
 
 	);`
 
@@ -55,15 +57,15 @@ func dropTable(db *sql.DB) {
 
 
 // AddTask inserts a new task into the DB
-func AddTask(db *sql.DB, title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences string) error {
+func AddTask(db *sql.DB, title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences, repeatnever, repeatenddate string) error {
 
 	
 
 	CreateTable(db)
 
 	query := `
-	INSERT INTO tasks (title, details, date, repeat, time, enddate, repeatoccurrences)
-	VALUES (?, ?, ?, ?, ?, ?, ?);`
+	INSERT INTO tasks (title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences, repeatnever, repeatenddate)
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`
 
     // checking if repeat is none, which means repeat isn't like checked, so should be False boolean value 
     //this code is a bit cursed but code fast and break things 
@@ -74,7 +76,7 @@ func AddTask(db *sql.DB, title, details, date, repeat, time, enddate, numrepeat,
         repeat = "false"; 
     }
 
-    _, err := db.Exec(query, title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences)
+    _, err := db.Exec(query, title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences, repeatnever, repeatenddate)
 	return err
 }
 

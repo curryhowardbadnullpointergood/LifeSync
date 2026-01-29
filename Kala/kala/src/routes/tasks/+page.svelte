@@ -33,11 +33,13 @@ let taskEndDate = '';
 let tempAddDiv;
 let ignoreNextClick = false;
 let repeatVal= '';
-let repeatOccur=1;
+let repeatOccur = null;
 // this is like never, after or on for repeat ends 
 let endMode = 'never';
+let repeatNev = null;
+let repeatEndsOn ='';
 
-
+$: repeatNev = (endMode === 'never') ? true : null;
 
 // flag for the date modal 
 let showDateModal = false;
@@ -57,6 +59,7 @@ let showDateModal = false;
     }
 
     async function submitTask() {
+
           const url =
             'http://localhost:8090/addtask?title='
             + encodeURIComponent(titleInput)
@@ -66,7 +69,9 @@ let showDateModal = false;
             + '&repeat=' +encodeURIComponent(repeatVal)
             + '&enddate=' + encodeURIComponent(taskEndDate)
             + '&numrepeat=' + encodeURIComponent(repeatNumVal)
-            + '&repeatoccurrences=' + encodeURIComponent();
+            + '&repeatoccurrences=' + encodeURIComponent(repeatOccur)
+            + '&repeatnever=' + encodeURIComponent(repeatNev)
+            + '&repeatenddate=' + encodeURIComponent(repeatEndsOn);
         
           console.log("REQUEST URL:", url);
         
@@ -79,7 +84,9 @@ let showDateModal = false;
           console.log("Repeat: ", repeatVal);
           console.log("End Date:", taskEndDate)
           console.log("Num Repeat: ", repeatNumVal)
-          console.log("Repeat Occurrences: ", repeatoccurrences)
+          console.log("Repeat Occurrences: ", repeatOccur)
+          console.log("Repear Never: ", repeatNev)
+          console.log("Repeat End Date: ", repeatEndsOn)
           
           if (res.ok) {
             console.log('Task added!');
@@ -91,6 +98,9 @@ let showDateModal = false;
             repeatVal = '';
             taskEndDate = '';
             repeatNumVal ='';
+            repeatOccur = '';
+            repeatNev ='';
+            repeatEndsOn ='';
 
           } else {
             console.error('Failed to add task:', await res.text());
@@ -312,7 +322,7 @@ let showDateModal = false;
 
                             <p>On</p>
 
-                            <input type="date" >
+                            <input type="date" class="textbox" placeholder="Date" bind:value={repeatEndsOn}>
 
     
                         </div>
