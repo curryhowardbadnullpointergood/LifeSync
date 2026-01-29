@@ -34,7 +34,7 @@ func CreateTable(db *sql.DB) {
 		numrepeat INTEGER,
 		repeatoccurrences INTEGRER,
         repeatNever TEXT, 
-        repeatEndDate TEXT 
+        repeatEndDate TEXT
 
 	);`
 
@@ -56,6 +56,17 @@ func dropTable(db *sql.DB) {
 }
 
 
+// simple task struct, this is for tasks with just title and detail nothing else
+type SimpleTask struct {
+	ID      int
+	Title   string
+	Details string
+}
+
+
+
+
+
 // AddTask inserts a new task into the DB
 func AddTask(db *sql.DB, title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences, repeatnever, repeatenddate string) error {
 
@@ -64,7 +75,7 @@ func AddTask(db *sql.DB, title, details, date, repeat, time, enddate, numrepeat,
 	CreateTable(db)
 
 	query := `
-	INSERT INTO tasks (title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences, repeatnever, repeatenddate)
+	INSERT INTO tasks (title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences, repeatnever, repeatenddate )
 	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`
 
     // checking if repeat is none, which means repeat isn't like checked, so should be False boolean value 
@@ -73,12 +84,67 @@ func AddTask(db *sql.DB, title, details, date, repeat, time, enddate, numrepeat,
     if repeat == "" {
         //print("repeat is not toggled so it is not set to false.")
         // this works already saving as false text 
-        repeat = "false"; 
+        repeat = "null"; 
     }
 
     _, err := db.Exec(query, title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences, repeatnever, repeatenddate)
 	return err
 }
+
+
+
+// gets tasks so that it can be shown to the ui if that makes sense right 
+// so we need like 2 different get tasks 
+// one get task gets like the tasks without a time/date
+// the other get tasks deal with that 
+// going to keep this seperate so like, everytime i am calling a get task im not going to query or have to display 
+
+fun GetTaskSimple( db *sql.DB string) ([]SimpleTask, error){
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

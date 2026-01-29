@@ -39,7 +39,16 @@ func AddTaskButton(w http.ResponseWriter, req *http.Request) {
     
 
 	fmt.Println("Adding this task!" )
-	fmt.Println(title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences, repeatnever, repeatenddate)
+	fmt.Println("Title: ", title, 
+	"\n details: ", details, 
+				"\n date: " , date,
+				"\n repeat: " , repeat,
+				"\n time: ", time,
+				"\n repeat end date: " , enddate, 
+				"\n Num of repeats: ", numrepeat, 
+				"\n Occurrences: " , repeatoccurrences,
+				"\n Repeat Never?: " , repeatnever, 
+				"\n Repeat end date?: " , repeatenddate)
 
 	if title == "" || details == "" || date == "" {
 		http.Error(w, "Missing required fields", http.StatusBadRequest)
