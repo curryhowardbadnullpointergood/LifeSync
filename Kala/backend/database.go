@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"fmt"
+	"time"
 	
 
 	_ "modernc.org/sqlite"
@@ -62,6 +63,19 @@ type SimpleTask struct {
 	ID      int		`json:"id"`
 	Title   string	`json:"title"`
 	Details string	`json:"details"`
+}
+
+// range task struct 
+// thinking we need and end time attribute? here probs makes sense 
+// end time 
+type RangeTask struct{
+	ID	int 		`json:"id"`
+	Title string 	`json:"title"`
+	Details string 	`json:"details"`
+	Date string 	`json:"date"`
+	Time string 	`json:"time"`
+	EndDate string 	`json:"enddate"`
+
 }
 
 
@@ -134,6 +148,96 @@ func GetTaskSimple( db *sql.DB) ([]SimpleTask, error){
 	
 
 	
+	return tasks, nil
+
+}
+
+
+// this is for getting tasks with a range
+// this will be generated prodecurally dynamically 
+// not sure if this will cause some serious fuck ups later down the line 
+// i dont see this, the brances are either high, or my brain is cooked, so i Cant visualise how i would deal with some of the 
+// problems with this approach and comapre it to my original approach or storing it in data with limited time frame getting around
+// this inifinite loop issue with occurences calculated this feels mroe wrong, ugh 
+// i genuinely think generating more rows in the db makes sense for range but then id need to add more rows to the db 
+// which should honestle be fine but increases complexity 
+// idk 
+
+// this filters based on date
+func GetTaskRange(db *sql.DB, uiDate time.Time) ([]RangeTask, error) {
+
+	tasks, err := GetTaskRangehelper(db)
+	if err != nil {
+		return nil, err
+	}
+
+	var result []RangeTask
+
+	for _, task := range tasks {
+
+		start, err := time.Parse("2006-01-02", task.Date)
+
+		if err != nil {
+			continue
+		}
+
+		end, err := time.Parse("2006-01-02", task.EndDate)
+		if err != nil {
+			continue
+		}
+
+		// start <= uiDate <= end
+		if !uiDate.Before(start) && !uiDate.After(end) {
+			result = append(result, task)
+		}
+	}
+
+	return result, nil
+}
+
+
+
+
+func GetTaskRangehelper( db *sql.DB) ([]RangeTask, error){
+
+
+	rows, err := db.Query(`
+		SELECT id, title, details, date, time, enddate
+		FROM tasks
+		WHERE numrepeat = 'null'
+		  AND repeat = 'null'
+		  AND enddate != 'null'
+		  AND date != 'null';
+	`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var tasks []RangeTask
+
+	
+	for rows.Next() {
+		var t RangeTask
+		if err := rows.Scan(
+			&t.ID,
+			&t.Title,
+			&t.Details,
+			&t.Date,
+			&t.Time,
+			&t.EndDate,
+		); err != nil {
+			return nil, err
+		}
+
+		fmt.Printf(
+			"RANGE TASK: ID=%d | %s | %s | %s → %s\n",
+			t.ID, t.Title, t.Details, t.Date, t.EndDate,
+		)
+
+		tasks = append(tasks, t)
+	}
+
 	return tasks, nil
 
 }

@@ -5,6 +5,7 @@ import (
     "net/http"
 	"database/sql"
 	"encoding/json"
+	"time"
 
 )
 
@@ -102,6 +103,30 @@ func GetSimpleTasksHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(tasks)
 }
 
+func GetRangeTasksHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	db, err := sql.Open("sqlite", "./kala.db")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
+	// current date (server-side)
+	uiDate := time.Now()
+
+	tasks, err := GetTaskRange(db, uiDate)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(tasks)
+}
+
+
 
 func headers(w http.ResponseWriter, req *http.Request) {
 
@@ -118,6 +143,8 @@ func main() {
     http.HandleFunc("/headers", headers)
 	http.HandleFunc("/addtask", AddTaskButton)
 	http.HandleFunc("/tasks/simple", GetSimpleTasksHandler)
+	http.HandleFunc("/tasks/range", GetRangeTasksHandler)
+
 
     http.ListenAndServe(":8090", nil)
 }
