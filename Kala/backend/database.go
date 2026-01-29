@@ -59,9 +59,9 @@ func dropTable(db *sql.DB) {
 
 // simple task struct, this is for tasks with just title and detail nothing else
 type SimpleTask struct {
-	ID      int
-	Title   string
-	Details string
+	ID      int		`json:"id"`
+	Title   string	`json:"title"`
+	Details string	`json:"details"`
 }
 
 
@@ -82,11 +82,11 @@ func AddTask(db *sql.DB, title, details, date, repeat, time, enddate, numrepeat,
     // checking if repeat is none, which means repeat isn't like checked, so should be False boolean value 
     //this code is a bit cursed but code fast and break things 
     // plus I think it's a neat quick solution 
-    if repeat == "" {
+    //if repeat == "" {
         //print("repeat is not toggled so it is not set to false.")
         // this works already saving as false text 
-        repeat = "null"; 
-    }
+      //  repeat = "null"; 
+    //}
 
     _, err := db.Exec(query, title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences, repeatnever, repeatenddate)
 	return err
