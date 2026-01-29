@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"log"
+	"fmt"
 	
 
 	_ "modernc.org/sqlite"
@@ -99,9 +100,41 @@ func AddTask(db *sql.DB, title, details, date, repeat, time, enddate, numrepeat,
 // the other get tasks deal with that 
 // going to keep this seperate so like, everytime i am calling a get task im not going to query or have to display 
 
-fun GetTaskSimple( db *sql.DB string) ([]SimpleTask, error){
+func GetTaskSimple( db *sql.DB) ([]SimpleTask, error){
 
 
+	rows, err := db.Query(`
+		SELECT id, title, details
+		FROM tasks
+		WHERE date = 'null'
+		  AND time = 'null'
+		  AND enddate = 'null'
+		  AND repeat = 'null';
+	`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var tasks []SimpleTask
+
+	for rows.Next() {
+		var t SimpleTask
+		if err := rows.Scan(&t.ID, &t.Title, &t.Details); err != nil {
+			return nil, err
+		}
+
+		fmt.Printf("TASK: ID=%d | Title=%s | Details=%s\n",
+		t.ID, t.Title, t.Details)
+
+
+		tasks = append(tasks, t)
+	}
+
+	
+
+	
+	return tasks, nil
 
 }
 
