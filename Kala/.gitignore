@@ -4,4 +4,4 @@
 
 ./kala/build/*
 ./kala/frontend/node_modules/*
-
+./backend/kala.db
