@@ -246,40 +246,93 @@
       
 
       .taskDisplayed{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
+          display: flex;
+          flex-direction: column; 
+          //padding-top: 0.5rem;
 
-        min-height: 2rem;
-        max-height: 2.01rem;
 
-        padding-top: 0.5rem;
-
-        button{
-          margin-left: 1rem;
-          background: #131314;
-          color: #e3e3e3;
-        }
-        p{
-         color: #e3e3e3;
-         font-family: "Lucida Console", "Courier New", monospace;
-         margin-left: 1rem;
-         font-weight: 400; 
-         font-size: 1rem;
-        }
-
-        &:hover {
-            background: #1e1f20;
-            button {
-              background-color: #1e1f20;
-        
-              svg {
-                // fill: #00bcd4; // change SVG color
+          &:hover {
+              background: #1e1f20;
+              button {
+                background-color: #e3e3e3;
+          
+                svg {
+                  fill: #e3e3e3; // change SVG color
+                }
               }
+          
+        }
+  
+
+        .taskRow{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+  
+          min-height: 2rem;
+          max-height: 2.01rem;
+  
+          padding-top: 0.5rem;
+  
+          button{
+            margin-left: 1rem;
+            background: #131314;
+            color: #e3e3e3;
+  
+            svg{
+              fill: #e3e3e3;
             }
-        
+    
+            &.active {
+                background: #131314;
+                svg{
+                  fill: #a8c7fa;
+                }
+            }
+  
+  
+          }
+  
+  
+          p{
+           color: #e3e3e3;
+           font-family: "Lucida Console", "Courier New", monospace;
+           margin-left: 1rem;
+           font-weight: 400; 
+           font-size: 1.15rem;
+          }
+  
         }
 
+        .taskDetails{
+          margin-left: 2.5rem;
+          padding-top: 0.5rem;
+          padding-bottom: 0.5rem;
+
+
+          h3{
+           color: #e3e3e3;
+           font-family: "Lucida Console", "Courier New", monospace;
+           margin-left: 1rem;
+           font-weight: 400; 
+           font-size: 1rem;
+           padding-bottom: 0.5rem;
+
+          }
+
+          p{
+           color: #e3e3e3;
+           font-family: "Lucida Console", "Courier New", monospace;
+           margin-left: 1rem;
+           font-weight: 400; 
+           font-size: 1rem;
+          }
+
+
+  
+
+        }
+  
       }
 
     }

@@ -48,4 +48,7 @@ grey background in tasks page: #1e1f20
 {/if}
 
 
+range task needs and end time, to show a end time for the deadline of various tasks, this is more accurate than just what i have right now which is just end date
+
+
 

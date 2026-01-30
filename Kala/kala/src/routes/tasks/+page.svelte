@@ -23,26 +23,41 @@ let showTempTask = false;
 let titleInput = '';
 // handles the details input for the add new tasks temp div 
 let detailsInput = '';
-let taskDate = '';
-let taskTime = '';
+let taskDate = 'null';
+let taskTime = 'null';
 let showRepeatDropdown = false;
-let repeatNumVal = 1;
+let repeatNumVal = null;
 let showRangeDropdown = false;
-let taskEndDate = '';
+let taskEndDate = 'null';
 
 let tempAddDiv;
 let ignoreNextClick = false;
-let repeatVal= '';
+let repeatVal= 'null';
 let repeatOccur = null;
 // this is like never, after or on for repeat ends 
-let endMode = 'never';
+let endMode = '';
 let repeatNev = null;
-let repeatEndsOn ='';
+let repeatEndsOn ='null';
 
 $: repeatNev = (endMode === 'never') ? true : null;
 
+
+
+// this is for getting tasks
+// simple tasks just title and details 
+let tasksimple = [];
+let tasksrange = [];
+// keeps track of open tasks 
+let openTaskId = null;
+
+
+
 // flag for the date modal 
 let showDateModal = false;
+// flag for the show details in task when button is clicked
+let showTaskDetails = false;
+
+
 
   const handleDropdownClick = () => {
     isDropdownOpen = !isDropdownOpen // togle state on click
@@ -57,6 +72,17 @@ let showDateModal = false;
         showTempTask = true;
         ignoreNextClick = true;
     }
+
+    async function loadTasks() {
+        const res = await fetch('http://localhost:8090/tasks/simple');
+        tasksimple = await res.json();
+    }
+
+    async function loadRangeTasks(){
+        const res = await fetch("http://localhost:8090/tasks/range");
+        tasksrange = await res.json();
+    }
+
 
     async function submitTask() {
 
@@ -130,6 +156,11 @@ let showDateModal = false;
       document.removeEventListener('click', handleClickOutside);
     }
   });
+
+  // calls tasks get simple tasks 
+  loadTasks();
+  // calls range tasks gets them based on current time this needs to be changed a bit but not too bad for now 
+  loadRangeTasks();
 
 </script>
 
@@ -207,26 +238,58 @@ let showDateModal = false;
          </div> 
         {/if}
 
-        <div class="taskDisplayed">
+        {#each tasksimple as task}
+          <div class="taskDisplayed">
 
-            <button> 
+            <div class="taskRow">
+                <button class:active={showTaskDetails} on:click={() => showTaskDetails = !showTaskDetails} > 
 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
+                </button>
+        
+                <p>{task.title}</p>
+            </div>
 
-            </button>
+            {#if showTaskDetails}  
+                <div class="taskDetails">
+                    <h3> Details: </h3>
+                    <p>{task.details}</p>
+                </div>
+            {/if}
+          </div>
+        {/each}
 
 
-           <p> Example text here: <p>
-        </div>
-        <div class="taskDisplayed">
-
-            <button> 
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
-
-            </button>
-
-
-           <p> Example text here: <p>
-        </div>
+        {#each tasksrange as task}
+              <div class="taskDisplayed">
+            
+                <div class="taskRow">
+                  <button
+                    class:active={openTaskId === task.id}
+                    on:click={() =>
+                      openTaskId === task.id
+                        ? (openTaskId = null)
+                        : (openTaskId = task.id)
+                    }
+                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
+                
+                  </button>
+            
+                  <p>{task.title}</p>
+            
+                </div>
+            
+                {#if openTaskId === task.id}
+                  <div class="taskDetails">
+                    <h3>Details</h3>
+                    <p>{task.details}</p>
+                    <p>{task.date} → {task.enddate}</p>
+                  </div>
+                {/if}
+            
+              </div>
+         {/each}
+            
 
 
     </div>
@@ -252,7 +315,7 @@ let showDateModal = false;
     <div class="modal">
         <div class="modalcontent">
             <p>Date</p>
-            <input type="date" class="textbox" placeholder="Date" required bind:value={taskDate}>
+            <input type="date" class="textbox" placeholder="Date" bind:value={taskDate}>
             <p>Set Time</p>
             <input type="time" class="time-input" bind:value={taskTime}>
             <div class="range">
