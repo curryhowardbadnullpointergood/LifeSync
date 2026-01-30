@@ -313,7 +313,7 @@ func GetRepeatTasksFilter(db *sql.DB) ([]RepeatTask, error) {
 
 func occursOnDate(task RepeatTask, uiDate time.Time) bool {
 
-	start, err := time.Parse(DateLayout, task.Date)
+	start, err := time.Parse("2006-01-01", task.Date)
 	if err != nil {
 		return false
 	}
@@ -323,7 +323,7 @@ func occursOnDate(task RepeatTask, uiDate time.Time) bool {
 	}
 
 	if task.RepeatEndDate != "null" {
-		end, err := time.Parse(DateLayout, task.RepeatEndDate)
+		end, err := time.Parse("2006-01-01", task.RepeatEndDate)
 		if err == nil && uiDate.After(end) {
 			return false
 		}
@@ -362,7 +362,7 @@ func occursOnDate(task RepeatTask, uiDate time.Time) bool {
 
 func GetRepeatTasks(db *sql.DB, uiDate time.Time) ([]RepeatTask, error) {
 
-	tasks, err := GetRepeatTasksHelper(db)
+	tasks, err := GetRepeatTasksFilter(db)
 	if err != nil {
 		return nil, err
 	}
