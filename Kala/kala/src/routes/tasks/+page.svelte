@@ -46,16 +46,33 @@ $: repeatNev = (endMode === 'never') ? true : null;
 // this is for getting tasks
 // simple tasks just title and details 
 let tasksimple = [];
-let tasksrange = [];
 // keeps track of open tasks 
 let openTaskId = null;
+let openTaskId2 = null;
+let openTaskId3 = null;
+// this is for displaying todays date dynamically 
+const today = new Date();
+const tomorrow = new Date(today);
+tomorrow.setDate(today.getDate() + 1);
 
-
+const todayFormatted = formatDate(today);
+const tomorrowFormatted = formatDate(tomorrow);
+// i guess this is tasks range new now but for today and tomorrow 
+let todayTasks = [];
+let tomorrowTasks = [];
 
 // flag for the date modal 
 let showDateModal = false;
 // flag for the show details in task when button is clicked
 let showTaskDetails = false;
+
+// for formatting dates 
+function formatDate(d) {
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+}
 
 
 
@@ -78,10 +95,53 @@ let showTaskDetails = false;
         tasksimple = await res.json();
     }
 
-    async function loadRangeTasks(){
-        const res = await fetch("http://localhost:8090/tasks/range");
-        tasksrange = await res.json();
+    async function loadRangeTasks(date, date2) {
+         const res = await fetch(
+            `http://localhost:8090/tasks/range?date=${date}`
+          );
+         todayTasks = await res.json();
+         
+         const res1 = await fetch(
+            `http://localhost:8090/tasks/range?date=${date2}`
+          );
+         tomorrowTasks = await res1.json();
     }
+
+    async function completeTask(task) {
+        // passed 
+        console.log("Complete button has been clicked! sanity test ", task)
+          try {
+            const res = await fetch("http://localhost:8090/tasks/complete", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                task_id: task.id,
+                title: task.title,
+                details: task.details,
+                time: task.time ?? "",
+                date: task.date ?? "",
+                enddate: task.enddate ?? ""
+              })
+            });
+        console.log("response status:", res.status);
+
+        const text = await res.text();
+        console.log("response body:", text);
+
+            if (!res.ok) {
+              console.error("Failed to complete task");
+              return;
+            }
+        
+        
+          } catch (err) {
+            console.error("Complete task error:", err);
+          }
+     }
+        
+        
 
 
     async function submitTask() {
@@ -132,6 +192,12 @@ let showTaskDetails = false;
             console.error('Failed to add task:', await res.text());
           }
         }
+
+    function finalizeTempTask() {
+          showTempTask = false;
+          submitTask();
+    }
+
         
 
     function handleClickOutside(event) {
@@ -160,7 +226,7 @@ let showTaskDetails = false;
   // calls tasks get simple tasks 
   loadTasks();
   // calls range tasks gets them based on current time this needs to be changed a bit but not too bad for now 
-  loadRangeTasks();
+  loadRangeTasks(todayFormatted, tomorrowFormatted);
 
 </script>
 
@@ -233,6 +299,8 @@ let showTaskDetails = false;
 
             <div class="bottom"> 
                 <button on:click={() => showDateModal = true}>Date</button>
+                <button on:click={finalizeTempTask} >Done</button>
+
             </div> 
 
          </div> 
@@ -242,24 +310,44 @@ let showTaskDetails = false;
           <div class="taskDisplayed">
 
             <div class="taskRow">
-                <button class:active={showTaskDetails} on:click={() => showTaskDetails = !showTaskDetails} > 
+                <button 
+                    class:active={openTaskId3 === task.id}
+                    on:click={() =>
+                      openTaskId3 === task.id
+                        ? (openTaskId3 = null)
+                        : (openTaskId3 = task.id)
+                    }
+                  >
+ 
 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
                 </button>
         
                 <p>{task.title}</p>
             </div>
-
-            {#if showTaskDetails}  
-                <div class="taskDetails">
-                    <h3> Details: </h3>
+                
+                {#if openTaskId3 === task.id}
+                  <div class="taskDetails">
+                    <h3>Details</h3>
                     <p>{task.details}</p>
-                </div>
-            {/if}
+                    <h3>Status:</h3>
+                    <button on:click={() => completeTask(task)}>
+                        Completed
+                    </button>
+                  </div>
+                {/if}
+            
+
           </div>
         {/each}
 
+        <div class="dateline"> 
 
-        {#each tasksrange as task}
+            <p>{todayFormatted}</p> 
+
+        </div>
+
+
+        {#each todayTasks as task}
               <div class="taskDisplayed">
             
                 <div class="taskRow">
@@ -280,6 +368,44 @@ let showTaskDetails = false;
                 </div>
             
                 {#if openTaskId === task.id}
+                  <div class="taskDetails">
+                    <h3>Details</h3>
+                    <p>{task.details}</p>
+                    <p>{task.date} → {task.enddate}</p>
+                  </div>
+                {/if}
+            
+              </div>
+         {/each}
+            
+
+        <div class="dateline"> 
+
+            <p>{tomorrowFormatted}</p> 
+
+        </div>
+        
+        {#each tomorrowTasks as task}
+              <div class="taskDisplayed">
+            
+                <div class="taskRow">
+                  <button
+                    class:active={openTaskId2 === task.id}
+                    on:click={() =>
+                      openTaskId2 === task.id
+                        ? (openTaskId2 = null)
+                        : (openTaskId2 = task.id)
+                    }
+                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
+                
+                  </button>
+            
+                  <p>{task.title}</p>
+            
+                </div>
+            
+                {#if openTaskId2 === task.id}
                   <div class="taskDetails">
                     <h3>Details</h3>
                     <p>{task.details}</p>
