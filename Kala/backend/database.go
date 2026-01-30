@@ -78,6 +78,23 @@ type RangeTask struct{
 
 }
 
+// repeat task struct 
+type RepeatTask struct{
+	ID	int 					`json:"id"`
+	Title string 				`json:"title"`
+	Details string 				`json:"details"`
+	Date string 				`json:"date"`
+	Time string 				`json:"time"`
+	Repeat string 				`json:"Repeat"`
+	NumRepeat string 			`json:"NumRepeat"`
+	RepeatOccurrences string 	`json:"RepeatOccurrences"`
+	RepeatNever string 			`json:"RepeatNever"`
+	RepeatEndDate string 		`json:"RepeatEndDate"`
+
+
+}
+
+
 
 
 
@@ -242,9 +259,124 @@ func GetTaskRangehelper( db *sql.DB) ([]RangeTask, error){
 
 }
 
+// range seems to have a neat solution but im not sure about 
+// repeats this is a pain 
+
+func GetRepeatTasksFilter(db *sql.DB) ([]RepeatTask, error) {
+
+	rows, err := db.Query(`
+		SELECT
+			id,
+			title,
+			details,
+			date,
+			time,
+			repeat,
+			numrepeat,
+			repeatoccurrences,
+			repeatNever,
+			repeatEndDate
+		FROM tasks
+		WHERE repeat != 'null'
+		  AND date != 'null';
+	`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var tasks []RepeatTask
+
+	for rows.Next() {
+		var t RepeatTask
+		if err := rows.Scan(
+			&t.ID,
+			&t.Title,
+			&t.Details,
+			&t.Date,
+			&t.Time,
+			&t.Repeat,
+			&t.NumRepeat,
+			&t.RepeatOccurrences,
+			&t.RepeatNever,
+			&t.RepeatEndDate,
+		); err != nil {
+			return nil, err
+		}
+
+		tasks = append(tasks, t)
+	}
+
+	return tasks, nil
+}
+
+
+func occursOnDate(task RepeatTask, uiDate time.Time) bool {
+
+	start, err := time.Parse(DateLayout, task.Date)
+	if err != nil {
+		return false
+	}
+
+	if uiDate.Before(start) {
+		return false
+	}
+
+	if task.RepeatEndDate != "null" {
+		end, err := time.Parse(DateLayout, task.RepeatEndDate)
+		if err == nil && uiDate.After(end) {
+			return false
+		}
+	}
+
+	step := 1
+	if task.NumRepeat != "null" {
+		fmt.Sscan(task.NumRepeat, &step)
+	}
+
+	switch task.Repeat {
+
+	case "day":
+		days := int(uiDate.Sub(start).Hours() / 24)
+		return days%step == 0
+
+	case "week":
+		weeks := int(uiDate.Sub(start).Hours() / (24 * 7))
+		return weeks%step == 0
+
+	case "month":
+		diff :=
+			(uiDate.Year()-start.Year())*12 +
+				int(uiDate.Month()-start.Month())
+		return diff%step == 0
+
+	case "year":
+		diff := uiDate.Year() - start.Year()
+		return diff%step == 0
+	}
+
+	return false
+}
 
 
 
+func GetRepeatTasks(db *sql.DB, uiDate time.Time) ([]RepeatTask, error) {
+
+	tasks, err := GetRepeatTasksHelper(db)
+	if err != nil {
+		return nil, err
+	}
+
+	var result []RepeatTask
+
+	for _, task := range tasks {
+		if occursOnDate(task, uiDate) {
+			result = append(result, task)
+		}
+	}
+
+	return result, nil
+}
 
 
 
