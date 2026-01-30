@@ -114,8 +114,17 @@ func GetRangeTasksHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
-	// current date (server-side)
-	uiDate := time.Now()
+	dateStr := r.URL.Query().Get("date")
+	if dateStr == "" {
+		http.Error(w, "missing date param", http.StatusBadRequest)
+		return
+	}
+
+	uiDate, err := time.Parse("2006-01-02", dateStr)
+	if err != nil {
+		http.Error(w, "invalid date format", http.StatusBadRequest)
+		return
+	}
 
 	tasks, err := GetTaskRange(db, uiDate)
 	if err != nil {
@@ -125,6 +134,7 @@ func GetRangeTasksHandler(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(tasks)
 }
+
 
 
 
