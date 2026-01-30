@@ -48,11 +48,37 @@ func CreateTable(db *sql.DB) {
 	log.Println("Table created")
 }
 
+// table for completed tasks
+func CreateCompletedTasksTable(db *sql.DB) {
+	create := `
+	CREATE TABLE IF NOT EXISTS completed_tasks (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		title TEXT NOT NULL,
+		details TEXT NOT NULL,
+		date TEXT NOT NULL,
+		time TEXT,
+		enddate TEXT,
+		completed_at TEXT NOT NULL
+	);`
+
+	_, err := db.Exec(create)
+	if err != nil {
+		log.Fatal("Failed to create completed_tasks table:", err)
+	}
+
+	log.Println("Completed tasks table created")
+}
+
+
 // drops tables, used for testing purposes 
 func dropTable(db *sql.DB) {
 	_, err := db.Exec(`DROP TABLE IF EXISTS tasks;`)
 	if err != nil {
 		log.Fatal("Failed to drop table:", err)
+	}
+	_, err2 := db.Exec(`DROP TABLE IF EXISTS completed_tasks;`)
+	if err2 != nil {
+		log.Fatal("Failed to drop table:", err2)
 	}
 	log.Println("Table dropped successfully")
 }
