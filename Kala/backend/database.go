@@ -58,7 +58,8 @@ func CreateCompletedTasksTable(db *sql.DB) {
 		date TEXT NOT NULL,
 		time TEXT,
 		enddate TEXT,
-		completed_at TEXT NOT NULL
+		completeddate TEXT NOT NULL,
+        completedtime TEXT NOT NULL
 	);`
 
 	_, err := db.Exec(create)
@@ -120,6 +121,17 @@ type RepeatTask struct{
 
 }
 
+// this is for completed tasks
+type CompletedTask struct {
+	ID        int    `json:"task_id"`
+	Title         string `json:"title"`
+	Details       string `json:"details"`
+	Time          string `json:"time"`
+    Date          string `json:"date"`
+	EndDate       string `json:"enddate"`
+	CompletedDate string `json:"completed_date"`
+	CompletedTime string `json:"completed_time"`
+}
 
 
 
@@ -406,11 +418,37 @@ func GetRepeatTasks(db *sql.DB, uiDate time.Time) ([]RepeatTask, error) {
 
 
 
+// allows me to not have to make multiple add complete task functions 
+// for different types of tasks 
+func normalize(val string) string {
+	if val == "" {
+		return "null"
+	}
+	return val
+}
 
 
+func AddTaskToCompleted(db *sql.DB, t CompletedTask) error {
 
+    CreateCompletedTasksTable(db)
 
+	_, err := db.Exec(`
+		INSERT INTO completed_tasks
+		(id, title, details, time, date, enddate, completeddate, completedtime)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+	`,
+		t.ID,
+		t.Title,
+		t.Details,
+		t.Time,
+        t.Date,
+		t.EndDate,
+		t.CompletedDate,
+		t.CompletedTime,
+	)
 
+	return err
+}
 
 
 

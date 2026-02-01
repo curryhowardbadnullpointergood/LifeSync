@@ -135,6 +135,51 @@ func GetRangeTasksHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(tasks)
 }
 
+func CompleteTaskHandler(w http.ResponseWriter, r *http.Request) {
+	// CORS headers
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	// preflight
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+	if r.Method != http.MethodPost {
+		http.Error(w, "Only POST allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var task CompletedTask
+	if err := json.NewDecoder(r.Body).Decode(&task); err != nil {
+		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		return
+	}
+
+	// ✅ calculate completed date & time HERE
+	now := time.Now()
+	task.CompletedDate = now.Format("2006-01-02") // YYYY-MM-DD
+	task.CompletedTime = now.Format("15:04")      // HH:MM
+
+	db, err := sql.Open("sqlite", "./kala.db")
+	if err != nil {
+		http.Error(w, "DB error", http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
+	err = AddTaskToCompleted(db, task)
+	if err != nil {
+		fmt.Println("Insert failed:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Task completed"))
+}
 
 
 
@@ -154,7 +199,7 @@ func main() {
 	http.HandleFunc("/addtask", AddTaskButton)
 	http.HandleFunc("/tasks/simple", GetSimpleTasksHandler)
 	http.HandleFunc("/tasks/range", GetRangeTasksHandler)
-
+    http.HandleFunc("/tasks/complete", CompleteTaskHandler)
 
     http.ListenAndServe(":8090", nil)
 }
