@@ -86,7 +86,7 @@ func AddTaskButton(w http.ResponseWriter, req *http.Request) {
 func GetSimpleTasksHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
+    
 	db, err := sql.Open("sqlite", "./kala.db")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -158,7 +158,7 @@ func CompleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// ✅ calculate completed date & time HERE
+	// calculate completed date & time HERE
 	now := time.Now()
 	task.CompletedDate = now.Format("2006-01-02") // YYYY-MM-DD
 	task.CompletedTime = now.Format("15:04")      // HH:MM

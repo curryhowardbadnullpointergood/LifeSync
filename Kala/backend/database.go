@@ -171,6 +171,7 @@ func AddTask(db *sql.DB, title, details, date, repeat, time, enddate, numrepeat,
 
 func GetTaskSimple( db *sql.DB) ([]SimpleTask, error){
 
+    // to stop the error/crash when loading the page
 
 	rows, err := db.Query(`
 		SELECT id, title, details
@@ -220,6 +221,8 @@ func GetTaskSimple( db *sql.DB) ([]SimpleTask, error){
 
 // this filters based on date
 func GetTaskRange(db *sql.DB, uiDate time.Time) ([]RangeTask, error) {
+
+    // to stop the error/crash when loading the page
 
 	tasks, err := GetTaskRangehelper(db)
 	if err != nil {
@@ -447,20 +450,25 @@ func AddTaskToCompleted(db *sql.DB, t CompletedTask) error {
 		t.CompletedTime,
 	)
 
+    removeCompletedTask( db, t)
+
 	return err
 }
 
+func removeCompletedTask(db *sql.DB, t CompletedTask) error {
+	today := time.Now().Format("2006-01-02")
 
+	_, err := db.Exec(`
+		DELETE FROM tasks
+		WHERE id = ?
+		  AND (
+		        (repeat = 'null' AND enddate = 'null')
+		     OR (enddate = ?)
+		  );
+	`, t.ID, today)
 
-
-
-func removeCompletedTaskSimple(db *sql.DB, t CompletedTask) error {
-
+	return err
 }
-
-
-
-
 
 
 
