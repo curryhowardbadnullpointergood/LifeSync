@@ -439,7 +439,7 @@ func AddTaskToCompleted(db *sql.DB, t CompletedTask) error {
 	_, err := db.Exec(`
 		INSERT INTO completed_tasks
 		(task_id, title, details, time, date, enddate, completeddate, completedtime)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 	`,
 		t.ID,
 		t.Title,
