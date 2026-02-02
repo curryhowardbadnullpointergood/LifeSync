@@ -53,6 +53,7 @@ func CreateCompletedTasksTable(db *sql.DB) {
 	create := `
 	CREATE TABLE IF NOT EXISTS completed_tasks (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
+        task_id INTEGER NOT NULL,
 		title TEXT NOT NULL,
 		details TEXT NOT NULL,
 		date TEXT NOT NULL,
@@ -437,8 +438,8 @@ func AddTaskToCompleted(db *sql.DB, t CompletedTask) error {
 
 	_, err := db.Exec(`
 		INSERT INTO completed_tasks
-		(id, title, details, time, date, enddate, completeddate, completedtime)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+		(task_id, title, details, time, date, enddate, completeddate, completedtime)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)
 	`,
 		t.ID,
 		t.Title,
@@ -450,9 +451,12 @@ func AddTaskToCompleted(db *sql.DB, t CompletedTask) error {
 		t.CompletedTime,
 	)
 
-    removeCompletedTask( db, t)
+    if err != nil {
+		return err
+	}
 
-	return err
+    return removeCompletedTask( db, t)
+
 }
 
 func removeCompletedTask(db *sql.DB, t CompletedTask) error {
