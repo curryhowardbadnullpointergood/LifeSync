@@ -454,7 +454,9 @@ func AddTaskToCompleted(db *sql.DB, t CompletedTask) error {
 
 
 
+func removeCompletedTaskSimple(db *sql.DB, t CompletedTask) error {
 
+}
 
 
 
