@@ -144,6 +144,7 @@ func AddTask(db *sql.DB, title, details, date, repeat, time, enddate, numrepeat,
 	
 
 	CreateTable(db)
+    CreateCompletedTasksTable(db)
 
 	query := `
 	INSERT INTO tasks (title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences, repeatnever, repeatenddate )
@@ -465,15 +466,15 @@ func removeCompletedTask(db *sql.DB, t CompletedTask) error {
 	_, err := db.Exec(`
 		DELETE FROM tasks
 		WHERE id = ?
+		  AND repeat = 'null'
 		  AND (
-		        (repeat = 'null' AND enddate = 'null')
-		     OR (enddate = ?)
+		        enddate = 'null'
+		     OR enddate = ?
 		  );
 	`, t.ID, today)
 
 	return err
 }
-
 
 
 
