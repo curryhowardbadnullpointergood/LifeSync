@@ -226,7 +226,7 @@ func GetTaskRange(db *sql.DB, uiDate time.Time) ([]RangeTask, error) {
 
     // to stop the error/crash when loading the page
 
-	tasks, err := GetTaskRangehelper(db)
+	tasks, err := GetTaskRangehelper(db, uiDate)
 	if err != nil {
 		return nil, err
 	}
@@ -255,20 +255,25 @@ func GetTaskRange(db *sql.DB, uiDate time.Time) ([]RangeTask, error) {
 	return result, nil
 }
 
+func GetTaskRangehelper(db *sql.DB, uiDate time.Time) ([]RangeTask, error) {
 
-
-
-func GetTaskRangehelper( db *sql.DB) ([]RangeTask, error){
-
+	targetDate := uiDate.Format("2006-01-02")
 
 	rows, err := db.Query(`
-		SELECT id, title, details, date, time, enddate
-		FROM tasks
-		WHERE numrepeat = 'null'
-		  AND repeat = 'null'
-		  AND enddate != 'null'
-		  AND date != 'null';
-	`)
+		SELECT t.id, t.title, t.details, t.date, t.time, t.enddate
+		FROM tasks t
+		WHERE t.numrepeat = 'null'
+		  AND t.repeat = 'null'
+		  AND t.enddate != 'null'
+		  AND t.date != 'null'
+		  AND NOT EXISTS (
+		      SELECT 1
+		      FROM completed_tasks c
+		      WHERE c.task_id = t.id
+		        AND c.completeddate = ?
+		  );
+	`, targetDate)
+
 	if err != nil {
 		return nil, err
 	}
@@ -276,9 +281,9 @@ func GetTaskRangehelper( db *sql.DB) ([]RangeTask, error){
 
 	var tasks []RangeTask
 
-	
 	for rows.Next() {
 		var t RangeTask
+
 		if err := rows.Scan(
 			&t.ID,
 			&t.Title,
@@ -290,17 +295,12 @@ func GetTaskRangehelper( db *sql.DB) ([]RangeTask, error){
 			return nil, err
 		}
 
-		fmt.Printf(
-			"RANGE TASK: ID=%d | %s | %s | %s → %s\n",
-			t.ID, t.Title, t.Details, t.Date, t.EndDate,
-		)
-
 		tasks = append(tasks, t)
 	}
 
 	return tasks, nil
-
 }
+
 
 // range seems to have a neat solution but im not sure about 
 // repeats this is a pain 
