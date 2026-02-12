@@ -117,7 +117,7 @@ function formatDate(d) {
                 "Content-Type": "application/json"
               },
               body: JSON.stringify({
-                task_id: task.id,
+                id: task.id,
                 title: task.title,
                 details: task.details,
                 time: task.time ?? "",
@@ -193,6 +193,20 @@ function formatDate(d) {
           }
         }
 
+
+    async function finishRangeTask(task) {
+          const res = await fetch("http://localhost:8090/tasks/completerange", {
+          method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(task)
+      });
+    
+      if (res.ok) {
+        tasksrange = tasksrange.filter(t => t.id !== task.id);
+      }
+    }
+    
+
     function finalizeTempTask() {
           showTempTask = false;
           submitTask();
@@ -215,6 +229,14 @@ function formatDate(d) {
     if (typeof document !== 'undefined') {
       document.addEventListener('click', handleClickOutside);
     }
+
+    
+  // calls tasks get simple tasks 
+  loadTasks();
+  // calls range tasks gets them based on current time this needs to be changed a bit but not too bad for now 
+  loadRangeTasks(todayFormatted, tomorrowFormatted);
+
+
   });
 
   onDestroy(() => {
@@ -224,9 +246,9 @@ function formatDate(d) {
   });
 
   // calls tasks get simple tasks 
-  loadTasks();
+ // loadTasks();
   // calls range tasks gets them based on current time this needs to be changed a bit but not too bad for now 
-  loadRangeTasks(todayFormatted, tomorrowFormatted);
+  //loadRangeTasks(todayFormatted, tomorrowFormatted);
 
 </script>
 
@@ -333,6 +355,9 @@ function formatDate(d) {
                     <button on:click={() => completeTask(task)}>
                         Completed
                     </button>
+                    <button on:click={() => finishRangeTask(task)}>
+                        Finish
+                    </button>
                   </div>
                 {/if}
             
@@ -372,6 +397,12 @@ function formatDate(d) {
                     <h3>Details</h3>
                     <p>{task.details}</p>
                     <p>{task.date} → {task.enddate}</p>
+                    <button on:click={() => completeTask(task)}>
+                        Completed
+                    </button>
+                    <button on:click={() => finishRangeTask(task)}>
+                        Finish
+                    </button>
                   </div>
                 {/if}
             
@@ -410,6 +441,12 @@ function formatDate(d) {
                     <h3>Details</h3>
                     <p>{task.details}</p>
                     <p>{task.date} → {task.enddate}</p>
+                    <button on:click={() => completeTask(task)}>
+                        Completed
+                    </button>
+                    <button on:click={() => finishRangeTask(task)}>
+                        Finish
+                    </button>
                   </div>
                 {/if}
             
