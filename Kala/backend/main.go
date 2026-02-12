@@ -181,6 +181,37 @@ func CompleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Task completed"))
 }
 
+func FinishRangeTaskHandler(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+	var task CompletedTask
+	if err := json.NewDecoder(r.Body).Decode(&task); err != nil {
+		http.Error(w, "Bad JSON", http.StatusBadRequest)
+		return
+	}
+
+	db, err := sql.Open("sqlite", "./kala.db")
+	if err != nil {
+		http.Error(w, "DB error", http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
+	if err := FinishRangeTask(db, task); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Write([]byte("Range task finished"))
+}
 
 
 func headers(w http.ResponseWriter, req *http.Request) {
@@ -200,6 +231,8 @@ func main() {
 	http.HandleFunc("/tasks/simple", GetSimpleTasksHandler)
 	http.HandleFunc("/tasks/range", GetRangeTasksHandler)
     http.HandleFunc("/tasks/complete", CompleteTaskHandler)
+    http.HandleFunc("/tasks/completerange", FinishRangeTaskHandler)
+
 
     http.ListenAndServe(":8090", nil)
 }
