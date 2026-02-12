@@ -340,14 +340,14 @@ function formatDate(d) {
           </div>
         {/each}
 
+
+        {#each todayTasks as task}
         <div class="dateline"> 
 
             <p>{todayFormatted}</p> 
 
         </div>
 
-
-        {#each todayTasks as task}
               <div class="taskDisplayed">
             
                 <div class="taskRow">
@@ -372,6 +372,9 @@ function formatDate(d) {
                     <h3>Details</h3>
                     <p>{task.details}</p>
                     <p>{task.date} → {task.enddate}</p>
+                    <button on:click={() => completeTask(task)}>
+                        Completed
+                    </button>
                   </div>
                 {/if}
             
@@ -379,13 +382,13 @@ function formatDate(d) {
          {/each}
             
 
+        {#each tomorrowTasks as task}
         <div class="dateline"> 
 
             <p>{tomorrowFormatted}</p> 
 
         </div>
         
-        {#each tomorrowTasks as task}
               <div class="taskDisplayed">
             
                 <div class="taskRow">
@@ -410,6 +413,9 @@ function formatDate(d) {
                     <h3>Details</h3>
                     <p>{task.details}</p>
                     <p>{task.date} → {task.enddate}</p>
+                    <button on:click={() => completeTask(task)}>
+                        Completed
+                    </button>
                   </div>
                 {/if}
             
