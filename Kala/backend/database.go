@@ -60,7 +60,8 @@ func CreateCompletedTasksTable(db *sql.DB) {
 		time TEXT,
 		enddate TEXT,
 		completeddate TEXT NOT NULL,
-        completedtime TEXT NOT NULL
+        completedtime TEXT NOT NULL,
+        instancedate TEXT NOT NULL
 	);`
 
 	_, err := db.Exec(create)
@@ -132,6 +133,7 @@ type CompletedTask struct {
 	EndDate       string `json:"enddate"`
 	CompletedDate string `json:"completed_date"`
 	CompletedTime string `json:"completed_time"`
+    InstanceDate string `json:"instancedate"`
 }
 
 
@@ -268,7 +270,7 @@ func GetTaskRangehelper(db *sql.DB, uiDate time.Time) ([]RangeTask, error) {
 		      SELECT 1
 		      FROM completed_tasks c
 		      WHERE c.task_id = t.id
-		        AND c.completeddate = ?
+		        AND c.instancedate = ?
 		  );
 	`, targetDate)
 
@@ -437,8 +439,8 @@ func AddTaskToCompleted(db *sql.DB, t CompletedTask) error {
 
 	_, err := db.Exec(`
 		INSERT INTO completed_tasks
-		(task_id, title, details, time, date, enddate, completeddate, completedtime)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+		(task_id, title, details, time, date, enddate, completeddate, completedtime, instancedate)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 	`,
 		t.ID,
 		t.Title,
@@ -448,6 +450,7 @@ func AddTaskToCompleted(db *sql.DB, t CompletedTask) error {
 		t.EndDate,
 		t.CompletedDate,
 		t.CompletedTime,
+        t.InstanceDate,
 	)
 
     if err != nil {
@@ -459,7 +462,7 @@ func AddTaskToCompleted(db *sql.DB, t CompletedTask) error {
 }
 
 func removeCompletedTask(db *sql.DB, t CompletedTask) error {
-	today := time.Now().Format("2006-01-02")
+	//today := time.Now().Format("2006-01-02")
 
 	_, err := db.Exec(`
 		DELETE FROM tasks
@@ -469,7 +472,7 @@ func removeCompletedTask(db *sql.DB, t CompletedTask) error {
 		        enddate = 'null'
 		     OR enddate = ?
 		  );
-	`, t.ID, today)
+	`, t.ID, t.InstanceDate)
 
 	return err
 }
@@ -481,9 +484,9 @@ func FinishRangeTask(db *sql.DB, t CompletedTask) error {
 	CreateCompletedTasksTable(db)
 
 	// timestamp
-	now := time.Now()
-	t.CompletedDate = now.Format("2006-01-02")
-	t.CompletedTime = now.Format("15:04")
+	//now := time.Now()
+	//t.CompletedDate = now.Format("2006-01-02")
+	//t.CompletedTime = now.Format("15:04")
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -492,8 +495,8 @@ func FinishRangeTask(db *sql.DB, t CompletedTask) error {
 
 	_, err = tx.Exec(`
 		INSERT INTO completed_tasks
-		(task_id, title, details, time, date, enddate, completeddate, completedtime)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+		(task_id, title, details, time, date, enddate, completeddate, completedtime, instancedate)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 	`,
 		t.ID,
 		t.Title,
@@ -503,6 +506,7 @@ func FinishRangeTask(db *sql.DB, t CompletedTask) error {
 		t.EndDate,
 		t.CompletedDate,
 		t.CompletedTime,
+        t.InstanceDate,
 	)
 	if err != nil {
 		tx.Rollback()
