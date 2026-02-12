@@ -23,5 +23,7 @@
 hs_err_pid*
 replay_pid*
 
+*.db
+./Kala/backend/*.db
 
 *.txta

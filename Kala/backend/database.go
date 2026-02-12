@@ -224,6 +224,8 @@ func GetTaskSimple( db *sql.DB) ([]SimpleTask, error){
 // this filters based on date
 func GetTaskRange(db *sql.DB, uiDate time.Time) ([]RangeTask, error) {
 
+    // to stop the error/crash when loading the page
+
 	tasks, err := GetTaskRangehelper(db, uiDate)
 	if err != nil {
 		return nil, err
@@ -250,8 +252,6 @@ func GetTaskRange(db *sql.DB, uiDate time.Time) ([]RangeTask, error) {
 
 	return result, nil
 }
-
-
 
 func GetTaskRangehelper(db *sql.DB, uiDate time.Time) ([]RangeTask, error) {
 
@@ -298,6 +298,7 @@ func GetTaskRangehelper(db *sql.DB, uiDate time.Time) ([]RangeTask, error) {
 
 	return tasks, nil
 }
+
 
 // range seems to have a neat solution but im not sure about 
 // repeats this is a pain 
