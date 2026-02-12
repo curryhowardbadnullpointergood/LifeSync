@@ -4,6 +4,7 @@ import './tasks.scss';
 import Navbar from '../../lib/components/Navbar.svelte';
 import Sidebar from '../../lib/components/Sidebar.svelte';
 import { onMount, onDestroy, tick } from 'svelte';
+import { goto } from '$app/navigation';
 
 
 let isSidebarOpen = false
@@ -107,7 +108,7 @@ function formatDate(d) {
          tomorrowTasks = await res1.json();
     }
 
-    async function completeTask(task) {
+    async function completeTask(task, instancedate) {
         // passed 
         console.log("Complete button has been clicked! sanity test ", task)
           try {
@@ -122,7 +123,8 @@ function formatDate(d) {
                 details: task.details,
                 time: task.time ?? "",
                 date: task.date ?? "",
-                enddate: task.enddate ?? ""
+                enddate: task.enddate ?? "",
+                instancedate: instancedate
               })
             });
         console.log("response status:", res.status);
@@ -194,16 +196,22 @@ function formatDate(d) {
         }
 
 
-    async function finishRangeTask(task) {
+    async function finishRangeTask(task, instancedate) {
           const res = await fetch("http://localhost:8090/tasks/completerange", {
           method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(task)
+              
+        body: JSON.stringify({
+                id: task.id,
+                title: task.title,
+                details: task.details,
+                time: task.time ?? "",
+                date: task.date ?? "",
+                enddate: task.enddate ?? "",
+                instancedate: instancedate
+              })
       });
     
-      if (res.ok) {
-        tasksrange = tasksrange.filter(t => t.id !== task.id);
-      }
     }
     
 
@@ -358,6 +366,9 @@ function formatDate(d) {
                     <button on:click={() => finishRangeTask(task)}>
                         Finish
                     </button>
+                    <button on:click={() => goto(`/tasks/${task.id}`)}>
+                        Expand
+                    </button>
                   </div>
                 {/if}
             
@@ -397,11 +408,14 @@ function formatDate(d) {
                     <h3>Details</h3>
                     <p>{task.details}</p>
                     <p>{task.date} → {task.enddate}</p>
-                    <button on:click={() => completeTask(task)}>
+                    <button on:click={() => completeTask(task, todayFormatted)}>
                         Completed
                     </button>
-                    <button on:click={() => finishRangeTask(task)}>
+                    <button on:click={() => finishRangeTask(task, tomorrowFormatted)}>
                         Finish
+                    </button>
+                    <button on:click={() => goto(`/tasks/${task.id}`)}>
+                        Expand
                     </button>
                   </div>
                 {/if}
@@ -441,11 +455,14 @@ function formatDate(d) {
                     <h3>Details</h3>
                     <p>{task.details}</p>
                     <p>{task.date} → {task.enddate}</p>
-                    <button on:click={() => completeTask(task)}>
+                    <button on:click={() => completeTask(task, tomorrowFormatted)}>
                         Completed
                     </button>
-                    <button on:click={() => finishRangeTask(task)}>
+                    <button on:click={() => finishRangeTask(task, tomorrowFormatted)}>
                         Finish
+                    </button>
+                    <button on:click={() => goto(`/tasks/${task.id}`)}>
+                        Expand
                     </button>
                   </div>
                 {/if}
