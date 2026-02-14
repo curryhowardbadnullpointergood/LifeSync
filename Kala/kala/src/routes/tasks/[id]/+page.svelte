@@ -19,6 +19,43 @@ async function fetchInfo() {
 }
 
 onMount(fetchInfo);
+
+let startTime;
+let ms = 0;
+let interval = null;
+
+function start() {
+    startTime = Date.now() - ms;
+
+    interval = setInterval(() => {
+        ms = Date.now() - startTime;
+    }, 10);
+}
+function stop() {
+    clearInterval(interval);
+    interval = null;
+}
+
+function reset() {
+    stop();
+    ms = 0;
+}
+
+// derived time values
+$: hours = Math.floor(ms / 3600000);
+$: minutes = Math.floor(ms / 60000) % 60;
+$: seconds = Math.floor(ms / 1000) % 60;
+$: centiseconds = Math.floor(ms / 10) % 100;
+
+function pad(n) {
+    return n.toString().padStart(2, "0");
+}
+
+
+
+
+
+
 </script>
 
 
@@ -49,26 +86,23 @@ onMount(fetchInfo);
         
         <div class="time">
             <div class="timerface">
-                 <span class="digit" id="hr">
-                     00</span>
-                 <span class="txt">Hr</span>
-                 <span class="digit" id="min">
-                     00</span>
-                 <span class="txt">Min</span>
-                 <span class="digit" id="sec">
-                     00</span>
-                 <span class="txt">Sec</span>
-                 <span class="digit" id="count">
-                     00</span>
+                <span class="digit">{pad(hours)}</span>
+                <span class="txt">Hr</span>
+        
+                <span class="digit">{pad(minutes)}</span>
+                <span class="txt">Min</span>
+        
+                <span class="digit">{pad(seconds)}</span>
+                <span class="txt">Sec</span>
+        
+                <span class="digit">{pad(centiseconds)}</span>
             </div>
-        <div class="controls">
-            <button class="btn" id="start">
-                Start</button>
-            <button class="btn" id="stop">
-                Stop</button>
-            <button class="btn" id="reset">
-                Reset</button>
-        </div>
+        
+            <div class="controls">
+                <button on:click={start}>Start</button>
+                <button on:click={stop}>Stop</button>
+                <button on:click={reset}>Reset</button>
+            </div>
         </div>
 
 
@@ -77,7 +111,7 @@ onMount(fetchInfo);
 
             </div>
             <div class="textbox"> 
-                <textarea> ni how hahahah</textarea>
+                <textarea>notes - maybe add neovim keybindings to this! </textarea>
             </div>
 
         </div>
