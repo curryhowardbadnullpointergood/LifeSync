@@ -13,7 +13,7 @@
     align-items: center;
     gap: 1rem;
 
-    background: teal;
+    background: #1b1b1b;
 
     button{
       padding: 0.5rem;
@@ -39,9 +39,10 @@
   .middle{
     display: flex;
     flex-direction: column;
-    background: teal;
+    background: #1b1b1b;
     margin-left: 4rem;
-    
+    justify-content: space-between;
+    gap: 1rem;
 
     .details{
       display: flex; 
@@ -60,6 +61,33 @@
            color: #e3e3e3;
            font-family: "Lucida Console", "Courier New", monospace;
         }
+    }
+
+
+    .time{
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    
+      .timerface{
+          color: #e3e3e3;
+          font-size: 1rem;
+          font-family: "Lucida Console", "Courier New", monospace;
+          font-weight: 200; 
+
+      }
+
+      .controls{
+        display: flex; 
+        flex-direction: row; 
+        gap: 1rem;
+        color: #e3e3e3;
+
+        button{
+          padding: 0.25rem;
+        }
+      }
+
     }
       
     

@@ -47,6 +47,29 @@ onMount(fetchInfo);
             {/if}
         </div>
         
+        <div class="time">
+            <div class="timerface">
+                 <span class="digit" id="hr">
+                     00</span>
+                 <span class="txt">Hr</span>
+                 <span class="digit" id="min">
+                     00</span>
+                 <span class="txt">Min</span>
+                 <span class="digit" id="sec">
+                     00</span>
+                 <span class="txt">Sec</span>
+                 <span class="digit" id="count">
+                     00</span>
+            </div>
+        <div class="controls">
+            <button class="btn" id="start">
+                Start</button>
+            <button class="btn" id="stop">
+                Stop</button>
+            <button class="btn" id="reset">
+                Reset</button>
+        </div>
+        </div>
 
     </div>
 
