@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"time"
+    "strconv"
 
 )
 
@@ -213,6 +214,46 @@ func FinishRangeTaskHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Range task finished"))
 }
 
+// gets info of tasks based on its id
+func GetTaskId(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	// open DB
+	db, err := sql.Open("sqlite", "./kala.db")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
+	idStr := r.URL.Query().Get("id")
+	if idStr == "" {
+		http.Error(w, "missing id", http.StatusBadRequest)
+		return
+	}
+
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "invalid id", http.StatusBadRequest)
+		return
+	}
+
+	task, err := GetTaskInfo(db, id)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			http.Error(w, "task not found", http.StatusNotFound)
+			return
+		}
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(task)
+}
+
+
+
 
 func headers(w http.ResponseWriter, req *http.Request) {
 
@@ -232,7 +273,7 @@ func main() {
 	http.HandleFunc("/tasks/range", GetRangeTasksHandler)
     http.HandleFunc("/tasks/complete", CompleteTaskHandler)
     http.HandleFunc("/tasks/completerange", FinishRangeTaskHandler)
-
+    http.HandleFunc("/tasks/info", GetTaskId)
 
     http.ListenAndServe(":8090", nil)
 }

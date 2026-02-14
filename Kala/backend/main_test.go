@@ -4,9 +4,28 @@ import (
 	"database/sql"
 	"os"
 	"testing"
-
+    "fmt"
 	_ "modernc.org/sqlite"
 )
+
+func TestGetTaskInfo(t *testing.T){
+
+    dbFile := "kala.db"
+
+	db, err := sql.Open("sqlite", dbFile)
+	if err != nil {
+		t.Fatalf("failed to open db: %v", err)
+	}
+	defer db.Close()
+
+    t = GetTaskInfo(db,3)
+
+	if err != nil {
+		t.Fatalf("get Task info failed: %v", err)
+	}
+
+    fmt.Print(t, "task")
+}
 
 /*
 func TestAddTask(t *testing.T) {
@@ -43,7 +62,7 @@ func TestAddTask(t *testing.T) {
 	}
 }
 
-*/
+
 
 func TestGetTaskSimple(t *testing.T) {
 	dbFile := "test_kala_simple.db"
@@ -93,4 +112,4 @@ func TestGetTaskSimple(t *testing.T) {
 
 	
 }
-
+*/

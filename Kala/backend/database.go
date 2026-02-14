@@ -529,7 +529,42 @@ func FinishRangeTask(db *sql.DB, t CompletedTask) error {
 }
 
 
+// this is for id tasks functions that deal with this, i probably need a new schema
+// this is going to get super fucked super quickly if the strucutre is off
+// this can be a pain or it can work properly ughhhhhhh 
 
+// public method that should get the tasks information based on the id? 
+// oh i need to pass along the "instance date" to this don't I?? probably should 
+func GetTaskInfo(db *sql.DB, id int ) (*CompletedTask, error){
+    
+    fmt.Print("I get to get task info")
+    // think this should work but really i should be using a new schema 
+    // for the sake of speed and simplicity im going to keep using this though
+    var t CompletedTask
+    
+    	err := db.QueryRow(`
+		SELECT id, title, details, enddate
+		FROM tasks
+		WHERE id = ?;
+	`, id).Scan(
+		&t.ID,
+		&t.Title,
+		&t.Details,
+		&t.EndDate,
+	)
+
+    // check if enddate is null, 
+    // which means no deadline for now, so we can do some unique cases with this
+    // such bad desing, or maybe this is just getting complex 
+
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println("Task:", t)
+
+	return &t, nil
+}
 
 
 
