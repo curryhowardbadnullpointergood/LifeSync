@@ -71,6 +71,17 @@ onMount(fetchInfo);
         </div>
         </div>
 
+
+        <div class="bottom">
+            <div class="sessions"> 
+
+            </div>
+            <div class="textbox"> 
+                <textarea> ni how hahahah</textarea>
+            </div>
+
+        </div>
+
     </div>
 
 
