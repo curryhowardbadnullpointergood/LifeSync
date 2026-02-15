@@ -72,6 +72,33 @@ func CreateCompletedTasksTable(db *sql.DB) {
 	log.Println("Completed tasks table created")
 }
 
+// date here means date when task info is opened/pulled up
+// ah guess we also need session date, don't we hmm 
+func CreateTaskNotes(db *sql.DB) {
+	create := `
+	CREATE TABLE IF NOT EXISTS taskNotes (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		task_id INTEGER NOT NULL,
+		title TEXT NOT NULL,
+		details TEXT NOT NULL,
+		opendate TEXT NOT NULL,
+		instancedate TEXT NOT NULL, 
+		status TEXT, 
+		durationSeconds INTEGER,
+		notes_path TEXT
+
+	);`
+
+	_, err := db.Exec(create)
+	if err != nil {
+		log.Fatal("Failed to create completed_tasks table:", err)
+	}
+
+	log.Println("Completed tasks table created")
+}
+
+
+
 
 // drops tables, used for testing purposes 
 func dropTable(db *sql.DB) {
