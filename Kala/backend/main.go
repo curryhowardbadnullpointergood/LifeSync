@@ -272,14 +272,12 @@ func OpenTaskSession(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("I MADE IT HERE!")
 	taskID, err := strconv.Atoi(taskIDStr)
 	if err != nil {
 		http.Error(w, "invalid id", http.StatusBadRequest)
 		return
 	}
 
-	fmt.Println("I MADE IT HERE! 2 ")
 	db, err := sql.Open("sqlite", "./kala.db")
 	if err != nil {
 		http.Error(w, err.Error(), 500)
@@ -287,7 +285,6 @@ func OpenTaskSession(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 	
-	fmt.Println("I MADE IT HERE! 3")
 	// fetch task info
 	var title, details, date, repeat, enddate string
 
@@ -326,7 +323,6 @@ func OpenTaskSession(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	fmt.Println("I MADE IT HERE! 4")
 
 	// build filename: taskID + instance date
 	fileName := fmt.Sprintf("%d_%s.txt", taskID, instanceDate)
@@ -340,7 +336,6 @@ func OpenTaskSession(w http.ResponseWriter, r *http.Request) {
 	}
 	file.Close()
     
-    fmt.Println("I made it here! 5")
     var existingSession TaskSession
 
     err = db.QueryRow(`
@@ -373,7 +368,6 @@ func OpenTaskSession(w http.ResponseWriter, r *http.Request) {
         return
     }
     
-    fmt.Println("I made it here 6")
 	// insert DB session row
 	res, err := tx.Exec(`
 		INSERT INTO taskNotes
@@ -419,7 +413,68 @@ func OpenTaskSession(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func SaveNotes(w http.ResponseWriter, r *http.Request) {
 
+    // --- CORS ---
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+    w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+    
+    fmt.Println("I made it here 1")
+    // Preflight request
+    if r.Method == http.MethodOptions {
+        w.WriteHeader(http.StatusOK)
+        return
+    }
+
+    if r.Method != http.MethodPost {
+        http.Error(w, "method not allowed", 405)
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    fmt.Println("I made it here 2")
+
+    var req struct {
+        SessionID int    `json:"sessionId"`
+        Content   string `json:"content"`
+    }
+
+    if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+        http.Error(w, err.Error(), 400)
+        return
+    }
+
+    db, err := sql.Open("sqlite", "./kala.db")
+    if err != nil {
+        http.Error(w, err.Error(), 500)
+        return
+    }
+    defer db.Close()
+    fmt.Println("I made it here 3")
+
+    var path string
+
+    err = db.QueryRow(`
+        SELECT notes_path FROM taskNotes WHERE id = ?
+    `, req.SessionID).Scan(&path)
+
+    if err != nil {
+        fmt.Println("Error: ", err, "session id: ", req.SessionID)
+        http.Error(w, "session not found", 404)
+        return
+    }
+    fmt.Println("I made it here 4")
+
+    if err := os.WriteFile(path, []byte(req.Content), 0644); err != nil {
+        http.Error(w, err.Error(), 500)
+        return
+    }
+
+    json.NewEncoder(w).Encode(map[string]string{
+        "status": "saved",
+    })
+}
 
 
 func headers(w http.ResponseWriter, req *http.Request) {
@@ -442,6 +497,8 @@ func main() {
     http.HandleFunc("/tasks/completerange", FinishRangeTaskHandler)
     http.HandleFunc("/tasks/info", GetTaskId)
 	http.HandleFunc("/tasks/open", OpenTaskSession)
+    http.HandleFunc("/tasks/savenotes", SaveNotes)
+
 
 
     http.ListenAndServe(":8090", nil)

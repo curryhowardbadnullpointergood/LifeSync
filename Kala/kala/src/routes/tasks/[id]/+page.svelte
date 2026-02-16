@@ -5,9 +5,13 @@ import { goto } from '$app/navigation';
 import './id.scss';
 
 let task = null;
+let notes = "";
+let saveTimer;
+let session = null;
 
 $: taskId = $page.params.id;
 $: instance = $page.url.searchParams.get('instance');
+
 
 
 async function fetchInfo() {
@@ -27,13 +31,34 @@ async function openSession() {
         `http://localhost:8090/tasks/open?task=${taskId}&instance=${instance}`
     );
 
-    const session = await res.json();
-    console.log(session);
+    session = await res.json();
+    console.log("session: ", session);
 }
 
 
 onMount(openSession);
 
+
+
+function scheduleSave() {
+  clearTimeout(saveTimer);
+
+  saveTimer = setTimeout(saveNotes, 800); // save after pause
+}
+
+async function saveNotes() {
+  console.log("autosaving…");
+  console.log(session.sessionId, "session id")
+
+  await fetch("http://localhost:8090/tasks/savenotes", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      sessionId: session.sessionId,
+      content: notes
+    })
+  });
+}
 
 
 let startTime;
@@ -127,7 +152,7 @@ function pad(n) {
 
             </div>
             <div class="textbox"> 
-                <textarea>notes - maybe add neovim keybindings to this! </textarea>
+                <textarea bind:value={notes}   on:input={scheduleSave} >notes - maybe add neovim keybindings to this! </textarea>
             </div>
 
         </div>

@@ -166,14 +166,14 @@ type CompletedTask struct {
 
 // this is for task notes 
 type TaskSession struct {
-	ID            int
-	TaskID        int
-	TaskType      string
-	InstanceDate  string
-	OpenDate      string
-	Status        string
-    Duration     int
-	NotesPath     string
+	ID           int    `json:"sessionId"`
+	TaskID       int    `json:"taskId"`
+	TaskType     string `json:"taskType"`
+	InstanceDate string `json:"instanceDate"`
+	OpenDate     string `json:"openDate"`
+	Status       string `json:"status"`
+	Duration     int    `json:"duration"`
+	NotesPath    string `json:"notesPath"`
 }
 
 
