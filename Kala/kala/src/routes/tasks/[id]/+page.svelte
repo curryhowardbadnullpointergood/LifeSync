@@ -24,7 +24,6 @@ async function fetchInfo() {
     }
 }
 
-onMount(fetchInfo);
 
 async function openSession() {
     const res = await fetch(
@@ -33,11 +32,27 @@ async function openSession() {
 
     session = await res.json();
     console.log("session: ", session);
+
+    await loadNotes();
 }
 
 
-onMount(openSession);
+async function loadNotes() {
+    if (!session?.notesPath) return;
 
+    try {
+        const res = await fetch(
+            `http://localhost:8090/tasks/loadnotes?path=${encodeURIComponent(session.notesPath)}`
+        );
+
+        const data = await res.json();
+
+        notes = data.content || "";
+    } catch (err) {
+        console.error("Failed to load notes:", err);
+        notes = "";
+    }
+}
 
 
 function scheduleSave() {
@@ -96,6 +111,9 @@ function pad(n) {
 
 
 
+onMount(fetchInfo);
+onMount(openSession);
+onMount(saveNotes);
 
 </script>
 
@@ -152,7 +170,12 @@ function pad(n) {
 
             </div>
             <div class="textbox"> 
-                <textarea bind:value={notes}   on:input={scheduleSave} >notes - maybe add neovim keybindings to this! </textarea>
+
+                {#if session}
+                    <textarea bind:value={notes} on:input={scheduleSave}> notes - maybe add neovim keybindings to this! </textarea>
+                {:else}
+                    <p>Loading notes…</p>
+                {/if}
             </div>
 
         </div>

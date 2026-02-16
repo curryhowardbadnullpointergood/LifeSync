@@ -476,6 +476,36 @@ func SaveNotes(w http.ResponseWriter, r *http.Request) {
     })
 }
 
+func LoadNotes(w http.ResponseWriter, r *http.Request) {
+
+    // CORS (optional but recommended)
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+
+    if r.Method != http.MethodGet {
+        http.Error(w, "method not allowed", 405)
+        return
+    }
+
+    path := r.URL.Query().Get("path")
+
+    if path == "" {
+        http.Error(w, "missing path", 400)
+        return
+    }
+
+    data, err := os.ReadFile(path)
+    if err != nil {
+        http.Error(w, err.Error(), 500)
+        return
+    }
+
+    json.NewEncoder(w).Encode(map[string]string{
+        "content": string(data),
+    })
+}
+
+
+
 
 func headers(w http.ResponseWriter, req *http.Request) {
 
@@ -498,7 +528,8 @@ func main() {
     http.HandleFunc("/tasks/info", GetTaskId)
 	http.HandleFunc("/tasks/open", OpenTaskSession)
     http.HandleFunc("/tasks/savenotes", SaveNotes)
-
+    http.HandleFunc("/tasks/loadnotes", LoadNotes)
+    
 
 
     http.ListenAndServe(":8090", nil)
