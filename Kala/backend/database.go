@@ -79,22 +79,22 @@ func CreateTaskNotes(db *sql.DB) {
 	CREATE TABLE IF NOT EXISTS taskNotes (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		task_id INTEGER NOT NULL,
-		title TEXT NOT NULL,
-		details TEXT NOT NULL,
+		taskType TEXT NOT NULL,
 		opendate TEXT NOT NULL,
 		instancedate TEXT NOT NULL, 
 		status TEXT, 
 		durationSeconds INTEGER,
-		notes_path TEXT
+		notesPath TEXT,
+		UNIQUE(task_id, instance_date)
 
 	);`
 
 	_, err := db.Exec(create)
 	if err != nil {
-		log.Fatal("Failed to create completed_tasks table:", err)
+		log.Fatal("Failed to create task notes table:", err)
 	}
 
-	log.Println("Completed tasks table created")
+	log.Println("task notes table created")
 }
 
 
@@ -164,7 +164,16 @@ type CompletedTask struct {
 }
 
 
-
+// this is for task notes 
+type TaskSession struct {
+	ID            int
+	TaskID        int
+	TaskType      string
+	InstanceDate  string
+	OpenDate      string
+	Status        string
+	NotesPath     string
+}
 
 
 // AddTask inserts a new task into the DB
@@ -597,6 +606,16 @@ func GetTaskInfo(db *sql.DB, id int ) (*CompletedTask, error){
 
 
 
+// detect task type 
+func detectTaskType(date, repeat, enddate string) string {
+	if repeat != "null" {
+		return "repeat"
+	}
+	if enddate != "null" {
+		return "range"
+	}
+	return "simple"
+}
 
 
 

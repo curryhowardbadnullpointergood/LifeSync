@@ -7,6 +7,8 @@ import (
 	"encoding/json"
 	"time"
     "strconv"
+	"os"
+	"path/filepath"
 
 )
 
@@ -255,6 +257,129 @@ func GetTaskId(w http.ResponseWriter, r *http.Request) {
 
 
 
+func OpenTaskSession(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	taskIDStr := r.URL.Query().Get("task")
+	instanceDate := r.URL.Query().Get("instance")
+	
+	fmt.Println(taskIDStr , "task id")
+
+	if taskIDStr == "" || instanceDate == "" {
+		http.Error(w, "missing params", http.StatusBadRequest)
+		return
+	}
+
+	fmt.Println("I MADE IT HERE!")
+	taskID, err := strconv.Atoi(taskIDStr)
+	if err != nil {
+		http.Error(w, "invalid id", http.StatusBadRequest)
+		return
+	}
+
+	fmt.Println("I MADE IT HERE! 2 ")
+	db, err := sql.Open("sqlite", "./kala.db")
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	defer db.Close()
+	
+	fmt.Println("I MADE IT HERE! 3")
+	// fetch task info
+	var title, details, date, repeat, enddate string
+
+	err = db.QueryRow(`
+		SELECT title, details, date, repeat, enddate
+		FROM tasks
+		WHERE id = ?
+	`, taskID).Scan(
+		&title,
+		&details,
+		&date,
+		&repeat,
+		&enddate,
+	)
+
+	if err != nil {
+		http.Error(w, "task not found", 404)
+		return
+	}
+
+	taskType := detectTaskType(date, repeat, enddate)
+
+	openDate := time.Now().Format("2006-01-02")
+
+	tx, err := db.Begin()
+	
+	dir := "./taskinformation"
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	
+	// build filename: taskID + instance date
+	fileName := fmt.Sprintf("%d_%s.txt", taskID, instanceDate)
+	filePath := filepath.Join(dir, fileName)
+	
+	// create file if not exists
+	file, err := os.OpenFile(filePath, os.O_CREATE, 0644)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	file.Close()
+	
+	// insert DB session row
+	res, err := tx.Exec(`
+		INSERT INTO taskNotes
+		(task_id, taskType, opendate, instancedate, status, durationSeconds, notes_path)
+		VALUES (?, ?, ?, ?, ?, ?, ?)
+	`,
+		taskID,
+		taskType,
+		openDate,
+		instanceDate,
+		"start",
+		0,
+		filePath,
+	)
+	
+	if err != nil {
+		tx.Rollback()
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	
+	sessionID, _ := res.LastInsertId()
+	
+	if err := tx.Commit(); err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	
+	// response
+	session := TaskSession{
+		ID:           int(sessionID),
+		TaskID:       taskID,
+		TaskType:     taskType,
+		InstanceDate: instanceDate,
+		OpenDate:     openDate,
+		Status:       "start",
+		NotesPath:    filePath,
+	}
+	
+	json.NewEncoder(w).Encode(session)
+	
+
+
+}
+
+
+
+
 func headers(w http.ResponseWriter, req *http.Request) {
 
     for name, headers := range req.Header {
@@ -274,6 +399,8 @@ func main() {
     http.HandleFunc("/tasks/complete", CompleteTaskHandler)
     http.HandleFunc("/tasks/completerange", FinishRangeTaskHandler)
     http.HandleFunc("/tasks/info", GetTaskId)
+	http.HandleFunc("/tasks/open", OpenTaskSession)
+
 
     http.ListenAndServe(":8090", nil)
 }

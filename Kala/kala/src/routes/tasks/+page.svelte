@@ -366,7 +366,7 @@ function formatDate(d) {
                     <button on:click={() => finishRangeTask(task)}>
                         Finish
                     </button>
-                    <button on:click={() => goto(`/tasks/${task.id}`)}>
+                    <button on:click={() => goto(`/tasks/${task.id}?instance=${todayFormatted}`)}>
                         Expand
                     </button>
                   </div>
@@ -414,7 +414,7 @@ function formatDate(d) {
                     <button on:click={() => finishRangeTask(task, tomorrowFormatted)}>
                         Finish
                     </button>
-                    <button on:click={() => goto(`/tasks/${task.id}`)}>
+                    <button on:click={() => goto(`/tasks/${task.id}?instance=${todayFormatted}`)}>
                         Expand
                     </button>
                   </div>
@@ -461,7 +461,7 @@ function formatDate(d) {
                     <button on:click={() => finishRangeTask(task, tomorrowFormatted)}>
                         Finish
                     </button>
-                    <button on:click={() => goto(`/tasks/${task.id}`)}>
+                    <button on:click={() => goto(`/tasks/${task.id}?instance=${tomorrowFormatted}`)}>
                         Expand
                     </button>
                   </div>

@@ -7,6 +7,8 @@ import './id.scss';
 let task = null;
 
 $: taskId = $page.params.id;
+$: instanceDate = $page.params.instance;
+
 
 async function fetchInfo() {
     try {
@@ -19,6 +21,19 @@ async function fetchInfo() {
 }
 
 onMount(fetchInfo);
+
+async function openSession() {
+    const res = await fetch(
+        `http://localhost:8090/tasks/open?task=${taskId}&instance=${instanceDate}`
+    );
+
+    const session = await res.json();
+    console.log(session);
+}
+
+openSession();
+
+
 
 let startTime;
 let ms = 0;
