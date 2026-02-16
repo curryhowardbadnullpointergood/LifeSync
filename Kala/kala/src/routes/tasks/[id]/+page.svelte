@@ -107,6 +107,25 @@ function pad(n) {
     return n.toString().padStart(2, "0");
 }
 
+async function updateDuration() {
+    stop(); // stop the timer first
+
+    if (!session) return;
+
+    const durationToAdd = Math.floor(ms / 1000); // convert ms → seconds
+
+    await fetch("http://localhost:8090/tasks/updateduration", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            sessionId: session.sessionId,
+            seconds: durationToAdd
+        })
+    });
+
+    // reset timer locally for next session
+    ms = 0;
+}
 
 
 
@@ -114,6 +133,7 @@ function pad(n) {
 onMount(fetchInfo);
 onMount(openSession);
 onMount(saveNotes);
+onMount(updateDuration);
 
 </script>
 
@@ -161,6 +181,7 @@ onMount(saveNotes);
                 <button on:click={start}>Start</button>
                 <button on:click={stop}>Stop</button>
                 <button on:click={reset}>Reset</button>
+                <button on:click={updateDuration}>Update</button>
             </div>
         </div>
 

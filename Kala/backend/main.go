@@ -517,6 +517,59 @@ func LoadNotes(w http.ResponseWriter, r *http.Request) {
     })
 }
 
+func UpdateTaskDuration(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "application/json")
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+    w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+
+    if r.Method == http.MethodOptions {
+        w.WriteHeader(http.StatusOK)
+        return
+    }
+
+    if r.Method != http.MethodPost {
+        http.Error(w, "method not allowed", 405)
+        return
+    }
+
+
+    // Request payload
+    var req struct {
+        SessionID int `json:"sessionId"`
+        Seconds   int `json:"seconds"` // amount to add
+    }
+
+    if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+        http.Error(w, err.Error(), 400)
+        return
+    }
+
+    fmt.Println("session: ", req.SessionID, "seconds: ", req.Seconds)
+
+    db, err := sql.Open("sqlite", "./kala.db")
+    if err != nil {
+        http.Error(w, err.Error(), 500)
+        return
+    }
+    defer db.Close()
+
+    // Update duration: add to existing value
+    _, err = db.Exec(`
+        UPDATE taskNotes
+        SET durationSeconds = durationSeconds + ?
+        WHERE id = ?
+    `, req.Seconds, req.SessionID)
+
+    if err != nil {
+        http.Error(w, err.Error(), 500)
+        return
+    }
+
+    json.NewEncoder(w).Encode(map[string]string{
+        "status": "duration updated",
+    })
+}
 
 
 
@@ -542,6 +595,7 @@ func main() {
 	http.HandleFunc("/tasks/open", OpenTaskSession)
     http.HandleFunc("/tasks/savenotes", SaveNotes)
     http.HandleFunc("/tasks/loadnotes", LoadNotes)
+    http.HandleFunc("/tasks/updateduration", UpdateTaskDuration)
     
 
 
