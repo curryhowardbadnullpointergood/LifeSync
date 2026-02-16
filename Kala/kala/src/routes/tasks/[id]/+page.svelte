@@ -7,7 +7,7 @@ import './id.scss';
 let task = null;
 
 $: taskId = $page.params.id;
-$: instanceDate = $page.params.instance;
+$: instance = $page.url.searchParams.get('instance');
 
 
 async function fetchInfo() {
@@ -24,14 +24,15 @@ onMount(fetchInfo);
 
 async function openSession() {
     const res = await fetch(
-        `http://localhost:8090/tasks/open?task=${taskId}&instance=${instanceDate}`
+        `http://localhost:8090/tasks/open?task=${taskId}&instance=${instance}`
     );
 
     const session = await res.json();
     console.log(session);
 }
 
-openSession();
+
+onMount(openSession);
 
 
 

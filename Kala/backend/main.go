@@ -309,10 +309,16 @@ func OpenTaskSession(w http.ResponseWriter, r *http.Request) {
 	}
 
 	taskType := detectTaskType(date, repeat, enddate)
-
+    
+    fmt.Println("Task type: ", taskType)
 	openDate := time.Now().Format("2006-01-02")
 
 	tx, err := db.Begin()
+
+    if err != nil {
+        http.Error(w, err.Error(), 500)
+        return
+    }
 	
 	dir := "./taskinformation"
 	if err := os.MkdirAll(dir, 0755); err != nil {
@@ -320,6 +326,8 @@ func OpenTaskSession(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
+	fmt.Println("I MADE IT HERE! 4")
+
 	// build filename: taskID + instance date
 	fileName := fmt.Sprintf("%d_%s.txt", taskID, instanceDate)
 	filePath := filepath.Join(dir, fileName)
@@ -331,7 +339,41 @@ func OpenTaskSession(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	file.Close()
-	
+    
+    fmt.Println("I made it here! 5")
+    var existingSession TaskSession
+
+    err = db.QueryRow(`
+        SELECT id, task_id, taskType, opendate, instancedate,
+               status, durationSeconds, notes_path
+        FROM taskNotes
+        WHERE task_id = ? AND instancedate = ?
+    `,
+        taskID,
+        instanceDate,
+    ).Scan(
+        &existingSession.ID,
+        &existingSession.TaskID,
+        &existingSession.TaskType,
+        &existingSession.OpenDate,
+        &existingSession.InstanceDate,
+        &existingSession.Status,
+        &existingSession.Duration,
+        &existingSession.NotesPath,
+    )
+    
+    if err == nil {
+        // session exists → return it
+        json.NewEncoder(w).Encode(existingSession)
+        return
+    }
+    
+    if err != sql.ErrNoRows {
+        http.Error(w, err.Error(), 500)
+        return
+    }
+    
+    fmt.Println("I made it here 6")
 	// insert DB session row
 	res, err := tx.Exec(`
 		INSERT INTO taskNotes

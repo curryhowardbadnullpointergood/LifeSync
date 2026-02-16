@@ -84,8 +84,8 @@ func CreateTaskNotes(db *sql.DB) {
 		instancedate TEXT NOT NULL, 
 		status TEXT, 
 		durationSeconds INTEGER,
-		notesPath TEXT,
-		UNIQUE(task_id, instance_date)
+		notes_path TEXT,
+		UNIQUE(task_id, instancedate)
 
 	);`
 
@@ -172,6 +172,7 @@ type TaskSession struct {
 	InstanceDate  string
 	OpenDate      string
 	Status        string
+    Duration     int
 	NotesPath     string
 }
 
@@ -183,7 +184,7 @@ func AddTask(db *sql.DB, title, details, date, repeat, time, enddate, numrepeat,
 
 	CreateTable(db)
     CreateCompletedTasksTable(db)
-
+    CreateTaskNotes(db)
 	query := `
 	INSERT INTO tasks (title, details, date, repeat, time, enddate, numrepeat, repeatoccurrences, repeatnever, repeatenddate )
 	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`

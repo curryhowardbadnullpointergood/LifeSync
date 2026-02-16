@@ -359,7 +359,6 @@ function formatDate(d) {
                   <div class="taskDetails">
                     <h3>Details</h3>
                     <p>{task.details}</p>
-                    <h3>Status:</h3>
                     <button on:click={() => completeTask(task)}>
                         Completed
                     </button>
