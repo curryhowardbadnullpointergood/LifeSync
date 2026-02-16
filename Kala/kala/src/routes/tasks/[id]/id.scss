@@ -69,11 +69,38 @@
       flex-direction: column;
       gap: 1rem;
     
-      .timerface{
+
+      .kala{
+        display: flex; 
+        flex-direction: row;
+        gap: 1rem;
+        justify-content: space-between;
+
+        .timerface{
           color: #e3e3e3;
           font-size: 1rem;
           font-family: "Lucida Console", "Courier New", monospace;
           font-weight: 200; 
+
+        }
+
+        .totaltime{
+          display: flex; 
+          flex-direction: row;
+          gap: 1rem;
+          margin-right: 10%;
+
+          h3{
+            color: #e3e3e3;
+          }
+
+          p{
+            color: #e3e3e3;
+            font-size: 1rem;
+            font-family: "Lucida Console", "Courier New", monospace;
+            font-weight: 200; 
+          }
+        }
 
       }
 

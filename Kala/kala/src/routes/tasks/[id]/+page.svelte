@@ -164,19 +164,30 @@ onMount(updateDuration);
         </div>
         
         <div class="time">
-            <div class="timerface">
-                <span class="digit">{pad(hours)}</span>
-                <span class="txt">Hr</span>
+            <div class="kala"> 
+                 <div class="timerface">
+                     <span class="digit">{pad(hours)}</span>
+                     <span class="txt">Hr</span>
         
-                <span class="digit">{pad(minutes)}</span>
-                <span class="txt">Min</span>
+                     <span class="digit">{pad(minutes)}</span>
+                     <span class="txt">Min</span>
         
-                <span class="digit">{pad(seconds)}</span>
-                <span class="txt">Sec</span>
+                     <span class="digit">{pad(seconds)}</span>
+                     <span class="txt">Sec</span>
         
-                <span class="digit">{pad(centiseconds)}</span>
+                     <span class="digit">{pad(centiseconds)}</span>
+                     
+                 </div>
+                <div class="totaltime"> 
+                    {#if session}
+                        <p> Total Time: </p>
+                        <p>{session.duration}</p>
+                    {:else}
+                        <p> Loading:</p>
+                    {/if}
+                </div>
             </div>
-        
+
             <div class="controls">
                 <button on:click={start}>Start</button>
                 <button on:click={stop}>Stop</button>
