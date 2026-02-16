@@ -337,16 +337,15 @@ func OpenTaskSession(w http.ResponseWriter, r *http.Request) {
 	file.Close()
     
     var existingSession TaskSession
-
+    
+    if taskType == "simple" {
+    // check only task_id
     err = db.QueryRow(`
         SELECT id, task_id, taskType, opendate, instancedate,
                status, durationSeconds, notes_path
         FROM taskNotes
-        WHERE task_id = ? AND instancedate = ?
-    `,
-        taskID,
-        instanceDate,
-    ).Scan(
+        WHERE task_id = ?
+    `, taskID).Scan(
         &existingSession.ID,
         &existingSession.TaskID,
         &existingSession.TaskType,
@@ -356,7 +355,25 @@ func OpenTaskSession(w http.ResponseWriter, r *http.Request) {
         &existingSession.Duration,
         &existingSession.NotesPath,
     )
-    
+    } else {
+        // check task_id + instanceDate
+        err = db.QueryRow(`
+            SELECT id, task_id, taskType, opendate, instancedate,
+                   status, durationSeconds, notes_path
+            FROM taskNotes
+            WHERE task_id = ? AND instancedate = ?
+        `, taskID, instanceDate).Scan(
+            &existingSession.ID,
+            &existingSession.TaskID,
+            &existingSession.TaskType,
+            &existingSession.OpenDate,
+            &existingSession.InstanceDate,
+            &existingSession.Status,
+            &existingSession.Duration,
+            &existingSession.NotesPath,
+        )
+    }
+        
     if err == nil {
         // session exists → return it
         json.NewEncoder(w).Encode(existingSession)
@@ -420,7 +437,6 @@ func SaveNotes(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
     w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
     
-    fmt.Println("I made it here 1")
     // Preflight request
     if r.Method == http.MethodOptions {
         w.WriteHeader(http.StatusOK)
@@ -433,7 +449,6 @@ func SaveNotes(w http.ResponseWriter, r *http.Request) {
     }
 
     w.Header().Set("Content-Type", "application/json")
-    fmt.Println("I made it here 2")
 
     var req struct {
         SessionID int    `json:"sessionId"`
@@ -451,7 +466,6 @@ func SaveNotes(w http.ResponseWriter, r *http.Request) {
         return
     }
     defer db.Close()
-    fmt.Println("I made it here 3")
 
     var path string
 
@@ -464,7 +478,6 @@ func SaveNotes(w http.ResponseWriter, r *http.Request) {
         http.Error(w, "session not found", 404)
         return
     }
-    fmt.Println("I made it here 4")
 
     if err := os.WriteFile(path, []byte(req.Content), 0644); err != nil {
         http.Error(w, err.Error(), 500)
