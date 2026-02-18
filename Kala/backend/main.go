@@ -138,6 +138,41 @@ func GetRangeTasksHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(tasks)
 }
 
+
+func GetRepeatTasksHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	db, err := sql.Open("sqlite", "./kala.db")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
+	dateStr := r.URL.Query().Get("date")
+	if dateStr == "" {
+		http.Error(w, "missing date param", http.StatusBadRequest)
+		return
+	}
+
+	uiDate, err := time.Parse("2006-01-02", dateStr)
+	if err != nil {
+		http.Error(w, "invalid date format", http.StatusBadRequest)
+		return
+	}
+
+	tasks, err := GetRepeatTasks(db, uiDate)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(tasks)
+}
+
+
+
 func CompleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 	// CORS headers
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -589,6 +624,7 @@ func main() {
 	http.HandleFunc("/addtask", AddTaskButton)
 	http.HandleFunc("/tasks/simple", GetSimpleTasksHandler)
 	http.HandleFunc("/tasks/range", GetRangeTasksHandler)
+	http.HandleFunc("/tasks/repeat", GetRepeatTasksHandler)
     http.HandleFunc("/tasks/complete", CompleteTaskHandler)
     http.HandleFunc("/tasks/completerange", FinishRangeTaskHandler)
     http.HandleFunc("/tasks/info", GetTaskId)
