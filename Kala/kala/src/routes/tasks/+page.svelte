@@ -61,6 +61,10 @@ const tomorrowFormatted = formatDate(tomorrow);
 // i guess this is tasks range new now but for today and tomorrow 
 let todayTasks = [];
 let tomorrowTasks = [];
+let todayTasksRepeat = [];
+let tomorrowTasksRepeat = [];
+
+
 
 // flag for the date modal 
 let showDateModal = false;
@@ -107,6 +111,21 @@ function formatDate(d) {
           );
          tomorrowTasks = await res1.json();
     }
+
+    async function loadRepeatTasks(date, date2) {
+        console.log("load repeat tasks function called!")
+         const res = await fetch(
+            `http://localhost:8090/tasks/repeat?date=${date}`
+          );
+         todayTasksRepeat = await res.json();
+         
+         const res1 = await fetch(
+            `http://localhost:8090/tasks/repeat?date=${date2}`
+          );
+         tomorrowTasksRepeat = await res1.json();
+    }
+
+
 
     async function completeTask(task, instancedate) {
         // passed 
@@ -243,6 +262,7 @@ function formatDate(d) {
   loadTasks();
   // calls range tasks gets them based on current time this needs to be changed a bit but not too bad for now 
   loadRangeTasks(todayFormatted, tomorrowFormatted);
+  loadRepeatTasks(todayFormatted, tomorrowFormatted);
 
 
   });
@@ -422,8 +442,100 @@ function formatDate(d) {
               </div>
          {/each}
             
+        {#each todayTasksRepeat as task}
+        <div class="dateline"> 
+
+            <p>{todayFormatted}</p> 
+
+        </div>
+
+              <div class="taskDisplayed">
+            
+                <div class="taskRow">
+                  <button
+                    class:active={openTaskId === task.id}
+                    on:click={() =>
+                      openTaskId === task.id
+                        ? (openTaskId = null)
+                        : (openTaskId = task.id)
+                    }
+                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
+                
+                  </button>
+            
+                  <p>{task.title}</p>
+            
+                </div>
+            
+                {#if openTaskId === task.id}
+                  <div class="taskDetails">
+                    <h3>Details</h3>
+                    <p>{task.details}</p>
+                    <p>{task.date} → {task.enddate}</p>
+                    <button on:click={() => completeTask(task, todayFormatted)}>
+                        Completed
+                    </button>
+                    <button on:click={() => finishRangeTask(task, tomorrowFormatted)}>
+                        Finish
+                    </button>
+                    <button on:click={() => goto(`/tasks/${task.id}?instance=${todayFormatted}`)}>
+                        Expand
+                    </button>
+                  </div>
+                {/if}
+            
+              </div>
+         {/each}
+            
 
         {#each tomorrowTasks as task}
+        <div class="dateline"> 
+
+            <p>{tomorrowFormatted}</p> 
+
+        </div>
+        
+              <div class="taskDisplayed">
+            
+                <div class="taskRow">
+                  <button
+                    class:active={openTaskId2 === task.id}
+                    on:click={() =>
+                      openTaskId2 === task.id
+                        ? (openTaskId2 = null)
+                        : (openTaskId2 = task.id)
+                    }
+                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
+                
+                  </button>
+            
+                  <p>{task.title}</p>
+            
+                </div>
+            
+                {#if openTaskId2 === task.id}
+                  <div class="taskDetails">
+                    <h3>Details</h3>
+                    <p>{task.details}</p>
+                    <p>{task.date} → {task.enddate}</p>
+                    <button on:click={() => completeTask(task, tomorrowFormatted)}>
+                        Completed
+                    </button>
+                    <button on:click={() => finishRangeTask(task, tomorrowFormatted)}>
+                        Finish
+                    </button>
+                    <button on:click={() => goto(`/tasks/${task.id}?instance=${tomorrowFormatted}`)}>
+                        Expand
+                    </button>
+                  </div>
+                {/if}
+            
+              </div>
+         {/each}
+            
+        {#each tomorrowTasksRepeat as task}
         <div class="dateline"> 
 
             <p>{tomorrowFormatted}</p> 

@@ -1,0 +1,1 @@
+oh so this gets treated like range does interesting, except i want total to not be ugh culmulative but individual id that makes sense??? 
