@@ -1,0 +1,63 @@
+.main{
+  display: flex; 
+  flex-direction: column;
+
+  background: #1b1b1b;
+
+  min-width: 100vh;
+  min-height: 100vh;
+
+  .title{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+
+
+      h3{
+           font-weight: 400; 
+           font-size: 1.5rem;
+           color: #e3e3e3;
+           font-family: "Lucida Console", "Courier New", monospace;
+      }
+
+  }
+
+
+  .search{
+    display: flex; 
+    flex-direction: column;
+    margin: 2rem;
+
+    min-width: 20%;
+    max-width: 21%;
+    min-height: 3rem;
+    max-height: 3.001rem;
+
+
+    input{
+      border-radius: 16px;
+      min-height: 1rem;
+      max-height: 1.01rem;
+      padding: 0.5rem;
+
+      font-weight: 300; 
+      font-size: 1.5rem;
+      color: #e3e3e3;
+      font-family: "Lucida Console", "Courier New", monospace;
+      color: #1b1b1b;
+    }
+
+
+  }
+}
+
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+
+ 

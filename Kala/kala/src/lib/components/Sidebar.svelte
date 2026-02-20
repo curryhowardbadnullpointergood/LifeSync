@@ -3,8 +3,9 @@
   import { page } from '$app/stores';
   $: isTasksPage = $page.url.pathname === '/tasks';
   $: isSatrredPage = $page.url.pathname === '/starred';
+  $: isContactsPage = $page.url.pathname === '/contacts';
 
-	export let open = false
+  export let open = false
 
   let showModal = false;
 
@@ -28,6 +29,12 @@
     <div class="alltask" class:active={isTasksPage}> 
 
       <a href="/tasks">All tasks</a>
+
+    </div> 
+
+    <div class="alltask" class:active={isContactsPage}> 
+
+      <a href="/contacts">Contacts</a>
 
     </div> 
 
@@ -121,7 +128,7 @@
         
         min-height: 3.5rem;
         background: #1b1b1b;
-      
+        margin-bottom: 0.5rem;
         
 
         .add{
@@ -168,7 +175,6 @@
 
 
       .alltask{
-        margin-top: 1rem;
         padding-left: 1rem;
         display: flex;
         flex-direction: row;
