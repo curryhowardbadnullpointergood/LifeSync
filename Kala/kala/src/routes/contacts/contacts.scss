@@ -4,7 +4,6 @@
 
   background: #1b1b1b;
 
-  min-width: 100vh;
   min-height: 100vh;
 
   .title{
@@ -46,11 +45,50 @@
       font-size: 1.5rem;
       color: #e3e3e3;
       font-family: "Lucida Console", "Courier New", monospace;
-      color: #1b1b1b;
+      background: #131314;
     }
 
 
   }
+
+
+
+  .body{
+    display: flex;
+    flex-direction: row; 
+    min-width: 100%;
+    min-height: 80vh;
+    max-height: 80.01vh;
+
+    background: red;
+
+    .list{
+      display: flex; 
+      flex-direction: column; 
+      min-width: 22%;
+      max-width: 22.1%;
+
+      overflow: auto;
+
+      margin-left: 2rem;
+      background: blue;
+
+
+      .people{
+        display: flex;
+        
+        p{
+           font-weight: 200; 
+           font-size: 1.5rem;
+           color: #e3e3e3;
+           font-family: "Lucida Console", "Courier New", monospace;
+        }
+      }
+    }
+
+  }
+
+
 }
 
 * {

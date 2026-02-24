@@ -23,5 +23,185 @@ let isSidebarOpen = false
          <input type="text" placeholder="Search..">
     </div>
 
+    <div class="body"> 
+
+        <div class="list">
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+            <div class="people"> 
+                <p> name</p>
+            </div>
+        </div>
+    </div>
+
 
 </div>
