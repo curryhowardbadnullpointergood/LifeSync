@@ -1,0 +1,46 @@
+
+.main{
+  display: flex; 
+  flex-direction: column;
+
+  background: #1b1b1b;
+
+  min-height: 100vh;
+
+  .timer{
+    display: flex; 
+    min-width: 100%;
+    min-height: 95vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: red;
+  
+    .container{
+      display: flex; 
+      justify-content: center;
+      align-items: center;
+
+
+      min-width: 40%;
+      min-height: 30vh;
+      background: blue;
+    }
+
+  }
+
+}
+
+
+
+ 
+
+
+
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
